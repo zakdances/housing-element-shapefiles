@@ -1,0 +1,40 @@
+[
+    {
+        "description": "Name of the table. The table should have an APN column.",
+        "name": "table_name",
+        "type": "STRING",
+        "mode": "NULLABLE"
+      },
+      {
+        "description": "The order in which tables are found in the source doc",
+        "name": "table_order",
+        "type": "INTEGER",
+        "mode": "NULLABLE"
+    },
+    {
+        "description": "list of all rows in the table",
+        "name": "table_rows",
+        "type": "RECORD",
+        "mode": "REPEATED",
+        "fields": [
+            {
+                "description": "Appraised Parcel Number",
+                "name": "APN",
+                "type": "STRING",
+                "mode": "NULLABLE"
+            },
+            {
+                "description": "The page this row was found on. The page of the first row of a table should (in theory) also tell you the page on which the tables starts.",
+                "name": "page_number",
+                "type": "INTEGER",
+                "mode": "NULLABLE"
+            },
+            {
+                "description": "The row number of this row in it's respective table",
+                "name": "row_number",
+                "type": "INTEGER",
+                "mode": "NULLABLE"
+            }
+        ]
+      }
+  ]

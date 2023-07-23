@@ -1,0 +1,26 @@
+[
+    {
+        "description": "Name of the doc",
+        "name": "doc_name",
+        "type": "STRING",
+        "mode": "REQUIRED"
+      },
+      {
+        "description": "Number of pages the doc has",
+        "name": "page_count",
+        "type": "INTEGER",
+        "mode": "REQUIRED"
+    },
+    {
+        "description": "type of document",
+        "name": "file_type",
+        "type": "STRING",
+        "mode": "NULLABLE"
+    },
+    {
+        "description": "url to download document",
+        "name": "download_link",
+        "type": "STRING",
+        "mode": "NULLABLE"
+    }
+]
