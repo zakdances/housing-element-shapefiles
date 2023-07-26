@@ -1,4 +1,8 @@
-# Project for CA Yimby bounty
+# Bounty Project for CA Yimby bounty
+### A project to create shapefiles for all cities belonging to ABAG and SACOG. SCAG coming soon.
+
+#### shapefile path: counties/{county name}/cities/{city name}/output/{document name}/misc
+
 
 1. Generating a list of incorporated cities along with associated planning agency (SACOG, ABAG, etc), county, and download links to housing element PDFs.
 2. Geojson parcel data from each county website along with cleanup, normalization, and transfer to my database.

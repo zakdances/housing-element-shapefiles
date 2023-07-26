@@ -16,9 +16,10 @@ from apache_beam.io.gcp.bigquery_tools import parse_table_schema_from_json
 from google.cloud import bigquery
 from google.cloud.exceptions import NotFound
 
-from find import find_tables_and_parcels
+from src.find.find import find_tables_and_parcels
 from update_doc_metadata import update_doc_metadata
 from thumbnail import generate_thumbnail
+from generate_shapefiles import generate_shapefile
 
 load_dotenv(dotenv_path=Path('.env.local'))
 
@@ -27,6 +28,7 @@ COUNTIES_DIR_PATH = os.getenv('COUNTIES_DIR_PATH')
 
 PROJECT_ID = os.getenv('PROJECT_ID')
 VIEWABLE_DATASETS = os.getenv('VIEWABLE_DATASETS')
+MAIN_FILE_PATH = os.getenv('MAIN_FILE_PATH')
 
 TEST_OUTPUT_DIR_PATH_sacramento_6th_draft040821 = os.getenv('TEST_OUTPUT_DIR_PATH_sacramento_6th_draft040821')
 TEST_OUTPUT_DIR_PATH_sacramento_6th_adopted082021 = os.getenv('TEST_OUTPUT_DIR_PATH_sacramento_6th_adopted082021')
@@ -102,70 +104,8 @@ def bq_client_to_db(data, db_table, schema):
     
     # Try to get the table.
     try:
-        # table = client.get_table(table_ref)
-
-        # Construct the DELETE statement
-        # dquery = f"DELETE FROM `{dataset_id}.{table_id}` WHERE true"
-
-        # # # # Submit the query
-        # djob = client.query(dquery)
-        # djob.result()  # Wait for the query to complete
-
-        # errors = client.insert_rows_json(table, data)
-        # if errors:
-        #     print(f"Encountered errors while inserting rows: {errors}")
-        # else:
-        #     print("JSON data successfully uploaded to BigQuery.")
-
-        # Define the merge statement
-        # Retrieve existing data from the "tables" column
         print("starting")
-        # query = f"SELECT table_name, table_rows FROM `{dataset_id}.{table_id}`"
-        # table = client.query(query)
-        # table = table.to_dataframe()
-        
-        # new_json = []
-        # for apn_table in data:
-        #     new_apn_table_rows = apn_table["table_rows"]
 
-        #     print("table info: ")
-        #     print(len(table))
-        #     print(len(table.index))
-        #     print(table['table_name'].empty)
-        #     print(apn_table['table_name'])
-
-        #     table = pd.concat([table, pd.DataFrame(data)])
-
-            # filtered_rows = table.loc[table['table_name'] == apn_table['table_name']]
-            # if filtered_rows.empty:
-            #     print("No table with designated name, adding")
-            #     table = pd.concat([table, pd.DataFrame(data)])
-            #     continue
-           
-            # filtered_row = filtered_rows.iloc[0] # There shouldn't be a table with a duplicate name
-            # table_rows = filtered_row["table_rows"]
-            # if len(table_rows) == 0:
-            #     print("no table_row records, creating")
-            #     filtered_row["table_rows"] = new_apn_table_rows
-            #     continue 
-            
-            # # rows_to_add = []
-            # for new_table_row in new_apn_table_rows:
-            #     # new_table_row["page_number"] = 111
-            #     matched_row = next(filter(lambda x: str(x['APN']) == str(new_table_row["APN"]), table_rows), None)
-            #     # print("matched")
-            #     # print(matched_row)                
-            #     if matched_row:
-            #         print("matched: " + str(new_table_row["APN"]))
-            #         # matched_row.update(new_table_row)
-            #         print(matched_row)
-            #         print("--------")
-            #     else:
-            #         print("no matched APN row found, creating new APN row")
-            #         # rows_to_add.append(new_table_row)
-            #         np.append(table_rows, new_table_row)
-            
-            # table_rows.extend(rows_to_add)
 
             
         # table = pd.DataFrame(data)
@@ -250,8 +190,21 @@ def main():
     # doc_output_directory = os.path.join(city_output_directory, doc_name_no_extension)
     # doc_input_filepath = os.path.join(city_directory, "input", doc_name)
 
+    SCAG = []
+    ABAG = []
+    SACOG = []
+    SANDAG = []
+    with open(MAIN_FILE_PATH, 'r') as file:
+        main_data = json.load(file)
+    for city in main_data:
+        if city["planning_agency"] == "SACOG":
+            SACOG.append(city['city'])
+        elif city["planning_agency"] == "ABAG":
+            ABAG.append(city['city'])
+
 
     my_apn_datasets = list(map(lambda x: x.table_id, list_tables(PROJECT_ID)))
+    # print(my_apn_datasets)
     all_docs = []
     
     for county_dir in os.scandir(COUNTIES_DIR_PATH):
@@ -261,50 +214,76 @@ def main():
 
             for file_2 in cities_dirs:
                 # if file_2.is_dir():
-                output_paths = os.path.join(file_2.path, "output")
+                
+                if file_2.name in (ABAG + SACOG):
+                    # print(file_2.name)
+                    output_paths = os.path.join(file_2.path, "output")
 
-                if os.path.exists(output_paths):
-                    for entry in os.scandir(output_paths):
-                        
-                        if entry.is_dir():
-                            # print(entry.path)
-                            all_docs.append(entry.path)
-                            # print(entry.path)
-                # else:
-                #     print("no input: ")
-                #     print(input_paths)
-                #     print("___________ no input: ")
+                    if os.path.exists(output_paths):
+                        for entry in os.scandir(output_paths):
+                            
+                            if entry.is_dir():
+
+                                # print(entry.name)
+                                all_docs.append(entry.path)
+                                # print(entry.path)
+                    # else:
+                    #     print("no input: ")
+                    #     print(input_paths)
+                    #     print("___________ no input: ")
 
             
-    # with open(main_path_name, 'r') as file:
-    #     main_data = json.load(file)
+
 
     
     # city_filtered_output_directory = os.path.join(city_directory, "filtered output")
     # contents = os.listdir(city_output_directory)
 
-    for path_to_execute_on in random.sample(all_docs, 1):
+    for path_to_execute_on in random.sample(all_docs, len(all_docs)):
+        
         # path_to_execute_on = Path(TEST_OUTPUT_DIR_PATH_sacramento_6th_draft040821 + "/aws")
         # path_to_execute_on = Path(TEST_OUTPUT_DIR_PATH_sacramento_6th_adopted082021 + "/aws")
-        path_to_execute_on = Path(TEST_OUTPUT_DIR_PATH_mill_valley_6th_draft082322 + "/aws") 
-        # path_to_execute_on = Path(path_to_execute_on)
+        # path_to_execute_on = Path(TEST_OUTPUT_DIR_PATH_mill_valley_6th_draft082322 + "/aws")
+
+        # print(path_to_execute_on)
+        path_to_execute_on = Path(path_to_execute_on)
+        aws_path = path_to_execute_on / "aws"
+        camelot_path = path_to_execute_on / "camelot"
+        chosen_path = None
+        if aws_path.exists():
+            chosen_path = aws_path
+        elif camelot_path.exists():
+            chosen_path = camelot_path
+        else:
+            raise Exception("No output found for " + path_to_execute_on.parents[2])
+    
+
+        
         input_path = path_to_execute_on.parents[1] / "input" / (path_to_execute_on.stem + ".pdf")
         # print(input_path)
         # print(str(os.path.exists(input_path)))
         print("----------------------")
-        print(path_to_execute_on.parents[0].stem)
+        print(path_to_execute_on.stem)
         # print("----------------------")
 
-        # print(path_to_execute_on)
-        
+        # if path_to_execute_on.stem in my_apn_datasets:
+        #     print("already exists. Skipping...")
+        #     continue
 
-        df = find_tables_and_parcels(path_to_execute_on)
-        df.to_json('temp/output.json', orient='records')
+        # df = find_tables_and_parcels(chosen_path)
+        # df.to_json('temp/output.json', orient='records')
 
-        # target = project_id + ":viewable_datasets." + path_to_execute_on.stem
-        # bq_client_to_db(df, target, schema_filepath)
-        # update_doc_metadata(input_path, project_id)
-        # generate_thumbnail(input_path, project_id)
+        # if len(df) > 0:
+        #     target = PROJECT_ID + ":viewable_datasets." + path_to_execute_on.stem
+        #     bq_client_to_db(df, target, HOUSING_ELEMENT_SCHEMA_FILEPATH)
+        #     update_doc_metadata(input_path, PROJECT_ID)
+        #     generate_thumbnail(input_path, PROJECT_ID)
+  
+        if path_to_execute_on.stem in my_apn_datasets:
+            print("path_to_execute_on")
+            print(path_to_execute_on / "misc")
+            generate_shapefile([path_to_execute_on.stem], path_to_execute_on / "misc")
+
         
     return
 

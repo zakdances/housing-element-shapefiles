@@ -101,9 +101,9 @@ def main():
     # print("SANDAG count: ")
     # printer(sandag_count)
     # print("-----------")
-    # print("SCAG count: ")
-    # printer(scag_count)
-    # print("-----------")
+    print("SCAG count: ")
+    printer(scag_count)
+    print("-----------")
     
 
 

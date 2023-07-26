@@ -18,3 +18,4 @@ camelot-py[cv]
 tabula-py
 pdfplumber
 python-dotenv
+pyshp

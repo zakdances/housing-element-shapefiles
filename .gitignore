@@ -10,6 +10,8 @@ camelot/
 **/*.pdf
 *.xlsx
 **/*.xlsx
+*.xlsm
+**/*.xlsm
 *.csv
 **/*.csv
 

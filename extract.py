@@ -21,14 +21,14 @@ load_dotenv(dotenv_path=Path('.env.local'))
 TEST_FILEPATH_1 = os.getenv('TEST_FILEPATH_1')
 COUNTIES_DIR_PATH = Path(os.getenv('COUNTIES_DIR_PATH'))
 
-files_to_ignore = ["Lafayette-6th-Adopted-013123.pdf", 
-                   "Concord-6th-Adopted-032123.pdf", 
-                   "concord-6th-draft081622.pdf",
-                   "Orinda-6th-Draft-111622.pdf",
-                   "Orinda-6th-Adopted-020123.pdf",
-                   "antioch-6th-draft070122.pd"]
-files_to_ignore = []
-
+# files_to_ignore = ["Lafayette-6th-Adopted-013123.pdf", 
+#                    "Concord-6th-Adopted-032123.pdf", 
+#                    "concord-6th-draft081622.pdf",
+#                    "Orinda-6th-Draft-111622.pdf",
+#                    "Orinda-6th-Adopted-020123.pdf",
+#                    "antioch-6th-draft070122.pd"]
+files_to_ignore = ["Oakland-6th-Adopted-021323.pdf"]
+# start_page_for_oakland = 4639
 
 def is_directory_empty(directory_path):
     for entry in os.listdir(directory_path):
@@ -54,7 +54,7 @@ def log_extract_errors(filepath, errors):
         json.dump(data, file, indent=2)
     return
 
-def extract_that_file(filepath, output_dir_path):
+def extract_that_file(filepath, output_dir_path, self_limit=None):
     filepath = Path(filepath)
     output_dir_path = Path(output_dir_path)
     tables_container = []
@@ -69,6 +69,21 @@ def extract_that_file(filepath, output_dir_path):
     for i in range(page_count):
         page_number = i + 1
         print("page " + str(page_number) + " of " + str(page_count) + "...")
+
+        # if filepath.name == "oakland-6th-draft120722.pdf" and page_number < start_page_for_oakland:
+        #     print("skipping")
+        #     continue
+        # elif filepath.name == "MenloPark-6th-Adopted-020823.pdf" and page_number < 2000:
+        #     print("skipping")
+        #     continue
+        if self_limit and page_number != int(self_limit):
+            continue
+        elif page_count > 3000 and page_number < page_count - 2000:
+            # print("skipping")
+            continue
+        
+
+
         try:
             tables = camelot.read_pdf(str(filepath.resolve()), pages=str(page_number), flavor='stream')
             tables_container.append(tables)
@@ -116,6 +131,7 @@ def main():
 
     glob_path = str(COUNTIES_DIR_PATH.resolve()) + "/*" + "/cities" + "/*"
     city_dirs = glob.glob(glob_path)
+
 
     for dir in city_dirs:
         # print(dir)

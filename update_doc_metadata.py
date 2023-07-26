@@ -63,6 +63,7 @@ def update_doc_metadata(doc_path, project_id):
         housing_element_link_list = city["housing_element"]
         city_name = city["city"]
         for link in housing_element_link_list:
+            link = link.replace('(', ' ').replace(')', ' ')
             if doc_filename in link:
                 matched_link = link
                 break
