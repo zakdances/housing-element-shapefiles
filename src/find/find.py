@@ -49,6 +49,8 @@ def is_probably_apn(possibly_apn, sample=None):
             apn_found_most_likely = abs(len(possibly_apn) - len(sample)) <= 2
         else:
             apn_found_most_likely = True
+    if "$" in possibly_apn:
+        apn_found_most_likely = False
 
 
     return apn_found_most_likely

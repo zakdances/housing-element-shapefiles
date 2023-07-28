@@ -16,7 +16,7 @@ from apache_beam.io.gcp.bigquery_tools import parse_table_schema_from_json
 from google.cloud import bigquery
 from google.cloud.exceptions import NotFound
 from google.cloud import storage
-from pypdf import PdfReader
+from PyPDF2 import PdfReader
 import fitz
 from send2trash import send2trash
 

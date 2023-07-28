@@ -14,7 +14,7 @@ from apache_beam.options.pipeline_options import PipelineOptions
 from apache_beam.io.gcp.bigquery_tools import parse_table_schema_from_json
 from google.cloud import bigquery
 from google.cloud.exceptions import NotFound
-from pypdf import PdfReader
+from PyPDF2 import PdfReader
 from pathlib import Path
 from dotenv import load_dotenv
 
