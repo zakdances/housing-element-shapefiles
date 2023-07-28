@@ -53,20 +53,29 @@ def generate_request(table_list):
     query_df = query_job.to_geodataframe(geography_column="geometry")
     return query_df
 
-def generate_shapefile(table_list, output_dir_path):
+def generate_shapefile(table_list):
     # .replace("(", "⁀").replace(")", "‿")
-    
-    query_df = generate_request(table_list)
+    tables = list(map(lambda x: x["path"].stem, table_list))
+    query_df = generate_request(tables)
+    query_df['id'] = query_df['id'].replace("⁀", "(").replace("‿", ")")
     # query_df['geometryy'] = query_df['geometryy'].apply(lambda x: shape(x).__str__())
     # gdf = gpd.GeoDataFrame(query_df, geometry='geometry')
     # output_dir = output_dir_path / "temp"
-    if len(query_df) > 0:
-        os.makedirs(output_dir_path, exist_ok=True)
-        shapefile_dir_path = output_dir_path / "shapefile"
-        query_df.to_file(shapefile_dir_path, driver='ESRI Shapefile')
-        # Zip the shapefile directory
-        shutil.make_archive(shapefile_dir_path, 'zip', shapefile_dir_path)
-        send2trash(shapefile_dir_path)
+    for table_obj in table_list:
+        stem = table_obj["path"].stem
+        # print(stem)
+        output_path = table_obj["output"]
+        filtered_gdf = query_df.query("id == @stem")
+        if len(filtered_gdf) > 0:
+            # print(filtered_gdf)
+            print(stem)
+            os.makedirs(output_path, exist_ok=True)
+            shapefile_dir_path = output_path / "shapefile"
+            filtered_gdf.to_file(shapefile_dir_path, driver='ESRI Shapefile')
+            # Zip the shapefile directory
+            shutil.make_archive(shapefile_dir_path, 'zip', shapefile_dir_path)
+            send2trash(shapefile_dir_path)
+
     print("done!")
     # print(query_df)
 

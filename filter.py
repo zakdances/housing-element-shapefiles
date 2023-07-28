@@ -35,6 +35,10 @@ TEST_OUTPUT_DIR_PATH_sacramento_6th_adopted082021 = os.getenv('TEST_OUTPUT_DIR_P
 TEST_OUTPUT_DIR_PATH_sacramento_6th_adopted121421 = os.getenv('TEST_OUTPUT_DIR_PATH_sacramento_6th_adopted121421')
 TEST_OUTPUT_DIR_PATH_mill_valley_6th_draft082322 = os.getenv('TEST_OUTPUT_DIR_PATH_mill_valley_6th_draft082322')
 
+def chunk_list(lst, chunk_size):
+    chunked_list = [lst[i:i + chunk_size] for i in range(0, len(lst), chunk_size)]
+    return chunked_list
+
 def list_tables(project_id):
     client = bigquery.Client(project=project_id)
 
@@ -213,6 +217,8 @@ def main():
     
     for county_dir in os.scandir(COUNTIES_DIR_PATH):
         if county_dir.is_dir():
+            if county_dir.name != "Orange":
+                continue
             _cities_dir = list(os.scandir(os.path.join(county_dir.path, "cities")))
             cities_dirs = list(filter(lambda x: x.is_dir(), _cities_dir))
 
@@ -237,7 +243,6 @@ def main():
                     #     print("___________ no input: ")
 
             
-
 
     
     # city_filtered_output_directory = os.path.join(city_directory, "filtered output")
@@ -270,24 +275,31 @@ def main():
         print(path_to_execute_on.stem)
         # print("----------------------")
 
-        if path_to_execute_on.stem in my_apn_datasets:
-            print("already exists. Skipping...")
-            continue
-
-
-        df = find_tables_and_parcels(chosen_path)
-        df.to_json('temp/output.json', orient='records')
-
-        if len(df) > 0:
-            target = PROJECT_ID + ":viewable_datasets." + path_to_execute_on.stem
-            bq_client_to_db(df, target, HOUSING_ELEMENT_SCHEMA_FILEPATH)
-            update_doc_metadata(input_path, PROJECT_ID)
-            generate_thumbnail(input_path, PROJECT_ID)
-  
         # if path_to_execute_on.stem in my_apn_datasets:
-        #     print("path_to_execute_on")
-        #     print(path_to_execute_on / "misc")
-        #     generate_shapefile([path_to_execute_on.stem], path_to_execute_on / "misc")
+        #     print("already exists. Skipping...")
+        #     continue
+
+
+        # df = find_tables_and_parcels(chosen_path)
+        # df.to_json('temp/output.json', orient='records')
+
+        # if len(df) > 0:
+        #     target = PROJECT_ID + ":viewable_datasets." + path_to_execute_on.stem
+        #     bq_client_to_db(df, target, HOUSING_ELEMENT_SCHEMA_FILEPATH)
+        #     update_doc_metadata(input_path, PROJECT_ID)
+        #     generate_thumbnail(input_path, PROJECT_ID)
+  
+    paths_that_need_shapefiles = list(map(lambda x: {"path": Path(x), "output": Path(x) / "misc"}, all_docs))
+    paths_that_need_shapefiles = list(filter(lambda x: x["path"].stem in my_apn_datasets, paths_that_need_shapefiles))
+    
+    for chunk in chunk_list(paths_that_need_shapefiles, 50):
+        # for path_obj in chunk:
+        #     print(path_obj)
+            # print("path_to_execute_on")
+            # print(path_obj["path"])
+            # print(path_obj["output"])
+
+        generate_shapefile(chunk)
 
         
     return
