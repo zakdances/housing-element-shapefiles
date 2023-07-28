@@ -3,6 +3,7 @@ import glob
 import json
 import geopandas as gpd
 import pandas as pd
+from PyPDF2 import PdfReader
 from pathlib import Path
 from dotenv import load_dotenv
 
@@ -73,38 +74,38 @@ def main():
     with open(MAIN_FILE_PATH, 'r') as file:
         main_data = json.load(file)
     
-    abag_cities = [x for x in main_data if x["planning_agency"] == "ABAG" ]
-    sacog_cities = [x for x in main_data if x["planning_agency"] == "SACOG" ]
-    sandag_cities = [x for x in main_data if x["planning_agency"] == "SANDAG" ]
-    scag_cities = [x for x in main_data if x["planning_agency"] == "SCAG" ]
+    # abag_cities = [x for x in main_data if x["planning_agency"] == "ABAG" ]
+    # sacog_cities = [x for x in main_data if x["planning_agency"] == "SACOG" ]
+    # sandag_cities = [x for x in main_data if x["planning_agency"] == "SANDAG" ]
+    # scag_cities = [x for x in main_data if x["planning_agency"] == "SCAG" ]
 
-    # abag_fully_completed_cities = 0
-    # abag_partially_completed_cities = 0
-    # sacog_fully_completed_cities = 0
-    # sacog_partially_completed_cities = 0
-    # sandag_fully_completed_cities = 0
-    # sandag_partially_completed_cities = 0
-    # scag_fully_completed_cities = 0
-    # scag_partially_completed_cities = 0
+    # abag_count = count_city_status(abag_cities)
+    # sacog_count = count_city_status(sacog_cities)
+    # sandag_count = count_city_status(sandag_cities)
+    # scag_count = count_city_status(scag_cities)
 
-    abag_count = count_city_status(abag_cities)
-    sacog_count = count_city_status(sacog_cities)
-    sandag_count = count_city_status(sandag_cities)
-    scag_count = count_city_status(scag_cities)
-
-    print("ABAG count: ")
-    printer(abag_count)
-    print("-----------")
-    print("SACOG count: ")
-    printer(sacog_count)
-    print("-----------")
+    # print("ABAG count: ")
+    # printer(abag_count)
+    # print("-----------")
+    # print("SACOG count: ")
+    # printer(sacog_count)
+    # print("-----------")
     # print("SANDAG count: ")
     # printer(sandag_count)
     # print("-----------")
-    print("SCAG count: ")
-    printer(scag_count)
-    print("-----------")
+    # print("SCAG count: ")
+    # printer(scag_count)
+    # print("-----------")
     
+    pdf_files = glob.glob(os.path.join(COUNTIES_DIR_PATH, '**/*.pdf'), recursive=True)
+
+    pdf_metadata = []
+    for pdf_file in pdf_files:
+        pdf_file = Path(pdf_file)
+        reader = PdfReader(pdf_file.resolve())
+        page_count = len(reader.pages)
+        # print(Path(pdf_file).name  + " => " + str(page_count))
+        pdf_metadata.append({"name": pdf_file.name, "page_count": page_count, "filesize": "huh"})
 
 
     # for city in abag_cities:

@@ -24,7 +24,7 @@ class DownloadPdfSpider(scrapy.Spider):
         self.cities = cities
     
     def start_requests(self):
-        filtered_cities = list(filter(lambda x: x["planning_agency"] in ["SANDAG"] and x["county"], self.cities))
+        filtered_cities = list(filter(lambda x: x["planning_agency"] in ["ABAG"] and x["county"], self.cities))
         print(len(filtered_cities))
 
         for city in filtered_cities:

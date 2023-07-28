@@ -26,6 +26,7 @@ VIEWABLE_DATASETS = os.getenv('VIEWABLE_DATASETS')
 client = bigquery.Client(project=PROJECT_ID)
 
 def generate_request(table_list):
+    table_list = list(map(lambda x: x.replace("(", "⁀").replace(")", "‿"), table_list))
     joined_table_list = "|".join(table_list)
     job_config2 = bigquery.QueryJobConfig()
     query_3 = f"""
@@ -53,6 +54,8 @@ def generate_request(table_list):
     return query_df
 
 def generate_shapefile(table_list, output_dir_path):
+    # .replace("(", "⁀").replace(")", "‿")
+    
     query_df = generate_request(table_list)
     # query_df['geometryy'] = query_df['geometryy'].apply(lambda x: shape(x).__str__())
     # gdf = gpd.GeoDataFrame(query_df, geometry='geometry')

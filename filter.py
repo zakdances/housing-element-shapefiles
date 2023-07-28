@@ -93,7 +93,7 @@ def bq_client_to_db(data, db_table, schema):
     # Specify your BigQuery project ID and dataset ID
     project_id = my_split[0]
     dataset_id = my_split[1].split(".")[0]
-    table_id = my_split[1].split(".")[1]
+    table_id = my_split[1].split(".")[1].replace("(", "⁀").replace(")", "‿")
 
      # Create a BigQuery client
     client = bigquery.Client(project=project_id)
@@ -201,9 +201,13 @@ def main():
             SACOG.append(city['city'])
         elif city["planning_agency"] == "ABAG":
             ABAG.append(city['city'])
+        elif city["planning_agency"] == "SCAG":
+            SCAG.append(city['city'])
+        
 
 
     my_apn_datasets = list(map(lambda x: x.table_id, list_tables(PROJECT_ID)))
+    my_apn_datasets = list(map(lambda x: x.replace("⁀", "(").replace("‿", ")"), my_apn_datasets))
     # print(my_apn_datasets)
     all_docs = []
     
@@ -215,7 +219,7 @@ def main():
             for file_2 in cities_dirs:
                 # if file_2.is_dir():
                 
-                if file_2.name in (ABAG + SACOG):
+                if file_2.name in (ABAG + SACOG + SCAG):
                     # print(file_2.name)
                     output_paths = os.path.join(file_2.path, "output")
 
@@ -239,13 +243,13 @@ def main():
     # city_filtered_output_directory = os.path.join(city_directory, "filtered output")
     # contents = os.listdir(city_output_directory)
 
-    for path_to_execute_on in random.sample(all_docs, len(all_docs)):
+    for path_to_execute_on in sorted(all_docs, key=lambda x: Path(x).name.lower()):
         
         # path_to_execute_on = Path(TEST_OUTPUT_DIR_PATH_sacramento_6th_draft040821 + "/aws")
         # path_to_execute_on = Path(TEST_OUTPUT_DIR_PATH_sacramento_6th_adopted082021 + "/aws")
         # path_to_execute_on = Path(TEST_OUTPUT_DIR_PATH_mill_valley_6th_draft082322 + "/aws")
 
-        # print(path_to_execute_on)
+        # print(Path(path_to_execute_on).name)
         path_to_execute_on = Path(path_to_execute_on)
         aws_path = path_to_execute_on / "aws"
         camelot_path = path_to_execute_on / "camelot"
@@ -266,23 +270,24 @@ def main():
         print(path_to_execute_on.stem)
         # print("----------------------")
 
-        # if path_to_execute_on.stem in my_apn_datasets:
-        #     print("already exists. Skipping...")
-        #     continue
-
-        # df = find_tables_and_parcels(chosen_path)
-        # df.to_json('temp/output.json', orient='records')
-
-        # if len(df) > 0:
-        #     target = PROJECT_ID + ":viewable_datasets." + path_to_execute_on.stem
-        #     bq_client_to_db(df, target, HOUSING_ELEMENT_SCHEMA_FILEPATH)
-        #     update_doc_metadata(input_path, PROJECT_ID)
-        #     generate_thumbnail(input_path, PROJECT_ID)
-  
         if path_to_execute_on.stem in my_apn_datasets:
-            print("path_to_execute_on")
-            print(path_to_execute_on / "misc")
-            generate_shapefile([path_to_execute_on.stem], path_to_execute_on / "misc")
+            print("already exists. Skipping...")
+            continue
+
+
+        df = find_tables_and_parcels(chosen_path)
+        df.to_json('temp/output.json', orient='records')
+
+        if len(df) > 0:
+            target = PROJECT_ID + ":viewable_datasets." + path_to_execute_on.stem
+            bq_client_to_db(df, target, HOUSING_ELEMENT_SCHEMA_FILEPATH)
+            update_doc_metadata(input_path, PROJECT_ID)
+            generate_thumbnail(input_path, PROJECT_ID)
+  
+        # if path_to_execute_on.stem in my_apn_datasets:
+        #     print("path_to_execute_on")
+        #     print(path_to_execute_on / "misc")
+        #     generate_shapefile([path_to_execute_on.stem], path_to_execute_on / "misc")
 
         
     return

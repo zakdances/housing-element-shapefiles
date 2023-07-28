@@ -9,7 +9,7 @@ jsonlines
 apache-beam[gcp]
 google-cloud-bigquery
 google-cloud-storage
-pypdf[crypto]
+PyPDF2
 pymupdf
 Pillow
 send2trash
