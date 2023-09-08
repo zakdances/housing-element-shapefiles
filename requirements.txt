@@ -19,3 +19,4 @@ tabula-py
 pdfplumber
 python-dotenv
 pyshp
+py-markdown-table

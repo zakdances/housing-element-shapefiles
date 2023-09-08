@@ -15,6 +15,7 @@ from apache_beam.options.pipeline_options import PipelineOptions
 from apache_beam.io.gcp.bigquery_tools import parse_table_schema_from_json
 from google.cloud import bigquery
 from google.cloud.exceptions import NotFound
+from py_markdown_table.markdown_table import markdown_table
 
 from src.find.find import find_tables_and_parcels
 from update_doc_metadata import update_doc_metadata
@@ -194,12 +195,14 @@ def main():
     # doc_output_directory = os.path.join(city_output_directory, doc_name_no_extension)
     # doc_input_filepath = os.path.join(city_directory, "input", doc_name)
 
+    with open(MAIN_FILE_PATH, 'r') as file:
+        main_data = json.load(file)
+
     SCAG = []
     ABAG = []
     SACOG = []
     SANDAG = []
-    with open(MAIN_FILE_PATH, 'r') as file:
-        main_data = json.load(file)
+
     for city in main_data:
         if city["planning_agency"] == "SACOG":
             SACOG.append(city['city'])
@@ -208,24 +211,29 @@ def main():
         elif city["planning_agency"] == "SCAG":
             SCAG.append(city['city'])
         
+    print(SACOG)
+    # orgs_to_process = (ABAG + SACOG + SCAG)
+    orgs_to_process = SACOG
 
 
     my_apn_datasets = list(map(lambda x: x.table_id, list_tables(PROJECT_ID)))
     my_apn_datasets = list(map(lambda x: x.replace("⁀", "(").replace("‿", ")"), my_apn_datasets))
+    
     # print(my_apn_datasets)
     all_docs = []
     
     for county_dir in os.scandir(COUNTIES_DIR_PATH):
         if county_dir.is_dir():
-            if county_dir.name != "Orange":
-                continue
+            # if county_dir.name != "Orange":
+            #     print("orange")
+            #     continue
             _cities_dir = list(os.scandir(os.path.join(county_dir.path, "cities")))
             cities_dirs = list(filter(lambda x: x.is_dir(), _cities_dir))
 
             for file_2 in cities_dirs:
                 # if file_2.is_dir():
                 
-                if file_2.name in (ABAG + SACOG + SCAG):
+                if file_2.name in orgs_to_process:
                     # print(file_2.name)
                     output_paths = os.path.join(file_2.path, "output")
 
@@ -247,6 +255,7 @@ def main():
     
     # city_filtered_output_directory = os.path.join(city_directory, "filtered output")
     # contents = os.listdir(city_output_directory)
+    accumulator = {}
 
     for path_to_execute_on in sorted(all_docs, key=lambda x: Path(x).name.lower()):
         
@@ -256,6 +265,7 @@ def main():
 
         # print(Path(path_to_execute_on).name)
         path_to_execute_on = Path(path_to_execute_on)
+        city_name = path_to_execute_on.parent.parent.stem
         aws_path = path_to_execute_on / "aws"
         camelot_path = path_to_execute_on / "camelot"
         chosen_path = None
@@ -265,13 +275,17 @@ def main():
             chosen_path = camelot_path
         else:
             raise Exception("No output found for " + path_to_execute_on.parents[2])
-    
+        if not city_name in accumulator:
+            accumulator[city_name] = {"documents": 0, "tables": 0, "apns": 0, "org": "SACOG"}
+        accumulator[city_name]["documents"] += 1
+        
 
         
         input_path = path_to_execute_on.parents[1] / "input" / (path_to_execute_on.stem + ".pdf")
         # print(input_path)
         # print(str(os.path.exists(input_path)))
         print("----------------------")
+        print(city_name)
         print(path_to_execute_on.stem)
         # print("----------------------")
 
@@ -280,8 +294,11 @@ def main():
         #     continue
 
 
-        # df = find_tables_and_parcels(chosen_path)
-        # df.to_json('temp/output.json', orient='records')
+        df = find_tables_and_parcels(chosen_path)
+        df.to_json('temp/output.json', orient='records')
+        accumulator[city_name]["tables"] += len(df)
+        count_of_apns = df['table_rows'].apply(lambda x: len(x)).sum()
+        accumulator[city_name]["apns"] += count_of_apns
 
         # if len(df) > 0:
         #     target = PROJECT_ID + ":viewable_datasets." + path_to_execute_on.stem
@@ -299,9 +316,21 @@ def main():
             # print(path_obj["path"])
             # print(path_obj["output"])
 
-        generate_shapefile(chunk)
+        # generate_shapefile(chunk)
+        print('done')
 
-        
+
+    print(accumulator)
+    data_for_markdown = []
+    for key, value in accumulator.items():
+        data_for_markdown.append({
+            "city": key,
+            "documents": value["documents"],
+            "tables": value["tables"],
+            "apns": value["apns"]
+        })
+    markdown = markdown_table(data_for_markdown).get_markdown()
+    print(markdown)
     return
 
 if __name__ == '__main__':

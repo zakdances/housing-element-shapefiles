@@ -12,7 +12,7 @@ from ctypes.util import find_library
 import camelot
 import tabula
 import pdfplumber
-from pypdf import PdfReader
+from PyPDF2 import PdfReader
 from dotenv import load_dotenv
 
 logger = logging.getLogger(__name__)
@@ -69,7 +69,7 @@ def extract_that_file(filepath, output_dir_path, self_limit=None):
     for i in range(page_count):
         page_number = i + 1
         print("page " + str(page_number) + " of " + str(page_count) + "...")
-
+        
         # if filepath.name == "oakland-6th-draft120722.pdf" and page_number < start_page_for_oakland:
         #     print("skipping")
         #     continue
