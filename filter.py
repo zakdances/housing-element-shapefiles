@@ -21,6 +21,7 @@ from src.find.find import find_tables_and_parcels
 from update_doc_metadata import update_doc_metadata
 from thumbnail import generate_thumbnail
 from generate_shapefiles import generate_shapefile
+from find_intersection_from_server import generate_request
 
 load_dotenv(dotenv_path=Path('.env.local'))
 
@@ -46,6 +47,21 @@ def list_tables(project_id):
     dataset_ref = client.dataset(VIEWABLE_DATASETS)
     tables = client.list_tables(dataset_ref)
     return list(tables)
+
+def list_doc_metadata(project_id):
+    client = bigquery.Client(project=project_id)
+
+    job_config2 = bigquery.QueryJobConfig()
+    query_3 = f"""
+        SELECT s.doc_name
+        FROM
+            `{project_id}.doc_metadata.all` AS s
+        WHERE
+            s.city IS NULL
+    """
+    query_job = client.query(query_3, job_config=job_config2)
+    df = query_job.to_dataframe()
+    return df
 
 def convert_apn_values_to_strings(json_obj):
     if isinstance(json_obj, dict):
@@ -211,15 +227,17 @@ def main():
         elif city["planning_agency"] == "SCAG":
             SCAG.append(city['city'])
         
-    print(SACOG)
+    # print(SACOG)
     # orgs_to_process = (ABAG + SACOG + SCAG)
     orgs_to_process = SACOG
 
-
-    my_apn_datasets = list(map(lambda x: x.table_id, list_tables(PROJECT_ID)))
+    my_apn_datasets = list_tables(PROJECT_ID)
+    my_apn_datasets = list(map(lambda x: x.table_id, my_apn_datasets))
     my_apn_datasets = list(map(lambda x: x.replace("⁀", "(").replace("‿", ")"), my_apn_datasets))
-    
+
     # print(my_apn_datasets)
+    # meta = list_doc_metadata(PROJECT_ID)
+
     all_docs = []
     
     for county_dir in os.scandir(COUNTIES_DIR_PATH):
@@ -255,17 +273,28 @@ def main():
     
     # city_filtered_output_directory = os.path.join(city_directory, "filtered output")
     # contents = os.listdir(city_output_directory)
-    accumulator = {}
+    # For logging purposes
+    accumulator = {
+        "local": {},
+        "server": {}
+        }
 
     for path_to_execute_on in sorted(all_docs, key=lambda x: Path(x).name.lower()):
-        
+        path_to_execute_on = Path(path_to_execute_on)
+
         # path_to_execute_on = Path(TEST_OUTPUT_DIR_PATH_sacramento_6th_draft040821 + "/aws")
         # path_to_execute_on = Path(TEST_OUTPUT_DIR_PATH_sacramento_6th_adopted082021 + "/aws")
         # path_to_execute_on = Path(TEST_OUTPUT_DIR_PATH_mill_valley_6th_draft082322 + "/aws")
+        # test_file = Path("counties/Sacramento/cities/Citrus Heights/output/citrus-heights-6th-adopted052821").resolve()
+        # test_file = Path("counties/Yuba/cities/Wheatland/output/wheatland-6th-draft080621").resolve()
+        test_file = Path("counties/Sacramento/cities/Elk Grove/output/elk-grove-6th-adopted061021").resolve()
+        if path_to_execute_on != test_file:
+            continue
 
         # print(Path(path_to_execute_on).name)
-        path_to_execute_on = Path(path_to_execute_on)
-        city_name = path_to_execute_on.parent.parent.stem
+        
+        city_name = path_to_execute_on.parent.parent.stem # TODO: This should probably come from Main
+        county_name = path_to_execute_on.parent.parent.parent.parent.stem # TODO: This should probably come from Main
         aws_path = path_to_execute_on / "aws"
         camelot_path = path_to_execute_on / "camelot"
         chosen_path = None
@@ -275,9 +304,14 @@ def main():
             chosen_path = camelot_path
         else:
             raise Exception("No output found for " + path_to_execute_on.parents[2])
-        if not city_name in accumulator:
-            accumulator[city_name] = {"documents": 0, "tables": 0, "apns": 0, "org": "SACOG"}
-        accumulator[city_name]["documents"] += 1
+        
+        # For logging purposes
+        if not city_name in accumulator["local"]:
+            accumulator["local"][city_name] = {"documents": [], "tables": 0, "apns": 0, "org": "SACOG"}
+        if not city_name in accumulator["server"]:
+            accumulator["server"][city_name] = {"documents": [], "tables": 0, "apns": 0, "org": "SACOG"}
+        accumulator["local"][city_name]["documents"].append(path_to_execute_on.stem)
+        accumulator["server"][city_name]["documents"].append(path_to_execute_on.stem)
         
 
         
@@ -293,18 +327,23 @@ def main():
         #     print("already exists. Skipping...")
         #     continue
 
+        # def remove_special_chars(s):
+        #     return s.replace(' ', '').replace('-', '').replace('_', '')
 
         df = find_tables_and_parcels(chosen_path)
+        # df["table_rows"] = df['table_rows'].apply(lambda x: [remove_special_chars(item['APN']) for item in x])
         df.to_json('temp/output.json', orient='records')
-        accumulator[city_name]["tables"] += len(df)
+        accumulator["local"][city_name]["tables"] += len(df)
         count_of_apns = df['table_rows'].apply(lambda x: len(x)).sum()
-        accumulator[city_name]["apns"] += count_of_apns
+        accumulator["local"][city_name]["apns"] += count_of_apns
+        
 
         # if len(df) > 0:
-        #     target = PROJECT_ID + ":viewable_datasets." + path_to_execute_on.stem
-        #     bq_client_to_db(df, target, HOUSING_ELEMENT_SCHEMA_FILEPATH)
-        #     update_doc_metadata(input_path, PROJECT_ID)
-        #     generate_thumbnail(input_path, PROJECT_ID)
+        # if path_to_execute_on.stem in my_apn_datasets and any(meta['doc_name'] == path_to_execute_on.stem):
+            # target = PROJECT_ID + ":viewable_datasets." + path_to_execute_on.stem
+            # bq_client_to_db(df, target, HOUSING_ELEMENT_SCHEMA_FILEPATH)
+            # update_doc_metadata(input_path, city_name, county_name, "CA", "USA")
+            # generate_thumbnail(input_path, PROJECT_ID)
   
     paths_that_need_shapefiles = list(map(lambda x: {"path": Path(x), "output": Path(x) / "misc"}, all_docs))
     paths_that_need_shapefiles = list(filter(lambda x: x["path"].stem in my_apn_datasets, paths_that_need_shapefiles))
@@ -320,17 +359,42 @@ def main():
         print('done')
 
 
-    print(accumulator)
     data_for_markdown = []
-    for key, value in accumulator.items():
+    for i, (key, value) in enumerate(accumulator["local"].items()):
         data_for_markdown.append({
+            "": i + 1,
             "city": key,
-            "documents": value["documents"],
+            "documents": len(value["documents"]),
             "tables": value["tables"],
-            "apns": value["apns"]
+            "apns": value["apns"],
+            "server intersection apns": 0
         })
-    markdown = markdown_table(data_for_markdown).get_markdown()
-    print(markdown)
+    
+    huh = []
+    for i, (key, value) in enumerate(accumulator["server"].items()):
+        for doc in value["documents"]:
+            huh.append(doc)
+    server_intersection_df = generate_request(huh)
+    with open('temp/output_server.json', 'w') as f:
+        f.write(server_intersection_df.to_json())
+    print("request success")
+    for i, (key, value) in enumerate(accumulator["server"].items()):
+        # print(key)
+        # print(value)
+        for doc in value["documents"]:
+            filtered_df = server_intersection_df[server_intersection_df['id'] == doc]
+            value["tables"] += filtered_df['table_name'].nunique()
+            value["apns"] += len(filtered_df)
+
+        city_obj = [item for item in data_for_markdown if item["city"] == key]
+        city_obj = next(iter(city_obj), None)
+        city_obj["server intersection apns"] += value["apns"]
+
+        
+    if len(data_for_markdown) > 0:
+        local_markdown = markdown_table(data_for_markdown).get_markdown()
+        print("found locally:")
+        print(local_markdown)
     return
 
 if __name__ == '__main__':

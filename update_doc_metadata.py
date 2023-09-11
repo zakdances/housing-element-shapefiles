@@ -4,6 +4,7 @@ from time import sleep
 import json
 import jsonlines
 import random
+import warnings
 from pathlib import Path
 import geopandas as gpd
 import pandas as pd
@@ -20,13 +21,14 @@ from dotenv import load_dotenv
 
 load_dotenv(dotenv_path=Path('.env.local'))
 
+PROJECT_ID = os.getenv('PROJECT_ID')
 HOUSING_ELEMENT_METADATA_SCHEMA_FILEPATH = os.getenv('HOUSING_ELEMENT_METADATA_SCHEMA_FILEPATH')
 MAIN_FILE_PATH = os.getenv('MAIN_FILE_PATH')
 
 dataset_id = "doc_metadata"
 table_id = "all"
 
-def update_doc_metadata(doc_path, project_id):
+def update_doc_metadata(doc_path, city, county, state, country):
 
     if isinstance(HOUSING_ELEMENT_METADATA_SCHEMA_FILEPATH, str):
         with open(HOUSING_ELEMENT_METADATA_SCHEMA_FILEPATH, 'r') as file:
@@ -55,13 +57,17 @@ def update_doc_metadata(doc_path, project_id):
         "page_count": page_count, 
         "file_type": file_extension,
         "download_link": None,
+        "city": city,
+        "county": county,
+        "state": state,
+        "country": country
     }
 
     matched_link = None
     # Get city and download link
-    for city in main_data:
-        housing_element_link_list = city["housing_element"]
-        city_name = city["city"]
+    for city_dict in main_data:
+        housing_element_link_list = city_dict["housing_element"]
+        # city_name = city["city"]
         for link in housing_element_link_list:
             # print("link")
             # link = link.replace('(', '⁀').replace(')', '‿')
@@ -74,14 +80,16 @@ def update_doc_metadata(doc_path, project_id):
             break
     
     if not matched_link:
-        raise ValueError("No matched link found for " + doc_filename)
+        # raise ValueError("No matched link found for " + doc_filename)
+        warning_message = "No matched link found for " + doc_filename
+        warnings.warn(warning_message, category=Warning)
     
     new_data["download_link"] = matched_link
 
 
 
      # Create a BigQuery client
-    client = bigquery.Client(project=project_id)
+    client = bigquery.Client(project=PROJECT_ID)
     dataset_ref = client.dataset(dataset_id)
     table_ref = dataset_ref.table(table_id)
 
@@ -93,7 +101,7 @@ def update_doc_metadata(doc_path, project_id):
     # print(pd.DataFrame(new_data_series))
     df = pd.concat([df, new_data_series.to_frame().T], ignore_index=True)
 
-    print(str(len(df)))
+    # print(str(len(df)))
 
     table_json = json.loads(df.to_json(orient='records'))
 

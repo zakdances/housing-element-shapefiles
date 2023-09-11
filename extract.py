@@ -69,7 +69,7 @@ def extract_that_file(filepath, output_dir_path, self_limit=None):
     for i in range(page_count):
         page_number = i + 1
         print("page " + str(page_number) + " of " + str(page_count) + "...")
-        
+
         # if filepath.name == "oakland-6th-draft120722.pdf" and page_number < start_page_for_oakland:
         #     print("skipping")
         #     continue
@@ -79,7 +79,7 @@ def extract_that_file(filepath, output_dir_path, self_limit=None):
         if self_limit and page_number != int(self_limit):
             continue
         elif page_count > 3000 and page_number < page_count - 2000:
-            # print("skipping")
+            print("skipping because too long")
             continue
         
 
@@ -152,11 +152,12 @@ def main():
                     if not input_file_output_aws_dir.exists() and not input_file_output_camelot_dir.exists():
                         print("no aws or camelot")
                         # print(input_file_output_camelot_dir.resolve())
+
                         if not input_file_filepath.name in files_to_ignore:
                             extract_that_file(input_file_filepath, input_file_output_camelot_dir)
 
-                    # else:
-                    #     print("aws found")
+                    else:
+                        print("output already exists. skipping")
 
                     # aws_path = 
                     # if os.path.exists(aws_path):

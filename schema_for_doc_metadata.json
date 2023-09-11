@@ -22,5 +22,29 @@
         "name": "download_link",
         "type": "STRING",
         "mode": "NULLABLE"
+    },
+    {
+        "description": "name of city",
+        "name": "city",
+        "type": "STRING",
+        "mode": "NULLABLE"
+    },
+    {
+        "description": "name of county",
+        "name": "county",
+        "type": "STRING",
+        "mode": "NULLABLE"
+    },
+    {
+        "description": "name of state",
+        "name": "state",
+        "type": "STRING",
+        "mode": "NULLABLE"
+    },
+    {
+        "description": "name of country",
+        "name": "country",
+        "type": "STRING",
+        "mode": "NULLABLE"
     }
 ]
