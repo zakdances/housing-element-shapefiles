@@ -24,6 +24,7 @@ from send2trash import send2trash
 # REGEXP_REPLACE(p.APN, r'[-_\s]', '') LIKE CONCAT('%', REGEXP_REPLACE(nested_rows.APN, r'[-_\s]', ''), '%')
 # p.APN LIKE CONCAT('%', nested_rows.APN, '%')
 
+load_dotenv(dotenv_path=Path('.env.local'))
 PROJECT_ID = os.getenv('PROJECT_ID')
 VIEWABLE_DATASETS = os.getenv('VIEWABLE_DATASETS')
 

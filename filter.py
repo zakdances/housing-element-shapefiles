@@ -3,6 +3,7 @@ import glob
 from time import sleep
 import json
 import jsonlines
+from itertools import groupby
 import random
 import geopandas as gpd
 import pandas as pd
@@ -37,9 +38,37 @@ TEST_OUTPUT_DIR_PATH_sacramento_6th_adopted082021 = os.getenv('TEST_OUTPUT_DIR_P
 TEST_OUTPUT_DIR_PATH_sacramento_6th_adopted121421 = os.getenv('TEST_OUTPUT_DIR_PATH_sacramento_6th_adopted121421')
 TEST_OUTPUT_DIR_PATH_mill_valley_6th_draft082322 = os.getenv('TEST_OUTPUT_DIR_PATH_mill_valley_6th_draft082322')
 
+with open(MAIN_FILE_PATH, 'r') as file:
+    main_data = json.load(file)
+
 def chunk_list(lst, chunk_size):
     chunked_list = [lst[i:i + chunk_size] for i in range(0, len(lst), chunk_size)]
     return chunked_list
+
+def get_agency_from_city_name(city_name):
+    # with open(MAIN_FILE_PATH, 'r') as file:
+    #     main_data = json.load(file)
+    for city in main_data:
+        # city_name = city['city']
+        agency_name = city["planning_agency"]
+        if city_name == city['city']:
+            return agency_name
+
+
+def delete_readme_tables():
+    file_path = "./README.md"
+    target_string = "## Results"
+    # Open the file in read mode
+    with open(file_path, 'r') as file:
+        lines = file.readlines()
+
+    # Find the index of the line containing the target string
+    line_index = next((i for i, line in enumerate(lines) if target_string in line), None)
+
+    # If the target string is found, truncate the file up to that line
+    if line_index is not None:
+        with open(file_path, 'w') as file:
+            file.writelines(lines[:line_index + 1])
 
 def list_tables(project_id):
     client = bigquery.Client(project=project_id)
@@ -200,7 +229,6 @@ def create_filtered_json(file_name, apn_rows):
 
 def main():
 
-
     # county = "Sacramento"
     # city = "Sacramento"
     # doc_name = "sacramento-6th-draft040821.pdf"
@@ -211,8 +239,8 @@ def main():
     # doc_output_directory = os.path.join(city_output_directory, doc_name_no_extension)
     # doc_input_filepath = os.path.join(city_directory, "input", doc_name)
 
-    with open(MAIN_FILE_PATH, 'r') as file:
-        main_data = json.load(file)
+    # with open(MAIN_FILE_PATH, 'r') as file:
+    #     main_data = json.load(file)
 
     SCAG = []
     ABAG = []
@@ -220,12 +248,14 @@ def main():
     SANDAG = []
 
     for city in main_data:
-        if city["planning_agency"] == "SACOG":
-            SACOG.append(city['city'])
-        elif city["planning_agency"] == "ABAG":
-            ABAG.append(city['city'])
-        elif city["planning_agency"] == "SCAG":
-            SCAG.append(city['city'])
+        city_name = city['city']
+        agency_name = city["planning_agency"]
+        if agency_name == "SACOG":
+            SACOG.append(city_name)
+        elif agency_name == "ABAG":
+            ABAG.append(city_name)
+        elif agency_name == "SCAG":
+            SCAG.append(city_name)
         
     # print(SACOG)
     # orgs_to_process = (ABAG + SACOG + SCAG)
@@ -287,14 +317,16 @@ def main():
         # path_to_execute_on = Path(TEST_OUTPUT_DIR_PATH_mill_valley_6th_draft082322 + "/aws")
         # test_file = Path("counties/Sacramento/cities/Citrus Heights/output/citrus-heights-6th-adopted052821").resolve()
         # test_file = Path("counties/Yuba/cities/Wheatland/output/wheatland-6th-draft080621").resolve()
-        test_file = Path("counties/Sacramento/cities/Elk Grove/output/elk-grove-6th-adopted061021").resolve()
-        if path_to_execute_on != test_file:
-            continue
+        # test_file = Path("counties/Sacramento/cities/Elk Grove/output/elk-grove-6th-adopted061021").resolve()
+        # test_file = Path("counties/El Dorado/cities/Placerville/output/placerville-6th-draft111022").resolve()
+        # if path_to_execute_on != test_file:
+        #     continue
 
         # print(Path(path_to_execute_on).name)
         
         city_name = path_to_execute_on.parent.parent.stem # TODO: This should probably come from Main
         county_name = path_to_execute_on.parent.parent.parent.parent.stem # TODO: This should probably come from Main
+        agency_name = get_agency_from_city_name(city_name)
         aws_path = path_to_execute_on / "aws"
         camelot_path = path_to_execute_on / "camelot"
         chosen_path = None
@@ -307,9 +339,9 @@ def main():
         
         # For logging purposes
         if not city_name in accumulator["local"]:
-            accumulator["local"][city_name] = {"documents": [], "tables": 0, "apns": 0, "org": "SACOG"}
+            accumulator["local"][city_name] = {"documents": [], "tables": 0, "apns": 0, "agency": agency_name}
         if not city_name in accumulator["server"]:
-            accumulator["server"][city_name] = {"documents": [], "tables": 0, "apns": 0, "org": "SACOG"}
+            accumulator["server"][city_name] = {"documents": [], "tables": 0, "apns": 0, "agency": agency_name}
         accumulator["local"][city_name]["documents"].append(path_to_execute_on.stem)
         accumulator["server"][city_name]["documents"].append(path_to_execute_on.stem)
         
@@ -367,7 +399,8 @@ def main():
             "documents": len(value["documents"]),
             "tables": value["tables"],
             "apns": value["apns"],
-            "server intersection apns": 0
+            "server intersection apns": 0,
+            "agency": value["agency"],
         })
     
     huh = []
@@ -392,9 +425,29 @@ def main():
 
         
     if len(data_for_markdown) > 0:
-        local_markdown = markdown_table(data_for_markdown).get_markdown()
-        print("found locally:")
-        print(local_markdown)
+        
+        
+
+        # Create an empty dictionary to store the grouped lists
+        grouped_data = {}
+
+        # Iterate through the list of dictionaries and group them by the "category" key
+        for item in data_for_markdown:
+            category = item["agency"]
+            if category not in grouped_data:
+                grouped_data[category] = []
+            grouped_data[category].append(item)
+
+        # Convert the grouped data dictionary to a list of lists
+        delete_readme_tables()
+        groups = list(grouped_data.values())
+        for group in groups:
+
+            local_markdown = markdown_table(group).get_markdown()
+            print("found locally:")
+            print(local_markdown)
+            with open("./README.md", 'a') as file:
+                file.write("# " + group[0]["agency"] + '\n' + local_markdown + '\n')
     return
 
 if __name__ == '__main__':
