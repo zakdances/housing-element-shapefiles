@@ -30,10 +30,13 @@ VIEWABLE_DATASETS = os.getenv('VIEWABLE_DATASETS')
 
 client = bigquery.Client(project=PROJECT_ID)
 
-def generate_request(table_list):
-    table_list = list(map(lambda x: x.replace("(", "⁀").replace(")", "‿"), table_list))
-    joined_table_list = "|".join(table_list)
-    job_config2 = bigquery.QueryJobConfig()
+def convert_to_geopandas_dataframe(query_job_obj):
+    print("Converting data of " + query_job_obj['table_name'] + " to geodataframe...")
+    query_df = query_job_obj['query_job'].to_geodataframe(geography_column="geometry")
+    print("done!")
+    return query_df
+
+def perform_query(joined_table_list, job_config):
     query_3 = f"""
         SELECT
             _TABLE_SUFFIX AS id,
@@ -64,8 +67,30 @@ def generate_request(table_list):
         AND
             m.county = p.county
     """
-    query_job = client.query(query_3, job_config=job_config2)  # Make an API request.
-    # query_df = query_job.to_dataframe()
-    query_df = query_job.to_geodataframe(geography_column="geometry")
-    query_df['id'] = query_df['id'].replace("⁀", "(").replace("‿", ")")
-    return query_df
+    print("starting intersection query for " + joined_table_list)
+    query_job = client.query(query_3, job_config=job_config)  # Make an API request.
+    print("done!")
+    return query_job
+
+def generate_request(table_list):
+    table_list = list(map(lambda x: x.replace("(", "⁀").replace(")", "‿"), table_list))
+    # joined_table_list = "|".join(table_list)
+    dfs = []
+    for table_name in table_list:
+        joined_table_list = table_name
+        job_config2 = bigquery.QueryJobConfig()
+
+        query_job = perform_query(joined_table_list, job_config2)
+        # query_df = query_job.to_dataframe()
+        # query_df = query_job.to_geodataframe(geography_column="geometry")
+        # query_df['id'] = query_df['id'].replace("⁀", "(").replace("‿", ")")
+        dfs.append({'table_name': joined_table_list, 'query_job': query_job})
+
+    print("converting query data to geopandas dataframe...")
+    dfs = list(map(convert_to_geopandas_dataframe, dfs))
+    print("done 1!")
+    merged_gdf = pd.concat(dfs, ignore_index=True)
+    print("done 2!")
+    merged_gdf['id'] = merged_gdf['id'].replace("⁀", "(").replace("‿", ")")
+    print("done 3!")
+    return merged_gdf

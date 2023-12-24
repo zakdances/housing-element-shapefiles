@@ -49,7 +49,7 @@ def generate_shapefile():
     dfs = []
     processed_docs = []
     none_found = []
-    for file_paths in chunk_list(paths, 5):
+    for file_paths in chunk_list(paths, 1):
         for file_path in file_paths:
             print(f"File: {file_path.stem}")
             

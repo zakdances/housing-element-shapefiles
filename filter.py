@@ -1,3 +1,5 @@
+# This is the main file for this repo.
+
 import os
 import glob
 from time import sleep
@@ -227,6 +229,64 @@ def create_filtered_json(file_name, apn_rows):
         "table_rows": rows
     }
 
+def generate_data_for_markdown(accumulator):
+    data_for_markdown = []
+    for i, (key, value) in enumerate(accumulator["local"].items()):
+        data_for_markdown.append({
+            "": i + 1,
+            "city": key,
+            "documents": len(value["documents"]),
+            "tables": value["tables"],
+            "apns": value["apns"],
+            "parcels": 0,
+            "agency": value["agency"],
+            "county": value["county"],
+        })
+    return data_for_markdown
+
+def getPaths(orgs_to_process):
+    all_docs = []
+    for county_dir in os.scandir(COUNTIES_DIR_PATH):
+        if county_dir.is_dir():
+            # if county_dir.name != "Orange":
+            #     print("orange")
+            #     continue
+            _cities_dir = list(os.scandir(os.path.join(county_dir.path, "cities")))
+            cities_dirs = list(filter(lambda x: x.is_dir(), _cities_dir))
+
+            for file_2 in cities_dirs:
+                # if file_2.is_dir():
+                
+                if file_2.name in orgs_to_process:
+                    # print(file_2.name)
+                    output_paths = os.path.join(file_2.path, "output")
+
+                    if os.path.exists(output_paths):
+                        for entry in os.scandir(output_paths):
+                            
+                            if entry.is_dir():
+
+                                # print(entry.name)
+                                all_docs.append(entry.path)
+                                # print(entry.path)
+                    # else:
+                    #     print("no input: ")
+                    #     print(input_paths)
+                    #     print("___________ no input: ")
+    return all_docs
+
+def generate_server_intersection_df(accumulator):
+    huh = []
+    for i, (key, value) in enumerate(accumulator["server"].items()):
+        for doc in value["documents"]:
+            huh.append(doc)
+    server_intersection_df = generate_request(huh)
+    return server_intersection_df
+
+def count_apns(df):
+    count_of_apns = df['table_rows'].apply(lambda x: len(x)).sum()
+    return count_of_apns
+
 def main():
 
     # county = "Sacramento"
@@ -259,7 +319,7 @@ def main():
         
     # print(SACOG)
     # orgs_to_process = (ABAG + SACOG + SCAG)
-    orgs_to_process = SACOG
+    orgs_to_process = SCAG
 
     my_apn_datasets = list_tables(PROJECT_ID)
     my_apn_datasets = list(map(lambda x: x.table_id, my_apn_datasets))
@@ -268,38 +328,14 @@ def main():
     # print(my_apn_datasets)
     # meta = list_doc_metadata(PROJECT_ID)
 
-    all_docs = []
-    
-    for county_dir in os.scandir(COUNTIES_DIR_PATH):
-        if county_dir.is_dir():
-            # if county_dir.name != "Orange":
-            #     print("orange")
-            #     continue
-            _cities_dir = list(os.scandir(os.path.join(county_dir.path, "cities")))
-            cities_dirs = list(filter(lambda x: x.is_dir(), _cities_dir))
-
-            for file_2 in cities_dirs:
-                # if file_2.is_dir():
-                
-                if file_2.name in orgs_to_process:
-                    # print(file_2.name)
-                    output_paths = os.path.join(file_2.path, "output")
-
-                    if os.path.exists(output_paths):
-                        for entry in os.scandir(output_paths):
-                            
-                            if entry.is_dir():
-
-                                # print(entry.name)
-                                all_docs.append(entry.path)
-                                # print(entry.path)
-                    # else:
-                    #     print("no input: ")
-                    #     print(input_paths)
-                    #     print("___________ no input: ")
-
-            
-
+    all_docs = getPaths(orgs_to_process)
+    # valid_range = string.ascii_lowercase[:8]
+    all_docs = list(filter(lambda x: "cities/los angeles" in x.lower(), all_docs))
+    # all_docs = random.sample(all_docs, 10)
+    # print(all_docs)
+    # 108860
+    # 325-280-003)  - murrieta-6th-draft110722
+    # return
     
     # city_filtered_output_directory = os.path.join(city_directory, "filtered output")
     # contents = os.listdir(city_output_directory)
@@ -327,6 +363,7 @@ def main():
         city_name = path_to_execute_on.parent.parent.stem # TODO: This should probably come from Main
         county_name = path_to_execute_on.parent.parent.parent.parent.stem # TODO: This should probably come from Main
         agency_name = get_agency_from_city_name(city_name)
+        
         aws_path = path_to_execute_on / "aws"
         camelot_path = path_to_execute_on / "camelot"
         chosen_path = None
@@ -339,9 +376,9 @@ def main():
         
         # For logging purposes
         if not city_name in accumulator["local"]:
-            accumulator["local"][city_name] = {"documents": [], "tables": 0, "apns": 0, "agency": agency_name}
+            accumulator["local"][city_name] = {"documents": [], "tables": 0, "apns": 0, "agency": agency_name, "county": county_name,}
         if not city_name in accumulator["server"]:
-            accumulator["server"][city_name] = {"documents": [], "tables": 0, "apns": 0, "agency": agency_name}
+            accumulator["server"][city_name] = {"documents": [], "tables": 0, "apns": 0, "agency": agency_name, "county": county_name}
         accumulator["local"][city_name]["documents"].append(path_to_execute_on.stem)
         accumulator["server"][city_name]["documents"].append(path_to_execute_on.stem)
         
@@ -365,9 +402,10 @@ def main():
         df = find_tables_and_parcels(chosen_path)
         # df["table_rows"] = df['table_rows'].apply(lambda x: [remove_special_chars(item['APN']) for item in x])
         df.to_json('temp/output.json', orient='records')
+
         accumulator["local"][city_name]["tables"] += len(df)
-        count_of_apns = df['table_rows'].apply(lambda x: len(x)).sum()
-        accumulator["local"][city_name]["apns"] += count_of_apns
+        # count_of_apns = df['table_rows'].apply(lambda x: len(x)).sum()
+        accumulator["local"][city_name]["apns"] += count_apns(df)
         
 
         # if len(df) > 0:
@@ -392,27 +430,19 @@ def main():
 
 
     data_for_markdown = []
-    for i, (key, value) in enumerate(accumulator["local"].items()):
-        data_for_markdown.append({
-            "": i + 1,
-            "city": key,
-            "documents": len(value["documents"]),
-            "tables": value["tables"],
-            "apns": value["apns"],
-            "server intersection apns": 0,
-            "agency": value["agency"],
-        })
+    data_for_markdown.extend( generate_data_for_markdown(accumulator) )
     
-    huh = []
-    for i, (key, value) in enumerate(accumulator["server"].items()):
-        for doc in value["documents"]:
-            huh.append(doc)
-    server_intersection_df = generate_request(huh)
+    print('Getting intersection...')
+    server_intersection_df = generate_server_intersection_df(accumulator)
+    print('done!')
+
+    # Write to a temp file for debugging
     with open('temp/output_server.json', 'w') as f:
         f.write(server_intersection_df.to_json())
-    print("request success")
+
+    # print("request success")
     for i, (key, value) in enumerate(accumulator["server"].items()):
-        # print(key)
+        # print(key)s
         # print(value)
         for doc in value["documents"]:
             filtered_df = server_intersection_df[server_intersection_df['id'] == doc]
@@ -421,7 +451,7 @@ def main():
 
         city_obj = [item for item in data_for_markdown if item["city"] == key]
         city_obj = next(iter(city_obj), None)
-        city_obj["server intersection apns"] += value["apns"]
+        city_obj["parcels"] += value["apns"]
 
         
     if len(data_for_markdown) > 0:
@@ -439,11 +469,12 @@ def main():
             grouped_data[category].append(item)
 
         # Convert the grouped data dictionary to a list of lists
-        delete_readme_tables()
+        # delete_readme_tables()
         groups = list(grouped_data.values())
         for group in groups:
 
-            local_markdown = markdown_table(group).get_markdown()
+            local_markdown = markdown_table(group).set_params(quote = False).get_markdown()
+            local_markdown = "```" + local_markdown + "\n" + "```"
             print("found locally:")
             print(local_markdown)
             with open("./README.md", 'a') as file:
