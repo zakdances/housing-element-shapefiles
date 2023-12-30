@@ -3,6 +3,7 @@
 import os
 import glob
 from time import sleep
+from collections import OrderedDict
 import json
 import jsonlines
 from itertools import groupby
@@ -19,6 +20,7 @@ from apache_beam.io.gcp.bigquery_tools import parse_table_schema_from_json
 from google.cloud import bigquery
 from google.cloud.exceptions import NotFound
 from py_markdown_table.markdown_table import markdown_table
+from pytablewriter import MarkdownTableWriter
 
 from src.find.find import find_tables_and_parcels
 from update_doc_metadata import update_doc_metadata
@@ -232,7 +234,7 @@ def create_filtered_json(file_name, apn_rows):
 def generate_data_for_markdown(accumulator):
     data_for_markdown = []
     for i, (key, value) in enumerate(accumulator["local"].items()):
-        data_for_markdown.append({
+        data_for_markdown.append(OrderedDict({
             "": i + 1,
             "city": key,
             "documents": len(value["documents"]),
@@ -241,7 +243,8 @@ def generate_data_for_markdown(accumulator):
             "parcels": 0,
             "agency": value["agency"],
             "county": value["county"],
-        })
+            "link": value["link"],
+        }))
     return data_for_markdown
 
 def getPaths(orgs_to_process):
@@ -319,7 +322,7 @@ def main():
         
     # print(SACOG)
     # orgs_to_process = (ABAG + SACOG + SCAG)
-    orgs_to_process = SCAG
+    orgs_to_process = ABAG
 
     my_apn_datasets = list_tables(PROJECT_ID)
     my_apn_datasets = list(map(lambda x: x.table_id, my_apn_datasets))
@@ -330,11 +333,26 @@ def main():
 
     all_docs = getPaths(orgs_to_process)
     # valid_range = string.ascii_lowercase[:8]
-    all_docs = list(filter(lambda x: "cities/los angeles" in x.lower(), all_docs))
+    # all_docs = list(filter(lambda x: "los angeles" not in x.lower(), all_docs))
     # all_docs = random.sample(all_docs, 10)
     # print(all_docs)
     # 108860
-    # 325-280-003)  - murrieta-6th-draft110722
+    # return
+
+    # writer = MarkdownTableWriter(
+    #     table_name="example_table",
+    #     headers=["int", "float", "str", "bool", "mix", "time", "link"],
+    #     value_matrix=[
+    #         [0,   0.1,      "hoge", True,   0,      "2017-01-01 03:04:05+0900", "[link](/hello)"],
+    #         [2,   "-2.23",  "foo",  False,  None,   "2017-12-23 45:01:23+0900", "[link](/hello)"],
+    #         [3,   0,        "bar",  "true",  "inf", "2017-03-03 33:44:55+0900", "[link](/hello)"],
+    #         [-10, -9.9,     "",     "FALSE", "nan", "2017-01-01 00:00:00+0900", "[link](/hello)"],
+    #     ],
+    # )
+    # markdown_table_string = writer.dumps()
+    # with open("./README.md", 'a') as file:
+    #     file.write(markdown_table_string)
+
     # return
     
     # city_filtered_output_directory = os.path.join(city_directory, "filtered output")
@@ -375,14 +393,14 @@ def main():
             raise Exception("No output found for " + path_to_execute_on.parents[2])
         
         # For logging purposes
+        repo_link = "[link](<counties/" + county_name + "/cities/" + city_name + ">)"
         if not city_name in accumulator["local"]:
-            accumulator["local"][city_name] = {"documents": [], "tables": 0, "apns": 0, "agency": agency_name, "county": county_name,}
+            accumulator["local"][city_name] = {"documents": [], "tables": 0, "apns": 0, "agency": agency_name, "county": county_name, "link": repo_link}
         if not city_name in accumulator["server"]:
-            accumulator["server"][city_name] = {"documents": [], "tables": 0, "apns": 0, "agency": agency_name, "county": county_name}
+            accumulator["server"][city_name] = {"documents": [], "tables": 0, "apns": 0, "agency": agency_name, "county": county_name, "link": repo_link}
         accumulator["local"][city_name]["documents"].append(path_to_execute_on.stem)
         accumulator["server"][city_name]["documents"].append(path_to_execute_on.stem)
-        
-
+        # counties/Alameda/cities/Albany
         
         input_path = path_to_execute_on.parents[1] / "input" / (path_to_execute_on.stem + ".pdf")
         # print(input_path)
@@ -401,7 +419,7 @@ def main():
 
         df = find_tables_and_parcels(chosen_path)
         # df["table_rows"] = df['table_rows'].apply(lambda x: [remove_special_chars(item['APN']) for item in x])
-        df.to_json('temp/output.json', orient='records')
+        df.to_json('temp/output.json', orient='records') # For debugging
 
         accumulator["local"][city_name]["tables"] += len(df)
         # count_of_apns = df['table_rows'].apply(lambda x: len(x)).sum()
@@ -426,11 +444,10 @@ def main():
             # print(path_obj["output"])
 
         # generate_shapefile(chunk)
-        print('done')
+        # print('done')
+        break
 
 
-    data_for_markdown = []
-    data_for_markdown.extend( generate_data_for_markdown(accumulator) )
     
     print('Getting intersection...')
     server_intersection_df = generate_server_intersection_df(accumulator)
@@ -449,11 +466,16 @@ def main():
             value["tables"] += filtered_df['table_name'].nunique()
             value["apns"] += len(filtered_df)
 
+        
+
+
+    data_for_markdown = []
+    data_for_markdown.extend( generate_data_for_markdown(accumulator) )
+    for i, (key, value) in enumerate(accumulator["server"].items()):
         city_obj = [item for item in data_for_markdown if item["city"] == key]
         city_obj = next(iter(city_obj), None)
         city_obj["parcels"] += value["apns"]
-
-        
+    
     if len(data_for_markdown) > 0:
         
         
@@ -461,7 +483,7 @@ def main():
         # Create an empty dictionary to store the grouped lists
         grouped_data = {}
 
-        # Iterate through the list of dictionaries and group them by the "category" key
+        # Iterate through the list of dictionaries and group them by the "agency" key
         for item in data_for_markdown:
             category = item["agency"]
             if category not in grouped_data:
@@ -473,12 +495,23 @@ def main():
         groups = list(grouped_data.values())
         for group in groups:
 
-            local_markdown = markdown_table(group).set_params(quote = False).get_markdown()
-            local_markdown = "```" + local_markdown + "\n" + "```"
-            print("found locally:")
-            print(local_markdown)
+            # local_markdown = markdown_table(group).set_params(quote = False).get_markdown()
+            # local_markdown = "```" + local_markdown + "\n" + "```"
+            # print("found locally:")
+            # print(local_markdown)
+            # with open("./README.md", 'a') as file:
+            #     file.write("# " + group[0]["agency"] + '\n' + local_markdown + '\n')
+            print(group)
+
+            writer = MarkdownTableWriter(
+                # table_name="example_table",
+                headers=list(group[0].keys()),
+                value_matrix=list(map(lambda x: list(x.values()), group)),
+            )
+            markdown_table_string = "# " + group[0]["agency"] + '\n' + writer.dumps() + '\n'
             with open("./README.md", 'a') as file:
-                file.write("# " + group[0]["agency"] + '\n' + local_markdown + '\n')
+                file.write(markdown_table_string)
+
     return
 
 if __name__ == '__main__':
