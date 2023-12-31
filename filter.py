@@ -292,19 +292,6 @@ def count_apns(df):
 
 def main():
 
-    # county = "Sacramento"
-    # city = "Sacramento"
-    # doc_name = "sacramento-6th-draft040821.pdf"
-    # doc_name_no_extension = os.path.splitext(doc_name)[0]
-
-    # city_directory = os.path.join(counties_path_name, county, "cities", city)
-    # city_output_directory = os.path.join(city_directory, "output")
-    # doc_output_directory = os.path.join(city_output_directory, doc_name_no_extension)
-    # doc_input_filepath = os.path.join(city_directory, "input", doc_name)
-
-    # with open(MAIN_FILE_PATH, 'r') as file:
-    #     main_data = json.load(file)
-
     SCAG = []
     ABAG = []
     SACOG = []
@@ -313,6 +300,7 @@ def main():
     for city in main_data:
         city_name = city['city']
         agency_name = city["planning_agency"]
+
         if agency_name == "SACOG":
             SACOG.append(city_name)
         elif agency_name == "ABAG":
@@ -322,7 +310,22 @@ def main():
         
     # print(SACOG)
     # orgs_to_process = (ABAG + SACOG + SCAG)
-    orgs_to_process = ABAG
+    orgs_to_process = SCAG
+
+    all_docs = getPaths(orgs_to_process)
+    # valid_range = string.ascii_lowercase[:8]
+    # all_docs = list(filter(lambda x: "counties/los angeles" in x.lower(), all_docs))
+    # all_docs = list(filter(lambda x: "counties/orange" in x.lower(), all_docs))
+    all_docs = list(filter(lambda x: "cities/los angeles" in x.lower(), all_docs))
+    # all_docs = list(filter(lambda x: 
+    #                         all(substring not in x.lower() for substring in 
+    #                         ["counties/orange", "counties/los angeles"]), 
+    #                         all_docs ))
+    
+    # all_docs = random.sample(all_docs, 10)
+    # print(all_docs)
+    # return
+    # 108860
 
     my_apn_datasets = list_tables(PROJECT_ID)
     my_apn_datasets = list(map(lambda x: x.table_id, my_apn_datasets))
@@ -331,32 +334,8 @@ def main():
     # print(my_apn_datasets)
     # meta = list_doc_metadata(PROJECT_ID)
 
-    all_docs = getPaths(orgs_to_process)
-    # valid_range = string.ascii_lowercase[:8]
-    # all_docs = list(filter(lambda x: "los angeles" not in x.lower(), all_docs))
-    # all_docs = random.sample(all_docs, 10)
-    # print(all_docs)
-    # 108860
-    # return
-
-    # writer = MarkdownTableWriter(
-    #     table_name="example_table",
-    #     headers=["int", "float", "str", "bool", "mix", "time", "link"],
-    #     value_matrix=[
-    #         [0,   0.1,      "hoge", True,   0,      "2017-01-01 03:04:05+0900", "[link](/hello)"],
-    #         [2,   "-2.23",  "foo",  False,  None,   "2017-12-23 45:01:23+0900", "[link](/hello)"],
-    #         [3,   0,        "bar",  "true",  "inf", "2017-03-03 33:44:55+0900", "[link](/hello)"],
-    #         [-10, -9.9,     "",     "FALSE", "nan", "2017-01-01 00:00:00+0900", "[link](/hello)"],
-    #     ],
-    # )
-    # markdown_table_string = writer.dumps()
-    # with open("./README.md", 'a') as file:
-    #     file.write(markdown_table_string)
-
-    # return
     
-    # city_filtered_output_directory = os.path.join(city_directory, "filtered output")
-    # contents = os.listdir(city_output_directory)
+
     # For logging purposes
     accumulator = {
         "local": {},
@@ -427,11 +406,11 @@ def main():
         
 
         # if len(df) > 0:
-        # if path_to_execute_on.stem in my_apn_datasets and any(meta['doc_name'] == path_to_execute_on.stem):
-            # target = PROJECT_ID + ":viewable_datasets." + path_to_execute_on.stem
-            # bq_client_to_db(df, target, HOUSING_ELEMENT_SCHEMA_FILEPATH)
-            # update_doc_metadata(input_path, city_name, county_name, "CA", "USA")
-            # generate_thumbnail(input_path, PROJECT_ID)
+        #     if path_to_execute_on.stem in my_apn_datasets and any(meta['doc_name'] == path_to_execute_on.stem):
+        #         target = PROJECT_ID + ":viewable_datasets." + path_to_execute_on.stem
+        #         bq_client_to_db(df, target, HOUSING_ELEMENT_SCHEMA_FILEPATH)
+        #         update_doc_metadata(input_path, city_name, county_name, "CA", "USA")
+        #         generate_thumbnail(input_path, PROJECT_ID)
   
     paths_that_need_shapefiles = list(map(lambda x: {"path": Path(x), "output": Path(x) / "misc"}, all_docs))
     paths_that_need_shapefiles = list(filter(lambda x: x["path"].stem in my_apn_datasets, paths_that_need_shapefiles))
@@ -477,7 +456,6 @@ def main():
         city_obj["parcels"] += value["apns"]
     
     if len(data_for_markdown) > 0:
-        
         
 
         # Create an empty dictionary to store the grouped lists

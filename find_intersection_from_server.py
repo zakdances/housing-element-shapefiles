@@ -39,7 +39,8 @@ def convert_to_geopandas_dataframe(query_job_obj):
     return query_df
 
 def perform_query(joined_table_list, job_config, limit, offset):
-    joined_table_list = "|".join(joined_table_list)
+    joined_table_list = list(map(lambda x: x.replace("(", "⁀").replace(")", "‿"), joined_table_list))
+    joined_table_list_string = "|".join(joined_table_list)
     query_3 = f"""
         SELECT
             _TABLE_SUFFIX AS id,
@@ -66,20 +67,20 @@ def perform_query(joined_table_list, job_config, limit, offset):
             m.doc_name = _TABLE_SUFFIX
 
         WHERE
-            REGEXP_CONTAINS(_TABLE_SUFFIX, r'^({joined_table_list})$')
+            REGEXP_CONTAINS(_TABLE_SUFFIX, r'^({joined_table_list_string})$')
         AND
             m.county = p.county
         
         LIMIT {limit}
         OFFSET {offset}
     """
-    print("starting intersection query at offset " + str(offset) + " for " + joined_table_list)
+    print("starting intersection query at offset " + str(offset) + " for " + joined_table_list_string)
     query_job = client.query(query_3, job_config=job_config)  # Make an API request.
-    print("done!")
+    print("done executing query!")
     return query_job
 
 def generate_request(table_list):
-    table_list = list(map(lambda x: x.replace("(", "⁀").replace(")", "‿"), table_list))
+    # table_list = list(map(lambda x: x.replace("(", "⁀").replace(")", "‿"), table_list))
     
     dfs = []
 
@@ -92,7 +93,9 @@ def generate_request(table_list):
         while True:
             job_config2 = bigquery.QueryJobConfig()
             query_job = perform_query(table_list, job_config2, batch_size, offset)
+            print("gettings result...")
             results = query_job.result()
+            print("done getting result!")
 
             if results.total_rows > 0:
                 dfs.append({'table_name': str(table_list), 'query_job': query_job})
