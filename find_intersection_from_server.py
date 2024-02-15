@@ -106,13 +106,6 @@ def generate_request(table_list):
             # Stop the loop if the last batch had fewer than batch_size rows
             if results.total_rows < batch_size:
                 break 
-
-            # result = list(query_job.result())
-            # print(result)
-
-            # query_df = query_job.to_dataframe()
-            # query_df = query_job.to_geodataframe(geography_column="geometry")
-            # query_df['id'] = query_df['id'].replace("⁀", "(").replace("‿", ")")
             
 
     print("converting query data to geopandas dataframe...")
