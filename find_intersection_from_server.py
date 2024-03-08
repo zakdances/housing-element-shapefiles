@@ -41,6 +41,7 @@ def convert_to_geopandas_dataframe(query_job_obj):
 def perform_query(joined_table_list, job_config, limit, offset):
     joined_table_list = list(map(lambda x: x.replace("(", "⁀").replace(")", "‿"), joined_table_list))
     joined_table_list_string = "|".join(joined_table_list)
+
     query_3 = f"""
         SELECT
             _TABLE_SUFFIX AS id,
@@ -87,8 +88,8 @@ def generate_request(table_list):
     for table_list in list(chunked(table_list, 20)):
         # joined_table_list = table_name
     
-        batch_size = 3000
-        offset = 0
+        # batch_size = 3000
+        # offset = 0
 
         while True:
             job_config2 = bigquery.QueryJobConfig()
