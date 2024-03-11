@@ -272,3 +272,8 @@ Columns
 | 79|Westlake Village     |        3|     8|57  |     43|SCAG  |Los Angeles|[link](<counties/Los Angeles/cities/Westlake Village>)     |
 | 80|Whittier             |        3|     3|442 |    350|SCAG  |Los Angeles|[link](<counties/Los Angeles/cities/Whittier>)             |
 
+# SCAG
+|   |   city    |documents|tables| apns |parcels|agency|  county   |                      link                       |
+|--:|-----------|--------:|-----:|------|------:|------|-----------|-------------------------------------------------|
+|  1|Los Angeles|        1|     2|113204|      5|SCAG  |Los Angeles|[link](<counties/Los Angeles/cities/Los Angeles>)|
+

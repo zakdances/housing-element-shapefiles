@@ -5,7 +5,7 @@ import glob
 from time import sleep
 from collections import OrderedDict
 import json
-import jsonlines
+# import jsonlines
 from itertools import groupby
 import random
 import geopandas as gpd
@@ -278,12 +278,14 @@ def getPaths(orgs_to_process):
                     #     print("___________ no input: ")
     return all_docs
 
-def generate_server_intersection_df(accumulator):
-    huh = []
-    for i, (key, value) in enumerate(accumulator["server"].items()):
-        for doc in value["documents"]:
-            huh.append(doc)
-    server_intersection_df = generate_request(huh)
+def generate_server_intersection_df(accumulator, parcel_table_name, df_container):
+    # huh = []
+    # for i, (key, value) in enumerate(accumulator["server"].items()):
+    #     for doc in value["documents"]:
+    #         huh.append(doc)
+    # server_intersection_df = generate_request(huh, parcel_table_name)
+
+    
     return server_intersection_df
 
 def count_apns(df):
@@ -316,7 +318,10 @@ def main():
     # valid_range = string.ascii_lowercase[:8]
     # all_docs = list(filter(lambda x: "counties/los angeles" in x.lower(), all_docs))
     # all_docs = list(filter(lambda x: "counties/orange" in x.lower(), all_docs))
-    all_docs = list(filter(lambda x: "cities/los angeles" in x.lower(), all_docs))
+    # all_docs = list(filter(lambda x: "cities/los angeles" in x.lower(), all_docs))
+    all_docs = list(filter(lambda x: "los-angeles-6th-adopted061422" in x.lower(), all_docs))
+    
+    
     # all_docs = list(filter(lambda x: 
     #                         all(substring not in x.lower() for substring in 
     #                         ["counties/orange", "counties/los angeles"]), 
@@ -325,7 +330,7 @@ def main():
     # all_docs = random.sample(all_docs, 10)
     # print(all_docs)
     # return
-    # 108860
+    parcel_table_name = 'clustered_table'
 
     my_apn_datasets = list_tables(PROJECT_ID)
     my_apn_datasets = list(map(lambda x: x.table_id, my_apn_datasets))
@@ -341,6 +346,7 @@ def main():
         "local": {},
         "server": {}
         }
+    dfs_bucket = []
 
     for path_to_execute_on in sorted(all_docs, key=lambda x: Path(x).name.lower()):
         path_to_execute_on = Path(path_to_execute_on)
@@ -361,6 +367,14 @@ def main():
         county_name = path_to_execute_on.parent.parent.parent.parent.stem # TODO: This should probably come from Main
         agency_name = get_agency_from_city_name(city_name)
         
+        df_container = {
+            city_name: city_name,
+            "county_name": county_name,
+            "agency_name": agency_name,
+            "doc_file_name": path_to_execute_on.stem,
+            "df": None
+        }
+
         aws_path = path_to_execute_on / "aws"
         camelot_path = path_to_execute_on / "camelot"
         chosen_path = None
@@ -397,6 +411,8 @@ def main():
         #     return s.replace(' ', '').replace('-', '').replace('_', '')
 
         df = find_tables_and_parcels(chosen_path)
+        df_container["df"] = df
+        dfs_bucket.append(df)
         # df["table_rows"] = df['table_rows'].apply(lambda x: [remove_special_chars(item['APN']) for item in x])
         df.to_json('temp/output.json', orient='records') # For debugging
 
@@ -404,13 +420,15 @@ def main():
         # count_of_apns = df['table_rows'].apply(lambda x: len(x)).sum()
         accumulator["local"][city_name]["apns"] += count_apns(df)
         
-
+        print(df)
         # if len(df) > 0:
         #     if path_to_execute_on.stem in my_apn_datasets and any(meta['doc_name'] == path_to_execute_on.stem):
         #         target = PROJECT_ID + ":viewable_datasets." + path_to_execute_on.stem
         #         bq_client_to_db(df, target, HOUSING_ELEMENT_SCHEMA_FILEPATH)
         #         update_doc_metadata(input_path, city_name, county_name, "CA", "USA")
         #         generate_thumbnail(input_path, PROJECT_ID)
+
+    
   
     paths_that_need_shapefiles = list(map(lambda x: {"path": Path(x), "output": Path(x) / "misc"}, all_docs))
     paths_that_need_shapefiles = list(filter(lambda x: x["path"].stem in my_apn_datasets, paths_that_need_shapefiles))
@@ -429,7 +447,7 @@ def main():
 
     
     print('Getting intersection...')
-    server_intersection_df = generate_server_intersection_df(accumulator)
+    server_intersection_df = generate_server_intersection_df(accumulator, parcel_table_name, dfs_bucket)
     print('done!')
 
     # Write to a temp file for debugging
