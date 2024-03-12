@@ -172,7 +172,7 @@ def bq_client_to_db(data, db_table, schema):
         job = client.load_table_from_json(table_json, dataset_id + '.' + table_id, job_config=job_config)
         result = job.result()
 
-
+        
         # Check the query job status
         if job.state == 'DONE':
             print('Upsert completed successfully.')
@@ -224,7 +224,7 @@ def create_filtered_json(file_name, apn_rows):
             # raise TypeError("Variable is not an integer.")
         rows.append({
             "APN": str(row[0]),
-            "page_number": page_number,
+            "page_numberrr": page_number,
         })
     return {
         "table_name": file_name,
@@ -278,16 +278,6 @@ def getPaths(orgs_to_process):
                     #     print("___________ no input: ")
     return all_docs
 
-def generate_server_intersection_df(accumulator, parcel_table_name, df_container):
-    # huh = []
-    # for i, (key, value) in enumerate(accumulator["server"].items()):
-    #     for doc in value["documents"]:
-    #         huh.append(doc)
-    # server_intersection_df = generate_request(huh, parcel_table_name)
-
-    
-    return server_intersection_df
-
 def count_apns(df):
     count_of_apns = df['table_rows'].apply(lambda x: len(x)).sum()
     return count_of_apns
@@ -319,7 +309,7 @@ def main():
     # all_docs = list(filter(lambda x: "counties/los angeles" in x.lower(), all_docs))
     # all_docs = list(filter(lambda x: "counties/orange" in x.lower(), all_docs))
     # all_docs = list(filter(lambda x: "cities/los angeles" in x.lower(), all_docs))
-    all_docs = list(filter(lambda x: "los-angeles-6th-adopted061422" in x.lower(), all_docs))
+    all_docs = list(filter(lambda x: "beverly-hills-6th-adopted092922" in x.lower(), all_docs))
     
     
     # all_docs = list(filter(lambda x: 
@@ -368,7 +358,7 @@ def main():
         agency_name = get_agency_from_city_name(city_name)
         
         df_container = {
-            city_name: city_name,
+            "city_name": city_name,
             "county_name": county_name,
             "agency_name": agency_name,
             "doc_file_name": path_to_execute_on.stem,
@@ -412,7 +402,7 @@ def main():
 
         df = find_tables_and_parcels(chosen_path)
         df_container["df"] = df
-        dfs_bucket.append(df)
+        dfs_bucket.append(df_container)
         # df["table_rows"] = df['table_rows'].apply(lambda x: [remove_special_chars(item['APN']) for item in x])
         df.to_json('temp/output.json', orient='records') # For debugging
 
@@ -445,14 +435,15 @@ def main():
         break
 
 
-    
-    print('Getting intersection...')
-    server_intersection_df = generate_server_intersection_df(accumulator, parcel_table_name, dfs_bucket)
-    print('done!')
+    for df_container in dfs_bucket:
+        print('Getting intersection...')
+        print(df_container)
+        server_intersection_df = generate_request(df_container)
+        print('done!')
 
-    # Write to a temp file for debugging
-    with open('temp/output_server.json', 'w') as f:
-        f.write(server_intersection_df.to_json())
+        # Write to a temp file for debugging
+        with open('temp/output_server.json', 'w') as f:
+            f.write(server_intersection_df.to_json())
 
     # print("request success")
     for i, (key, value) in enumerate(accumulator["server"].items()):
