@@ -39,7 +39,7 @@ def convert_to_geopandas_dataframe(query_job_obj):
     return query_df
 
 def perform_query_v2(job_config, incoming_apns, parcel_table_name = 'all'):
-    print(incoming_apns)
+    # print(incoming_apns)
     query_3 = f"""
         SELECT
             p.APN as apn,
@@ -49,8 +49,13 @@ def perform_query_v2(job_config, incoming_apns, parcel_table_name = 'all'):
             p.geometry AS geometry
         FROM
             `{PROJECT_ID}.parcels.{parcel_table_name}` AS p
-        WHERE
-            p.APN IN UNNEST(@incoming_apns);
+        WHERE 
+            REGEXP_CONTAINS(
+                REGEXP_REPLACE(p.APN, r'[-_]', ''), 
+                CONCAT(r'(?i)', r'(', STRING_AGG(@incoming_apns, '|'), ')')
+            )
+        -- WHERE
+            -- p.APN IN UNNEST(@incoming_apns);
         -- WHERE
             -- REGEXP_REPLACE(p.APN, r'[-_\s]', '') LIKE CONCAT('%', REGEXP_REPLACE(incoming_apns, r'[-_\s]', ''), '%')
 

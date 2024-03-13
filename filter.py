@@ -309,8 +309,8 @@ def main():
     # all_docs = list(filter(lambda x: "counties/los angeles" in x.lower(), all_docs))
     # all_docs = list(filter(lambda x: "counties/orange" in x.lower(), all_docs))
     # all_docs = list(filter(lambda x: "cities/los angeles" in x.lower(), all_docs))
-    all_docs = list(filter(lambda x: "beverly-hills-6th-adopted092922" in x.lower(), all_docs))
-    
+    # all_docs = list(filter(lambda x: "beverly-hills-6th-adopted092922" in x, all_docs))
+    all_docs = list(filter(lambda x: "burbank" in x, all_docs))
     
     # all_docs = list(filter(lambda x: 
     #                         all(substring not in x.lower() for substring in 
