@@ -410,7 +410,8 @@ def main():
         # count_of_apns = df['table_rows'].apply(lambda x: len(x)).sum()
         accumulator["local"][city_name]["apns"] += count_apns(df)
         
-        print(df)
+        # print(df)
+
         # if len(df) > 0:
         #     if path_to_execute_on.stem in my_apn_datasets and any(meta['doc_name'] == path_to_execute_on.stem):
         #         target = PROJECT_ID + ":viewable_datasets." + path_to_execute_on.stem
@@ -437,24 +438,22 @@ def main():
 
     for df_container in dfs_bucket:
         print('Getting intersection...')
-        print(df_container)
-        server_intersection_df = generate_request(df_container)
-        print('done!')
+        # print(df_container)
+        server_intersection_gdfs = generate_request(df_container)
+        print('done! now writing to output_server.json')
+        print(server_intersection_gdfs.columns.tolist())
 
         # Write to a temp file for debugging
         with open('temp/output_server.json', 'w') as f:
-            f.write(server_intersection_df.to_json())
+            f.write(server_intersection_gdfs.to_json())
 
-    # print("request success")
-    for i, (key, value) in enumerate(accumulator["server"].items()):
-        # print(key)s
-        # print(value)
-        for doc in value["documents"]:
-            filtered_df = server_intersection_df[server_intersection_df['id'] == doc]
-            value["tables"] += filtered_df['table_name'].nunique()
-            value["apns"] += len(filtered_df)
 
-        
+    # for i, (key, value) in enumerate(accumulator["server"].items()):
+    #     for doc in value["documents"]:
+    #         filtered_df = server_intersection_gdfs[server_intersection_gdfs['id'] == doc]
+    #         value["tables"] += filtered_df['table_name'].nunique()
+    #         value["apns"] += len(filtered_df)
+
 
 
     data_for_markdown = []

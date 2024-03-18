@@ -49,11 +49,11 @@ def perform_query_v2(job_config, incoming_apns, parcel_table_name = 'all'):
             p.geometry AS geometry
         FROM
             `{PROJECT_ID}.parcels.{parcel_table_name}` AS p
-        WHERE 
-            REGEXP_CONTAINS(
-                REGEXP_REPLACE(p.APN, r'[-_]', ''), 
-                CONCAT(r'(?i)', r'(', STRING_AGG(@incoming_apns, '|'), ')')
-            )
+        JOIN 
+            UNNEST(@incoming_apns) AS incoming_apn
+        ON
+            REGEXP_REPLACE(LOWER(p.APN), '[-_]', '') = REGEXP_REPLACE(LOWER(incoming_apn), '[-_]', '')
+        
         -- WHERE
             -- p.APN IN UNNEST(@incoming_apns);
         -- WHERE
@@ -127,16 +127,17 @@ def perform_query(joined_table_list, job_config, parcel_table_name):
 def generate_request(incoming_df_container):
     # table_list = list(map(lambda x: x.replace("(", "⁀").replace(")", "‿"), table_list))
     
-    dfs = []
+    # dfs = []
     incoming_df = incoming_df_container["df"]
+    newGdf = gpd.GeoDataFrame(columns=['geometry'], geometry='geometry')
 
     # for table_list in list(chunked(table_list, 20)):
     for index, row in incoming_df.iterrows():
         # joined_table_list = table_name
         table_name = str(row["table_name"])
         parcels = list(row["table_rows"])
-
-    
+        table_order = str(row["table_order"])
+        
         for parcels_chunk in list(chunked(parcels, 2000)):
 
             apns_chunk = list(map(lambda x: x["APN"], parcels_chunk))
@@ -150,27 +151,49 @@ def generate_request(incoming_df_container):
 
             print("gettings result...")
             results = query_job.result()
+            total_rows = results.total_rows
             print("done getting result!")
-            print(results.total_rows)
-            print(list(results))
+            print(total_rows)
+            # print(list(results))
 
-            if results.total_rows > 0:
-                dfs.append({'table_name': table_name, 'query_job': query_job})
             
-            # Increment the offset for the next iteration
-            # offset += batch_size
+            # if total_rows > 0:
+            gdf = query_job.to_geodataframe(geography_column="geometry")
+            gdf['table_order'] = table_order
+            print("huh")
+            print(gdf)
+            print("buh")
+            newGdf = newGdf.append(gdf, ignore_index=True)
+            
+            # if not isinstance(newGdf, gpd.GeoDataFrame):
+            #     newGdf = gdf
+            #     print("buh")
+            # else:
+            #     print("guh 1")
+            #     print(newGdf)
+            #     newGdf = newGdf.merge(gdf, on='table_order')
+            #     print("guh 2")
+            #     print(newGdf)
 
-            # Stop the loop if the last batch had fewer than batch_size rows
-            # if results.total_rows < batch_size:
-            #     break 
+            print("new chunk processed")
+            print(newGdf)
+        # dfs.append({'table_name': table_name, 'table': newGdf, 'table_order': table_order})
             
+        # Increment the offset for the next iteration
+        # offset += batch_size
+
+        # Stop the loop if the last batch had fewer than batch_size rows
+        # if results.total_rows < batch_size:
+        #     break 
+    if newGdf.empty:
+        raise Exception("newGdf is empty")
 
     print("converting query data to geopandas dataframe...")
-    dfs = list(map(convert_to_geopandas_dataframe, dfs))
-
+    # newGdf = newGdf.set_geometry("geometry")
+    print(newGdf)
     print("done 1!")
     # merged_gdf = pd.concat(dfs, ignore_index=True)
     # print("done 2!")
     # merged_gdf['id'] = merged_gdf['id'].replace("⁀", "(").replace("‿", ")")
     # print("done 3!")
-    return dfs
+    return newGdf
