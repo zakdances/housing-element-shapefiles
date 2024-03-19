@@ -277,3 +277,8 @@ Columns
 |--:|-----------|--------:|-----:|------|------:|------|-----------|-------------------------------------------------|
 |  1|Los Angeles|        1|     2|113204|      5|SCAG  |Los Angeles|[link](<counties/Los Angeles/cities/Los Angeles>)|
 
+# SCAG
+|   | city  |documents|tables|apns|parcels|agency|  county   |                    link                     |
+|--:|-------|--------:|-----:|----|------:|------|-----------|---------------------------------------------|
+|  1|Burbank|        5|    12|3145|   3098|SCAG  |Los Angeles|[link](<counties/Los Angeles/cities/Burbank>)|
+

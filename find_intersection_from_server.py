@@ -53,13 +53,6 @@ def perform_query_v2(job_config, incoming_apns, parcel_table_name = 'all'):
             UNNEST(@incoming_apns) AS incoming_apn
         ON
             REGEXP_REPLACE(LOWER(p.APN), '[-_]', '') = REGEXP_REPLACE(LOWER(incoming_apn), '[-_]', '')
-        
-        -- WHERE
-            -- p.APN IN UNNEST(@incoming_apns);
-        -- WHERE
-            -- REGEXP_REPLACE(p.APN, r'[-_\s]', '') LIKE CONCAT('%', REGEXP_REPLACE(incoming_apns, r'[-_\s]', ''), '%')
-
-        -- LIMIT 5
 
     """
     print("starting intersection query for " + "joined_table_list_string")
@@ -129,6 +122,7 @@ def generate_request(incoming_df_container):
     
     # dfs = []
     incoming_df = incoming_df_container["df"]
+    county = incoming_df["county_name"]
     newGdf = gpd.GeoDataFrame(columns=['geometry'], geometry='geometry')
 
     # for table_list in list(chunked(table_list, 20)):
@@ -147,7 +141,7 @@ def generate_request(incoming_df_container):
 
             # while True:
             job_config2 = bigquery.QueryJobConfig()
-            query_job = perform_query_v2(job_config2, apns_chunk)
+            query_job = perform_query_v2(job_config2, apns_chunk, county)
 
             print("gettings result...")
             results = query_job.result()
@@ -160,9 +154,7 @@ def generate_request(incoming_df_container):
             # if total_rows > 0:
             gdf = query_job.to_geodataframe(geography_column="geometry")
             gdf['table_order'] = table_order
-            print("huh")
-            print(gdf)
-            print("buh")
+            # print(gdf)
             newGdf = newGdf.append(gdf, ignore_index=True)
             
             # if not isinstance(newGdf, gpd.GeoDataFrame):
@@ -185,8 +177,8 @@ def generate_request(incoming_df_container):
         # Stop the loop if the last batch had fewer than batch_size rows
         # if results.total_rows < batch_size:
         #     break 
-    if newGdf.empty:
-        raise Exception("newGdf is empty")
+    # if newGdf.empty:
+    #     raise Exception("newGdf is empty")
 
     print("converting query data to geopandas dataframe...")
     # newGdf = newGdf.set_geometry("geometry")

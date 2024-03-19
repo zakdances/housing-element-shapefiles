@@ -7,6 +7,7 @@ from collections import OrderedDict
 import json
 # import jsonlines
 from itertools import groupby
+from more_itertools import bucket, unique_everseen
 import random
 import geopandas as gpd
 import pandas as pd
@@ -231,20 +232,53 @@ def create_filtered_json(file_name, apn_rows):
         "table_rows": rows
     }
 
-def generate_data_for_markdown(accumulator):
+def generate_data_for_markdown(df_containers):
     data_for_markdown = []
-    for i, (key, value) in enumerate(accumulator["local"].items()):
-        data_for_markdown.append(OrderedDict({
+    s = bucket(df_containers, key=lambda x: x["city_name"])
+    s_list = list(s)
+    for i, key in enumerate( s_list ):
+        # print(key)
+        df_containers_by_city= list( s[key] )
+
+        orderedDict = OrderedDict({
             "": i + 1,
             "city": key,
-            "documents": len(value["documents"]),
-            "tables": value["tables"],
-            "apns": value["apns"],
+            "documents": len(df_containers_by_city),
+            "tables": 0,
+            "apns": 0,
             "parcels": 0,
-            "agency": value["agency"],
-            "county": value["county"],
-            "link": value["link"],
-        }))
+            "agency": "",
+            "county": "",
+            "link": "",
+        })
+
+        for df_container in df_containers_by_city:
+            local_df = df_container["df"]
+            server_df = df_container["server_gdf"]
+
+            orderedDict["tables"] += server_df["table_order"].nunique()
+            orderedDict["apns"] += count_apns(local_df)
+            orderedDict["parcels"] += len(server_df)
+            orderedDict["agency"] = df_container["agency_name"]
+            orderedDict["county"] = df_container["county_name"]
+            orderedDict["link"] = df_container["link"]
+            
+            # print(df_container['county_name'])
+        data_for_markdown.append(orderedDict)
+
+    # raise Exception("nice!")
+    # for i, (key, value) in enumerate(df_containers["local"].items()):
+    #     data_for_markdown.append(OrderedDict({
+    #         "": i + 1,
+    #         "city": key,
+    #         "documents": len(value["documents"]),
+    #         "tables": value["tables"],
+    #         "apns": value["apns"],
+    #         "parcels": 0,
+    #         "agency": value["agency"],
+    #         "county": value["county"],
+    #         "link": value["link"],
+    #     }))
     return data_for_markdown
 
 def getPaths(orgs_to_process):
@@ -302,7 +336,7 @@ def main():
         
     # print(SACOG)
     # orgs_to_process = (ABAG + SACOG + SCAG)
-    orgs_to_process = SCAG
+    orgs_to_process = SACOG
 
     all_docs = getPaths(orgs_to_process)
     # valid_range = string.ascii_lowercase[:8]
@@ -310,7 +344,7 @@ def main():
     # all_docs = list(filter(lambda x: "counties/orange" in x.lower(), all_docs))
     # all_docs = list(filter(lambda x: "cities/los angeles" in x.lower(), all_docs))
     # all_docs = list(filter(lambda x: "beverly-hills-6th-adopted092922" in x, all_docs))
-    all_docs = list(filter(lambda x: "burbank" in x, all_docs))
+    # all_docs = list(filter(lambda x: "burbank" in x, all_docs))
     
     # all_docs = list(filter(lambda x: 
     #                         all(substring not in x.lower() for substring in 
@@ -357,13 +391,7 @@ def main():
         county_name = path_to_execute_on.parent.parent.parent.parent.stem # TODO: This should probably come from Main
         agency_name = get_agency_from_city_name(city_name)
         
-        df_container = {
-            "city_name": city_name,
-            "county_name": county_name,
-            "agency_name": agency_name,
-            "doc_file_name": path_to_execute_on.stem,
-            "df": None
-        }
+        
 
         aws_path = path_to_execute_on / "aws"
         camelot_path = path_to_execute_on / "camelot"
@@ -384,8 +412,18 @@ def main():
         accumulator["local"][city_name]["documents"].append(path_to_execute_on.stem)
         accumulator["server"][city_name]["documents"].append(path_to_execute_on.stem)
         # counties/Alameda/cities/Albany
+
+        df_container = {
+            "city_name": city_name,
+            "county_name": county_name,
+            "agency_name": agency_name,
+            "doc_file_name": path_to_execute_on.stem,
+            "link": repo_link,
+            "df": None,
+            "server_gdf": None # gdf from server with geometry
+        }
         
-        input_path = path_to_execute_on.parents[1] / "input" / (path_to_execute_on.stem + ".pdf")
+        # input_path = path_to_execute_on.parents[1] / "input" / (path_to_execute_on.stem + ".pdf")
         # print(input_path)
         # print(str(os.path.exists(input_path)))
         print("----------------------")
@@ -441,7 +479,8 @@ def main():
         # print(df_container)
         server_intersection_gdfs = generate_request(df_container)
         print('done! now writing to output_server.json')
-        print(server_intersection_gdfs.columns.tolist())
+        # print(server_intersection_gdfs.columns.tolist())
+        df_container["server_gdf"] = server_intersection_gdfs
 
         # Write to a temp file for debugging
         with open('temp/output_server.json', 'w') as f:
@@ -456,15 +495,38 @@ def main():
 
 
 
-    data_for_markdown = []
-    data_for_markdown.extend( generate_data_for_markdown(accumulator) )
-    for i, (key, value) in enumerate(accumulator["server"].items()):
-        city_obj = [item for item in data_for_markdown if item["city"] == key]
-        city_obj = next(iter(city_obj), None)
-        city_obj["parcels"] += value["apns"]
+    data_for_markdown = generate_data_for_markdown(dfs_bucket)
+    data_for_markdown.sort(key=lambda x: (x['agency'], x['city']))
+    # list_of_agencies = map
+    print(data_for_markdown)
+    
+
+    city_groups = bucket(data_for_markdown, key=lambda x: x["agency"])
+
+    for key in list( city_groups ):
+        city_group = list( city_groups[key] )
+        column_headers = list( city_group[0].keys() )
+        values = list(map(lambda x: list(x.values()), city_group) )
+
+        writer = MarkdownTableWriter(
+                # table_name="example_table",
+                headers=column_headers,
+                value_matrix=values,
+            )
+        
+        markdown_table_string = "# " + city_group[0]["agency"] + '\n' + writer.dumps() + '\n'
+        with open("./README.md", 'a') as file:
+            file.write(markdown_table_string)
+
+    print("completely done!")
+    return
+    # for i, (key, value) in enumerate(accumulator["server"].items()):
+    #     city_obj = [item for item in data_for_markdown if item["city"] == key]
+    #     city_obj = next(iter(city_obj), None)
+    #     city_obj["parcels"] += value["apns"]
+
     
     if len(data_for_markdown) > 0:
-        
 
         # Create an empty dictionary to store the grouped lists
         grouped_data = {}
