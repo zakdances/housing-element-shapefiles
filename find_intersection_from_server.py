@@ -38,7 +38,7 @@ def convert_to_geopandas_dataframe(query_job_obj):
     print("done!")
     return query_df
 
-def perform_query_v2(job_config, incoming_apns, parcel_table_name = 'all'):
+def perform_query_v2(job_config, incoming_apns, county, parcel_table_name = 'all'):
     # print(incoming_apns)
     query_3 = f"""
         SELECT
@@ -52,7 +52,9 @@ def perform_query_v2(job_config, incoming_apns, parcel_table_name = 'all'):
         JOIN 
             UNNEST(@incoming_apns) AS incoming_apn
         ON
-            REGEXP_REPLACE(LOWER(p.APN), '[-_]', '') = REGEXP_REPLACE(LOWER(incoming_apn), '[-_]', '')
+            RTRIM( REGEXP_REPLACE(LOWER(p.APN), '[-_]', ''), '0') = RTRIM( REGEXP_REPLACE(LOWER(incoming_apn), '[-_]', ''), '0')
+            AND
+            LOWER(p.county) = LOWER('{county}')
 
     """
     print("starting intersection query for " + "joined_table_list_string")
@@ -121,15 +123,17 @@ def generate_request(incoming_df_container):
     # table_list = list(map(lambda x: x.replace("(", "⁀").replace(")", "‿"), table_list))
     
     # dfs = []
-    incoming_df = incoming_df_container["df"]
-    county = incoming_df["county_name"]
-    newGdf = gpd.GeoDataFrame(columns=['geometry'], geometry='geometry')
+    incoming_df = incoming_df_container.df
+    county = incoming_df_container.county_name
+    newGdf = gpd.GeoDataFrame(columns=['apn', 'geometry'], geometry='geometry')
+    parcel_apns_debug = []
 
     # for table_list in list(chunked(table_list, 20)):
     for index, row in incoming_df.iterrows():
         # joined_table_list = table_name
-        table_name = str(row["table_name"])
+        # table_name = str(row["table_name"])
         parcels = list(row["table_rows"])
+        parcel_apns_debug.extend( list( map(lambda x: x['APN'], parcels) ) )
         table_order = str(row["table_order"])
         
         for parcels_chunk in list(chunked(parcels, 2000)):
@@ -155,11 +159,10 @@ def generate_request(incoming_df_container):
             gdf = query_job.to_geodataframe(geography_column="geometry")
             gdf['table_order'] = table_order
             # print(gdf)
-            newGdf = newGdf.append(gdf, ignore_index=True)
+            newGdf = pd.concat([newGdf, gdf], ignore_index=True)
             
-            # if not isinstance(newGdf, gpd.GeoDataFrame):
-            #     newGdf = gdf
-            #     print("buh")
+            if not isinstance(newGdf, gpd.GeoDataFrame):
+                raise Exception("not a geodataframe!")
             # else:
             #     print("guh 1")
             #     print(newGdf)
@@ -168,7 +171,8 @@ def generate_request(incoming_df_container):
             #     print(newGdf)
 
             print("new chunk processed")
-            print(newGdf)
+            # print(newGdf)
+        
         # dfs.append({'table_name': table_name, 'table': newGdf, 'table_order': table_order})
             
         # Increment the offset for the next iteration
@@ -182,10 +186,24 @@ def generate_request(incoming_df_container):
 
     print("converting query data to geopandas dataframe...")
     # newGdf = newGdf.set_geometry("geometry")
-    print(newGdf)
+    # print(newGdf)
     print("done 1!")
+    print(incoming_df_container.doc_file_name)
+    column_values_debug = newGdf['apn'].tolist()
+    print(find_non_shared_strings(parcel_apns_debug, column_values_debug))
+
     # merged_gdf = pd.concat(dfs, ignore_index=True)
     # print("done 2!")
     # merged_gdf['id'] = merged_gdf['id'].replace("⁀", "(").replace("‿", ")")
     # print("done 3!")
     return newGdf
+
+def remove_hyphens_and_underscores(s):
+    s = s.rstrip('0')
+    return s.replace('-', '').replace('_', '')
+
+def find_non_shared_strings(list1, list2):
+    set1 = {remove_hyphens_and_underscores(s) for s in list1}
+    set2 = {remove_hyphens_and_underscores(s) for s in list2}
+    non_shared = set1.symmetric_difference(set2)
+    return non_shared

@@ -24,6 +24,7 @@ from py_markdown_table.markdown_table import markdown_table
 from pytablewriter import MarkdownTableWriter
 
 from src.find.find import find_tables_and_parcels
+from src.util.df_container import Df_Container
 from update_doc_metadata import update_doc_metadata
 from thumbnail import generate_thumbnail
 from generate_shapefiles import generate_shapefile
@@ -234,7 +235,7 @@ def create_filtered_json(file_name, apn_rows):
 
 def generate_data_for_markdown(df_containers):
     data_for_markdown = []
-    s = bucket(df_containers, key=lambda x: x["city_name"])
+    s = bucket(df_containers, key=lambda x: x.city_name)
     s_list = list(s)
     for i, key in enumerate( s_list ):
         # print(key)
@@ -253,15 +254,18 @@ def generate_data_for_markdown(df_containers):
         })
 
         for df_container in df_containers_by_city:
-            local_df = df_container["df"]
-            server_df = df_container["server_gdf"]
+            local_df = df_container.df
+            server_df = df_container.server_gdf
 
-            orderedDict["tables"] += server_df["table_order"].nunique()
+            # print(df_container['doc_file_name'])
+            # print(server_df)
+            if "table_order" in server_df.columns:
+                orderedDict["tables"] += server_df["table_order"].nunique()
             orderedDict["apns"] += count_apns(local_df)
             orderedDict["parcels"] += len(server_df)
-            orderedDict["agency"] = df_container["agency_name"]
-            orderedDict["county"] = df_container["county_name"]
-            orderedDict["link"] = df_container["link"]
+            orderedDict["agency"] = df_container.agency_name
+            orderedDict["county"] = df_container.county_name
+            orderedDict["link"] = df_container.link
             
             # print(df_container['county_name'])
         data_for_markdown.append(orderedDict)
@@ -336,15 +340,17 @@ def main():
         
     # print(SACOG)
     # orgs_to_process = (ABAG + SACOG + SCAG)
-    orgs_to_process = SACOG
+    orgs_to_process = ABAG
 
     all_docs = getPaths(orgs_to_process)
     # valid_range = string.ascii_lowercase[:8]
     # all_docs = list(filter(lambda x: "counties/los angeles" in x.lower(), all_docs))
     # all_docs = list(filter(lambda x: "counties/orange" in x.lower(), all_docs))
     # all_docs = list(filter(lambda x: "cities/los angeles" in x.lower(), all_docs))
+    # all_docs = list(filter(lambda x: "cities/davis" in x.lower(), all_docs))
     # all_docs = list(filter(lambda x: "beverly-hills-6th-adopted092922" in x, all_docs))
     # all_docs = list(filter(lambda x: "burbank" in x, all_docs))
+    all_docs = list(filter(lambda x: "cities/petaluma" in x.lower(), all_docs))
     
     # all_docs = list(filter(lambda x: 
     #                         all(substring not in x.lower() for substring in 
@@ -375,17 +381,6 @@ def main():
     for path_to_execute_on in sorted(all_docs, key=lambda x: Path(x).name.lower()):
         path_to_execute_on = Path(path_to_execute_on)
 
-        # path_to_execute_on = Path(TEST_OUTPUT_DIR_PATH_sacramento_6th_draft040821 + "/aws")
-        # path_to_execute_on = Path(TEST_OUTPUT_DIR_PATH_sacramento_6th_adopted082021 + "/aws")
-        # path_to_execute_on = Path(TEST_OUTPUT_DIR_PATH_mill_valley_6th_draft082322 + "/aws")
-        # test_file = Path("counties/Sacramento/cities/Citrus Heights/output/citrus-heights-6th-adopted052821").resolve()
-        # test_file = Path("counties/Yuba/cities/Wheatland/output/wheatland-6th-draft080621").resolve()
-        # test_file = Path("counties/Sacramento/cities/Elk Grove/output/elk-grove-6th-adopted061021").resolve()
-        # test_file = Path("counties/El Dorado/cities/Placerville/output/placerville-6th-draft111022").resolve()
-        # if path_to_execute_on != test_file:
-        #     continue
-
-        # print(Path(path_to_execute_on).name)
         
         city_name = path_to_execute_on.parent.parent.stem # TODO: This should probably come from Main
         county_name = path_to_execute_on.parent.parent.parent.parent.stem # TODO: This should probably come from Main
@@ -395,6 +390,7 @@ def main():
 
         aws_path = path_to_execute_on / "aws"
         camelot_path = path_to_execute_on / "camelot"
+        print(path_to_execute_on)
         chosen_path = None
         if aws_path.exists():
             chosen_path = aws_path
@@ -413,15 +409,17 @@ def main():
         accumulator["server"][city_name]["documents"].append(path_to_execute_on.stem)
         # counties/Alameda/cities/Albany
 
-        df_container = {
-            "city_name": city_name,
-            "county_name": county_name,
-            "agency_name": agency_name,
-            "doc_file_name": path_to_execute_on.stem,
-            "link": repo_link,
-            "df": None,
-            "server_gdf": None # gdf from server with geometry
-        }
+        df_container = Df_Container(
+            city_name = city_name,
+            county_name = county_name,
+            agency_name = agency_name,
+            doc_file_name = path_to_execute_on.stem,
+            link = repo_link,
+            df = None,
+            server_gdf = None # gdf from server with geometry
+        )
+        
+
         
         # input_path = path_to_execute_on.parents[1] / "input" / (path_to_execute_on.stem + ".pdf")
         # print(input_path)
@@ -439,7 +437,7 @@ def main():
         #     return s.replace(' ', '').replace('-', '').replace('_', '')
 
         df = find_tables_and_parcels(chosen_path)
-        df_container["df"] = df
+        df_container.df = df
         dfs_bucket.append(df_container)
         # df["table_rows"] = df['table_rows'].apply(lambda x: [remove_special_chars(item['APN']) for item in x])
         df.to_json('temp/output.json', orient='records') # For debugging
@@ -456,7 +454,8 @@ def main():
         #         bq_client_to_db(df, target, HOUSING_ELEMENT_SCHEMA_FILEPATH)
         #         update_doc_metadata(input_path, city_name, county_name, "CA", "USA")
         #         generate_thumbnail(input_path, PROJECT_ID)
-
+        print(df_container.doc_file_name)
+    return
     
   
     paths_that_need_shapefiles = list(map(lambda x: {"path": Path(x), "output": Path(x) / "misc"}, all_docs))
@@ -480,7 +479,7 @@ def main():
         server_intersection_gdfs = generate_request(df_container)
         print('done! now writing to output_server.json')
         # print(server_intersection_gdfs.columns.tolist())
-        df_container["server_gdf"] = server_intersection_gdfs
+        df_container.server_gdf = server_intersection_gdfs
 
         # Write to a temp file for debugging
         with open('temp/output_server.json', 'w') as f:
@@ -498,7 +497,7 @@ def main():
     data_for_markdown = generate_data_for_markdown(dfs_bucket)
     data_for_markdown.sort(key=lambda x: (x['agency'], x['city']))
     # list_of_agencies = map
-    print(data_for_markdown)
+    # print(data_for_markdown)
     
 
     city_groups = bucket(data_for_markdown, key=lambda x: x["agency"])
@@ -518,47 +517,9 @@ def main():
         with open("./README.md", 'a') as file:
             file.write(markdown_table_string)
 
+
+
     print("completely done!")
-    return
-    # for i, (key, value) in enumerate(accumulator["server"].items()):
-    #     city_obj = [item for item in data_for_markdown if item["city"] == key]
-    #     city_obj = next(iter(city_obj), None)
-    #     city_obj["parcels"] += value["apns"]
-
-    
-    if len(data_for_markdown) > 0:
-
-        # Create an empty dictionary to store the grouped lists
-        grouped_data = {}
-
-        # Iterate through the list of dictionaries and group them by the "agency" key
-        for item in data_for_markdown:
-            category = item["agency"]
-            if category not in grouped_data:
-                grouped_data[category] = []
-            grouped_data[category].append(item)
-
-        # Convert the grouped data dictionary to a list of lists
-        # delete_readme_tables()
-        groups = list(grouped_data.values())
-        for group in groups:
-
-            # local_markdown = markdown_table(group).set_params(quote = False).get_markdown()
-            # local_markdown = "```" + local_markdown + "\n" + "```"
-            # print("found locally:")
-            # print(local_markdown)
-            # with open("./README.md", 'a') as file:
-            #     file.write("# " + group[0]["agency"] + '\n' + local_markdown + '\n')
-            print(group)
-
-            writer = MarkdownTableWriter(
-                # table_name="example_table",
-                headers=list(group[0].keys()),
-                value_matrix=list(map(lambda x: list(x.values()), group)),
-            )
-            markdown_table_string = "# " + group[0]["agency"] + '\n' + writer.dumps() + '\n'
-            with open("./README.md", 'a') as file:
-                file.write(markdown_table_string)
 
     return
 
