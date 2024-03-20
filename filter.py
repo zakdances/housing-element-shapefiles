@@ -6,8 +6,9 @@ from time import sleep
 from collections import OrderedDict
 import json
 # import jsonlines
+import asyncio
 from itertools import groupby
-from more_itertools import bucket, unique_everseen
+from more_itertools import bucket, unique_everseen, chunked
 import random
 import geopandas as gpd
 import pandas as pd
@@ -46,10 +47,6 @@ TEST_OUTPUT_DIR_PATH_mill_valley_6th_draft082322 = os.getenv('TEST_OUTPUT_DIR_PA
 
 with open(MAIN_FILE_PATH, 'r') as file:
     main_data = json.load(file)
-
-def chunk_list(lst, chunk_size):
-    chunked_list = [lst[i:i + chunk_size] for i in range(0, len(lst), chunk_size)]
-    return chunked_list
 
 def get_agency_from_city_name(city_name):
     # with open(MAIN_FILE_PATH, 'r') as file:
@@ -233,58 +230,6 @@ def create_filtered_json(file_name, apn_rows):
         "table_rows": rows
     }
 
-def generate_data_for_markdown(df_containers):
-    data_for_markdown = []
-    s = bucket(df_containers, key=lambda x: x.city_name)
-    s_list = list(s)
-    for i, key in enumerate( s_list ):
-        # print(key)
-        df_containers_by_city= list( s[key] )
-
-        orderedDict = OrderedDict({
-            "": i + 1,
-            "city": key,
-            "documents": len(df_containers_by_city),
-            "tables": 0,
-            "apns": 0,
-            "parcels": 0,
-            "agency": "",
-            "county": "",
-            "link": "",
-        })
-
-        for df_container in df_containers_by_city:
-            local_df = df_container.df
-            server_df = df_container.server_gdf
-
-            # print(df_container['doc_file_name'])
-            # print(server_df)
-            if "table_order" in server_df.columns:
-                orderedDict["tables"] += server_df["table_order"].nunique()
-            orderedDict["apns"] += count_apns(local_df)
-            orderedDict["parcels"] += len(server_df)
-            orderedDict["agency"] = df_container.agency_name
-            orderedDict["county"] = df_container.county_name
-            orderedDict["link"] = df_container.link
-            
-            # print(df_container['county_name'])
-        data_for_markdown.append(orderedDict)
-
-    # raise Exception("nice!")
-    # for i, (key, value) in enumerate(df_containers["local"].items()):
-    #     data_for_markdown.append(OrderedDict({
-    #         "": i + 1,
-    #         "city": key,
-    #         "documents": len(value["documents"]),
-    #         "tables": value["tables"],
-    #         "apns": value["apns"],
-    #         "parcels": 0,
-    #         "agency": value["agency"],
-    #         "county": value["county"],
-    #         "link": value["link"],
-    #     }))
-    return data_for_markdown
-
 def getPaths(orgs_to_process):
     all_docs = []
     for county_dir in os.scandir(COUNTIES_DIR_PATH):
@@ -316,11 +261,7 @@ def getPaths(orgs_to_process):
                     #     print("___________ no input: ")
     return all_docs
 
-def count_apns(df):
-    count_of_apns = df['table_rows'].apply(lambda x: len(x)).sum()
-    return count_of_apns
-
-def main():
+async def main():
 
     SCAG = []
     ABAG = []
@@ -350,7 +291,7 @@ def main():
     # all_docs = list(filter(lambda x: "cities/davis" in x.lower(), all_docs))
     # all_docs = list(filter(lambda x: "beverly-hills-6th-adopted092922" in x, all_docs))
     # all_docs = list(filter(lambda x: "burbank" in x, all_docs))
-    all_docs = list(filter(lambda x: "cities/petaluma" in x.lower(), all_docs))
+    # all_docs = list(filter(lambda x: "cities/petaluma" in x.lower(), all_docs))
     
     # all_docs = list(filter(lambda x: 
     #                         all(substring not in x.lower() for substring in 
@@ -372,10 +313,10 @@ def main():
     
 
     # For logging purposes
-    accumulator = {
-        "local": {},
-        "server": {}
-        }
+    # accumulator = {
+    #     "local": {},
+    #     "server": {}
+    #     }
     dfs_bucket = []
 
     for path_to_execute_on in sorted(all_docs, key=lambda x: Path(x).name.lower()):
@@ -401,12 +342,12 @@ def main():
         
         # For logging purposes
         repo_link = "[link](<counties/" + county_name + "/cities/" + city_name + ">)"
-        if not city_name in accumulator["local"]:
-            accumulator["local"][city_name] = {"documents": [], "tables": 0, "apns": 0, "agency": agency_name, "county": county_name, "link": repo_link}
-        if not city_name in accumulator["server"]:
-            accumulator["server"][city_name] = {"documents": [], "tables": 0, "apns": 0, "agency": agency_name, "county": county_name, "link": repo_link}
-        accumulator["local"][city_name]["documents"].append(path_to_execute_on.stem)
-        accumulator["server"][city_name]["documents"].append(path_to_execute_on.stem)
+        # if not city_name in accumulator["local"]:
+        #     accumulator["local"][city_name] = {"documents": [], "tables": 0, "apns": 0, "agency": agency_name, "county": county_name, "link": repo_link}
+        # if not city_name in accumulator["server"]:
+        #     accumulator["server"][city_name] = {"documents": [], "tables": 0, "apns": 0, "agency": agency_name, "county": county_name, "link": repo_link}
+        # accumulator["local"][city_name]["documents"].append(path_to_execute_on.stem)
+        # accumulator["server"][city_name]["documents"].append(path_to_execute_on.stem)
         # counties/Alameda/cities/Albany
 
         df_container = Df_Container(
@@ -414,11 +355,12 @@ def main():
             county_name = county_name,
             agency_name = agency_name,
             doc_file_name = path_to_execute_on.stem,
+            doc_path = path_to_execute_on,
             link = repo_link,
             df = None,
             server_gdf = None # gdf from server with geometry
         )
-        
+
 
         
         # input_path = path_to_execute_on.parents[1] / "input" / (path_to_execute_on.stem + ".pdf")
@@ -436,15 +378,14 @@ def main():
         # def remove_special_chars(s):
         #     return s.replace(' ', '').replace('-', '').replace('_', '')
 
-        df = find_tables_and_parcels(chosen_path)
-        df_container.df = df
+        df_container.df = find_tables_and_parcels(chosen_path)
         dfs_bucket.append(df_container)
         # df["table_rows"] = df['table_rows'].apply(lambda x: [remove_special_chars(item['APN']) for item in x])
-        df.to_json('temp/output.json', orient='records') # For debugging
+        df_container.df.to_json('temp/output.json', orient='records') # For debugging
 
-        accumulator["local"][city_name]["tables"] += len(df)
+        # accumulator["local"][city_name]["tables"] += len(df)
         # count_of_apns = df['table_rows'].apply(lambda x: len(x)).sum()
-        accumulator["local"][city_name]["apns"] += count_apns(df)
+        # accumulator["local"][city_name]["apns"] += Df_Container.count_apns(df)
         
         # print(df)
 
@@ -454,36 +395,30 @@ def main():
         #         bq_client_to_db(df, target, HOUSING_ELEMENT_SCHEMA_FILEPATH)
         #         update_doc_metadata(input_path, city_name, county_name, "CA", "USA")
         #         generate_thumbnail(input_path, PROJECT_ID)
-        print(df_container.doc_file_name)
-    return
     
   
     paths_that_need_shapefiles = list(map(lambda x: {"path": Path(x), "output": Path(x) / "misc"}, all_docs))
     paths_that_need_shapefiles = list(filter(lambda x: x["path"].stem in my_apn_datasets, paths_that_need_shapefiles))
     
-    for chunk in chunk_list(paths_that_need_shapefiles, 50):
-        # for path_obj in chunk:
-        #     print(path_obj)
-            # print("path_to_execute_on")
-            # print(path_obj["path"])
-            # print(path_obj["output"])
+    semaphore = asyncio.Semaphore(10)
 
-        # generate_shapefile(chunk)
-        # print('done')
-        break
+    async def _execute_task(df_container):
+        async with semaphore:
+            await generate_request(df_container)
+    
+    print('Getting intersection...')
+    results = await asyncio.gather(*[_execute_task(df_container) for df_container in dfs_bucket])
+    if len(results) != len(dfs_bucket):
+        raise Exception("server results and bucket are not the same length")
 
+    for i, df_container in enumerate(dfs_bucket):
+        server_intersection_gdf = results[i]
+        df_container.server_gdf = server_intersection_gdf
 
-    for df_container in dfs_bucket:
-        print('Getting intersection...')
-        # print(df_container)
-        server_intersection_gdfs = generate_request(df_container)
         print('done! now writing to output_server.json')
-        # print(server_intersection_gdfs.columns.tolist())
-        df_container.server_gdf = server_intersection_gdfs
-
         # Write to a temp file for debugging
         with open('temp/output_server.json', 'w') as f:
-            f.write(server_intersection_gdfs.to_json())
+            f.write(df_container.server_gdf.to_json())
 
 
     # for i, (key, value) in enumerate(accumulator["server"].items()):
@@ -494,11 +429,8 @@ def main():
 
 
 
-    data_for_markdown = generate_data_for_markdown(dfs_bucket)
+    data_for_markdown = Df_Container.generate_data_for_markdown(dfs_bucket)
     data_for_markdown.sort(key=lambda x: (x['agency'], x['city']))
-    # list_of_agencies = map
-    # print(data_for_markdown)
-    
 
     city_groups = bucket(data_for_markdown, key=lambda x: x["agency"])
 
@@ -508,7 +440,6 @@ def main():
         values = list(map(lambda x: list(x.values()), city_group) )
 
         writer = MarkdownTableWriter(
-                # table_name="example_table",
                 headers=column_headers,
                 value_matrix=values,
             )
@@ -517,6 +448,10 @@ def main():
         with open("./README.md", 'a') as file:
             file.write(markdown_table_string)
 
+
+    print("generating shapefiles...")
+    for df_container in dfs_bucket:
+        generate_shapefile(df_container.server_gdf, df_container.shapefile_output_dir())
 
 
     print("completely done!")

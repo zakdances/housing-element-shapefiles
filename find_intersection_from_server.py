@@ -57,7 +57,7 @@ def perform_query_v2(job_config, incoming_apns, county, parcel_table_name = 'all
             LOWER(p.county) = LOWER('{county}')
 
     """
-    print("starting intersection query for " + "joined_table_list_string")
+    print("starting intersection query for " + str(len(incoming_apns)))
     print("at " + f"""{PROJECT_ID}.parcels.{parcel_table_name}""")
 
     # Set up query parameters
@@ -119,7 +119,7 @@ def perform_query(joined_table_list, job_config, parcel_table_name):
     print("done executing query!")
     return query_job
 
-def generate_request(incoming_df_container):
+async def generate_request(incoming_df_container):
     # table_list = list(map(lambda x: x.replace("(", "⁀").replace(")", "‿"), table_list))
     
     # dfs = []
@@ -128,6 +128,7 @@ def generate_request(incoming_df_container):
     newGdf = gpd.GeoDataFrame(columns=['apn', 'geometry'], geometry='geometry')
     parcel_apns_debug = []
 
+    print("Starting server query for " + incoming_df_container.doc_file_name)
     # for table_list in list(chunked(table_list, 20)):
     for index, row in incoming_df.iterrows():
         # joined_table_list = table_name
@@ -145,13 +146,13 @@ def generate_request(incoming_df_container):
 
             # while True:
             job_config2 = bigquery.QueryJobConfig()
-            query_job = perform_query_v2(job_config2, apns_chunk, county)
+            query_job = perform_query_v2(job_config2, apns_chunk, county, 'all_clustered_by_county')
 
             print("gettings result...")
-            results = query_job.result()
+            results = await query_job.result()
             total_rows = results.total_rows
             print("done getting result!")
-            print(total_rows)
+            print("total rows: " + str(total_rows))
             # print(list(results))
 
             

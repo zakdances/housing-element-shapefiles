@@ -94,24 +94,6 @@ def find_apn_sample_in_excel_table(df, test_page_number):
                         break
                 if sample:
                     break
-
-                # if cell_value:
-                #     cell_value = cell_value.split(" ")[0]
-                # if is_probably_apn(cell_value):
-                #     sample = cell_value
-                #     break
-                # else:
-                #     if test_page_number == 395:
-                #         print("cell_value")
-                #         print(cell_value)
-
-
-    # for col in df.columns:
-    #     match_1 = any(term in col for term in search_terms)
-    #     match_2 = not any(term in col for term in negative_search_terms)
-
-    #     if match_1 and match_2:
-    #         return str(col)
     
     return sample
 
