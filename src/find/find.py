@@ -1,6 +1,7 @@
 import os
 import glob
 import re
+import asyncio
 from functools import reduce
 from enum import Enum
 from time import sleep
@@ -141,7 +142,9 @@ def sort_excel_files_by_page_number(lst):
     return sorted(lst, key=extract_numbers)
 
 
-def find_tables_and_parcels(city_output_directory):
+async def find_tables_and_parcels(city_output_directory):
+    # await asyncio.sleep(0.25)
+
     formatted_rows = []
 
     excel_doc_filepaths = [

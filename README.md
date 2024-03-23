@@ -129,3 +129,130 @@
 | 96|Woodside           |        2|     0|724 |      0|ABAG  |San Mateo    |[link](<counties/San Mateo/cities/Woodside>)           |
 | 97|Yountville         |        2|     3|21  |     18|ABAG  |Napa         |[link](<counties/Napa/cities/Yountville>)              |
 
+# SACOG
+|   |     city      |documents|tables|apns|parcels|agency|  county  |                       link                        |
+|--:|---------------|--------:|-----:|----|------:|------|----------|---------------------------------------------------|
+|  1|Auburn         |        3|     4|788 |    772|SACOG |Placer    |[link](<counties/Placer/cities/Auburn>)            |
+|  2|Citrus Heights |        3|     8|162 |    128|SACOG |Sacramento|[link](<counties/Sacramento/cities/Citrus Heights>)|
+|  3|Colfax         |        2|     3|58  |     56|SACOG |Placer    |[link](<counties/Placer/cities/Colfax>)            |
+|  4|Davis          |        3|    16|267 |    255|SACOG |Yolo      |[link](<counties/Yolo/cities/Davis>)               |
+|  5|Elk Grove      |        4|    30|775 |    459|SACOG |Sacramento|[link](<counties/Sacramento/cities/Elk Grove>)     |
+|  6|Folsom         |        3|    22|997 |    764|SACOG |Sacramento|[link](<counties/Sacramento/cities/Folsom>)        |
+|  7|Galt           |        4|    18|844 |    260|SACOG |Sacramento|[link](<counties/Sacramento/cities/Galt>)          |
+|  8|Isleton        |        3|     2|18  |     18|SACOG |Sacramento|[link](<counties/Sacramento/cities/Isleton>)       |
+|  9|Lincoln        |        2|     3|51  |     51|SACOG |Placer    |[link](<counties/Placer/cities/Lincoln>)           |
+| 10|Live Oak       |        2|     2|656 |    340|SACOG |Sutter    |[link](<counties/Sutter/cities/Live Oak>)          |
+| 11|Loomis         |        2|     2|122 |    114|SACOG |Placer    |[link](<counties/Placer/cities/Loomis>)            |
+| 12|Marysville     |        3|     9|522 |    522|SACOG |Yuba      |[link](<counties/Yuba/cities/Marysville>)          |
+| 13|Placerville    |        4|     5|122 |      5|SACOG |El Dorado |[link](<counties/El Dorado/cities/Placerville>)    |
+| 14|Rancho Cordova |        3|     6|157 |    145|SACOG |Sacramento|[link](<counties/Sacramento/cities/Rancho Cordova>)|
+| 15|Rocklin        |        3|     6|525 |    500|SACOG |Placer    |[link](<counties/Placer/cities/Rocklin>)           |
+| 16|Roseville      |        3|     3|649 |    502|SACOG |Placer    |[link](<counties/Placer/cities/Roseville>)         |
+| 17|Sacramento     |        3|     5|5836|   5660|SACOG |Sacramento|[link](<counties/Sacramento/cities/Sacramento>)    |
+| 18|West Sacramento|        4|     7|642 |    324|SACOG |Yolo      |[link](<counties/Yolo/cities/West Sacramento>)     |
+| 19|Wheatland      |        2|     1|108 |      1|SACOG |Yuba      |[link](<counties/Yuba/cities/Wheatland>)           |
+| 20|Winters        |        3|     7|666 |    342|SACOG |Yolo      |[link](<counties/Yolo/cities/Winters>)             |
+| 21|Woodland       |        5|     8|727 |    660|SACOG |Yolo      |[link](<counties/Yolo/cities/Woodland>)            |
+| 22|Yuba City      |        2|    10|505 |    351|SACOG |Sutter    |[link](<counties/Sutter/cities/Yuba City>)         |
+
+# ABAG
+|   |  city  |documents|tables|apns|parcels|agency|county|                  link                   |
+|--:|--------|--------:|-----:|----|------:|------|------|-----------------------------------------|
+|  1|Petaluma|        2|     6|130 |     84|ABAG  |Sonoma|[link](<counties/Sonoma/cities/Petaluma>)|
+
+# SCAG (Orange County)
+|   |       city        |documents|tables|apns |parcels|agency|county|                        link                        |
+|--:|-------------------|--------:|-----:|-----|------:|------|------|----------------------------------------------------|
+|  1|Aliso Viejo        |        2|     0|    0|      0|SCAG  |Orange|[link](<counties/Orange/cities/Aliso Viejo>)        |
+|  2|Anaheim            |        3|    11|1140 |    905|SCAG  |Orange|[link](<counties/Orange/cities/Anaheim>)            |
+|  3|Brea               |        4|     9|335  |    312|SCAG  |Orange|[link](<counties/Orange/cities/Brea>)               |
+|  4|Buena Park         |        3|     6|2122 |   2081|SCAG  |Orange|[link](<counties/Orange/cities/Buena Park>)         |
+|  5|Costa Mesa         |        4|    15|67   |     48|SCAG  |Orange|[link](<counties/Orange/cities/Costa Mesa>)         |
+|  6|Cypress            |        3|     5|828  |    607|SCAG  |Orange|[link](<counties/Orange/cities/Cypress>)            |
+|  7|Dana Point         |        5|     0|    0|      0|SCAG  |Orange|[link](<counties/Orange/cities/Dana Point>)         |
+|  8|Fountain Valley    |        3|     0|2    |      0|SCAG  |Orange|[link](<counties/Orange/cities/Fountain Valley>)    |
+|  9|Fullerton          |        1|     1|510  |    476|SCAG  |Orange|[link](<counties/Orange/cities/Fullerton>)          |
+| 10|Garden Grove       |        3|     6|1183 |   1176|SCAG  |Orange|[link](<counties/Orange/cities/Garden Grove>)       |
+| 11|Irvine             |        4|    17|23764|   9549|SCAG  |Orange|[link](<counties/Orange/cities/Irvine>)             |
+| 12|La Habra           |        5|     1|68   |     29|SCAG  |Orange|[link](<counties/Orange/cities/La Habra>)           |
+| 13|La Palma           |        3|     3|136  |    132|SCAG  |Orange|[link](<counties/Orange/cities/La Palma>)           |
+| 14|Laguna Beach       |        4|     6|82   |     60|SCAG  |Orange|[link](<counties/Orange/cities/Laguna Beach>)       |
+| 15|Laguna Hills       |        4|     0|    0|      0|SCAG  |Orange|[link](<counties/Orange/cities/Laguna Hills>)       |
+| 16|Laguna Niguel      |        2|     1|9    |      4|SCAG  |Orange|[link](<counties/Orange/cities/Laguna Niguel>)      |
+| 17|Laguna Woods       |        4|     4|173  |     60|SCAG  |Orange|[link](<counties/Orange/cities/Laguna Woods>)       |
+| 18|Lake Forest        |        4|     6|1621 |    734|SCAG  |Orange|[link](<counties/Orange/cities/Lake Forest>)        |
+| 19|Los Alamitos       |        4|     8|434  |    362|SCAG  |Orange|[link](<counties/Orange/cities/Los Alamitos>)       |
+| 20|Mission Viejo      |        1|     1|24   |     17|SCAG  |Orange|[link](<counties/Orange/cities/Mission Viejo>)      |
+| 21|Newport Beach      |        5|     4|12   |      4|SCAG  |Orange|[link](<counties/Orange/cities/Newport Beach>)      |
+| 22|Orange             |        4|     6|137  |     61|SCAG  |Orange|[link](<counties/Orange/cities/Orange>)             |
+| 23|Placentia          |        2|     2|589  |    566|SCAG  |Orange|[link](<counties/Orange/cities/Placentia>)          |
+| 24|San Clemente       |        4|     4|220  |    216|SCAG  |Orange|[link](<counties/Orange/cities/San Clemente>)       |
+| 25|San Juan Capistrano|        3|     9|397  |    283|SCAG  |Orange|[link](<counties/Orange/cities/San Juan Capistrano>)|
+| 26|Santa Ana          |        3|     0|    0|      0|SCAG  |Orange|[link](<counties/Orange/cities/Santa Ana>)          |
+| 27|Seal Beach         |        2|     3|422  |    333|SCAG  |Orange|[link](<counties/Orange/cities/Seal Beach>)         |
+| 28|Stanton            |        3|    13|806  |    510|SCAG  |Orange|[link](<counties/Orange/cities/Stanton>)            |
+| 29|Tustin             |        5|     7|399  |    192|SCAG  |Orange|[link](<counties/Orange/cities/Tustin>)             |
+| 30|Villa Park         |        5|     4|13   |     12|SCAG  |Orange|[link](<counties/Orange/cities/Villa Park>)         |
+| 31|Westminster        |        4|     7|5293 |   2969|SCAG  |Orange|[link](<counties/Orange/cities/Westminster>)        |
+| 32|Yorba Linda        |        3|     5|617  |    355|SCAG  |Orange|[link](<counties/Orange/cities/Yorba Linda>)        |
+
+# SCAG
+|   | city  |documents|tables|apns|parcels|agency|  county   |                    link                     |
+|--:|-------|--------:|-----:|----|------:|------|-----------|---------------------------------------------|
+|  1|Arcadia|        1|     2|479 |    465|SCAG  |Los Angeles|[link](<counties/Los Angeles/cities/Arcadia>)|
+
+# SCAG
+|   | city  |documents|tables|apns|parcels|agency|  county   |                    link                     |
+|--:|-------|--------:|-----:|----|------:|------|-----------|---------------------------------------------|
+|  1|Arcadia|        1|     2|479 |    465|SCAG  |Los Angeles|[link](<counties/Los Angeles/cities/Arcadia>)|
+
+# SCAG
+|   | city  |documents|tables|apns|parcels|agency|  county   |                    link                     |
+|--:|-------|--------:|-----:|----|------:|------|-----------|---------------------------------------------|
+|  1|Arcadia|        1|     2|479 |    465|SCAG  |Los Angeles|[link](<counties/Los Angeles/cities/Arcadia>)|
+
+# SCAG
+|   | city  |documents|tables|apns|parcels|agency|  county   |                    link                     |
+|--:|-------|--------:|-----:|----|------:|------|-----------|---------------------------------------------|
+|  1|Arcadia|        1|     2|479 |    465|SCAG  |Los Angeles|[link](<counties/Los Angeles/cities/Arcadia>)|
+
+# SCAG
+|   | city  |documents|tables|apns|parcels|agency|  county   |                    link                     |
+|--:|-------|--------:|-----:|----|------:|------|-----------|---------------------------------------------|
+|  1|Arcadia|        1|     3|479 |    479|SCAG  |Los Angeles|[link](<counties/Los Angeles/cities/Arcadia>)|
+
+# SCAG
+|   | city  |documents|tables|apns|parcels|agency|  county   |                    link                     |
+|--:|-------|--------:|-----:|----|------:|------|-----------|---------------------------------------------|
+|  1|Arcadia|        1|     3|479 |    479|SCAG  |Los Angeles|[link](<counties/Los Angeles/cities/Arcadia>)|
+
+# SCAG
+|   | city  |documents|tables|apns|parcels|agency|  county   |                    link                     |
+|--:|-------|--------:|-----:|----|------:|------|-----------|---------------------------------------------|
+|  1|Arcadia|        1|     3|479 |    479|SCAG  |Los Angeles|[link](<counties/Los Angeles/cities/Arcadia>)|
+
+# SCAG
+|   | city  |documents|tables|apns|parcels|agency|  county   |                    link                     |
+|--:|-------|--------:|-----:|----|------:|------|-----------|---------------------------------------------|
+|  1|Arcadia|        1|     3|479 |    479|SCAG  |Los Angeles|[link](<counties/Los Angeles/cities/Arcadia>)|
+
+# SCAG
+|   | city  |documents|tables|apns|parcels|agency|  county   |                    link                     |
+|--:|-------|--------:|-----:|----|------:|------|-----------|---------------------------------------------|
+|  1|Arcadia|        1|     2|479 |    465|SCAG  |Los Angeles|[link](<counties/Los Angeles/cities/Arcadia>)|
+
+# SCAG
+|   | city  |documents|tables|apns|parcels|agency|  county   |                    link                     |
+|--:|-------|--------:|-----:|----|------:|------|-----------|---------------------------------------------|
+|  1|Arcadia|        1|     2|479 |    465|SCAG  |Los Angeles|[link](<counties/Los Angeles/cities/Arcadia>)|
+
+# SCAG
+|   | city  |documents|tables|apns|parcels|agency|  county   |                    link                     |
+|--:|-------|--------:|-----:|----|------:|------|-----------|---------------------------------------------|
+|  1|Arcadia|        1|     2|479 |    465|SCAG  |Los Angeles|[link](<counties/Los Angeles/cities/Arcadia>)|
+
+# SCAG
+|   | city  |documents|tables|apns|parcels|agency|  county   |                    link                     |
+|--:|-------|--------:|-----:|----|------:|------|-----------|---------------------------------------------|
+|  1|Arcadia|        5|    10|3271|   3234|SCAG  |Los Angeles|[link](<counties/Los Angeles/cities/Arcadia>)|
+

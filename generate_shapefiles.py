@@ -38,9 +38,11 @@ def generate_shapefile(gdf, output_dir):
     processed_docs = []
     none_found = []
 
+    os.makedirs(output_dir, exist_ok=True)
+
     if len(gdf) > 0:
         # misc_dir = file_path / 'misc'
-        os.makedirs(output_dir, exist_ok=True)
+        # os.makedirs(output_dir, exist_ok=True)
         shapefile_dir_path = output_dir / "shapefile"
         gdf.to_file(shapefile_dir_path, driver='ESRI Shapefile')
         shutil.make_archive(shapefile_dir_path, 'zip', shapefile_dir_path)
@@ -53,9 +55,9 @@ def generate_shapefile(gdf, output_dir):
         if existing_shapefile_path.exists():
             send2trash(existing_shapefile_path)
             print("invalid shapefile deleted")
-        if output_dir.is_dir() and not any(output_dir.iterdir()):
-            send2trash(output_dir)
-            print("empty output_dir deleted (" + str(output_dir) + ")")
+        # if output_dir.is_dir() and not any(output_dir.iterdir()):
+        #     send2trash(output_dir)
+        #     print("empty output_dir deleted (" + str(output_dir) + ")")
 
         print("no intersection found")
 

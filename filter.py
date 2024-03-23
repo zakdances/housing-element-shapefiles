@@ -48,6 +48,19 @@ TEST_OUTPUT_DIR_PATH_mill_valley_6th_draft082322 = os.getenv('TEST_OUTPUT_DIR_PA
 with open(MAIN_FILE_PATH, 'r') as file:
     main_data = json.load(file)
 
+async def _execute_task(semaphore, task_function, arg_1, current_task_number = None, max_task_number = None):
+    async with semaphore:
+        
+        if current_task_number != None and max_task_number != None:
+            print("task " + str(current_task_number) + " of " + str(max_task_number) + " started! ------------")
+        else:
+            print("task started! ------------")
+        
+        async_result = await task_function(arg_1)
+        # await asyncio.sleep(1)
+        print("task done!")
+        return async_result
+
 def get_agency_from_city_name(city_name):
     # with open(MAIN_FILE_PATH, 'r') as file:
     #     main_data = json.load(file)
@@ -255,10 +268,6 @@ def getPaths(orgs_to_process):
                                 # print(entry.name)
                                 all_docs.append(entry.path)
                                 # print(entry.path)
-                    # else:
-                    #     print("no input: ")
-                    #     print(input_paths)
-                    #     print("___________ no input: ")
     return all_docs
 
 async def main():
@@ -281,16 +290,19 @@ async def main():
         
     # print(SACOG)
     # orgs_to_process = (ABAG + SACOG + SCAG)
-    orgs_to_process = ABAG
+    orgs_to_process = SCAG
 
     all_docs = getPaths(orgs_to_process)
     # valid_range = string.ascii_lowercase[:8]
     # all_docs = list(filter(lambda x: "counties/los angeles" in x.lower(), all_docs))
     # all_docs = list(filter(lambda x: "counties/orange" in x.lower(), all_docs))
-    # all_docs = list(filter(lambda x: "cities/los angeles" in x.lower(), all_docs))
+    # all_docs = list(filter(lambda x: "cities/los angeles" not in x.lower(), all_docs))
     # all_docs = list(filter(lambda x: "cities/davis" in x.lower(), all_docs))
     # all_docs = list(filter(lambda x: "beverly-hills-6th-adopted092922" in x, all_docs))
     # all_docs = list(filter(lambda x: "burbank" in x, all_docs))
+    all_docs = list(filter(lambda x: "cities/arcadia" in x.lower(), all_docs))
+    # all_docs = list(filter(lambda x: "arcadia-6th-draft083122" in x.lower(), all_docs))
+    
     # all_docs = list(filter(lambda x: "cities/petaluma" in x.lower(), all_docs))
     
     # all_docs = list(filter(lambda x: 
@@ -310,8 +322,6 @@ async def main():
     # print(my_apn_datasets)
     # meta = list_doc_metadata(PROJECT_ID)
 
-    
-
     # For logging purposes
     # accumulator = {
     #     "local": {},
@@ -321,42 +331,23 @@ async def main():
 
     for path_to_execute_on in sorted(all_docs, key=lambda x: Path(x).name.lower()):
         path_to_execute_on = Path(path_to_execute_on)
+        print(path_to_execute_on)
 
         
         city_name = path_to_execute_on.parent.parent.stem # TODO: This should probably come from Main
         county_name = path_to_execute_on.parent.parent.parent.parent.stem # TODO: This should probably come from Main
         agency_name = get_agency_from_city_name(city_name)
         
-        
-
-        aws_path = path_to_execute_on / "aws"
-        camelot_path = path_to_execute_on / "camelot"
-        print(path_to_execute_on)
-        chosen_path = None
-        if aws_path.exists():
-            chosen_path = aws_path
-        elif camelot_path.exists():
-            chosen_path = camelot_path
-        else:
-            raise Exception("No output found for " + path_to_execute_on.parents[2])
-        
         # For logging purposes
-        repo_link = "[link](<counties/" + county_name + "/cities/" + city_name + ">)"
-        # if not city_name in accumulator["local"]:
-        #     accumulator["local"][city_name] = {"documents": [], "tables": 0, "apns": 0, "agency": agency_name, "county": county_name, "link": repo_link}
-        # if not city_name in accumulator["server"]:
-        #     accumulator["server"][city_name] = {"documents": [], "tables": 0, "apns": 0, "agency": agency_name, "county": county_name, "link": repo_link}
-        # accumulator["local"][city_name]["documents"].append(path_to_execute_on.stem)
-        # accumulator["server"][city_name]["documents"].append(path_to_execute_on.stem)
-        # counties/Alameda/cities/Albany
+        # repo_link = "[link](<counties/" + county_name + "/cities/" + city_name + ">)"
 
         df_container = Df_Container(
             city_name = city_name,
             county_name = county_name,
             agency_name = agency_name,
-            doc_file_name = path_to_execute_on.stem,
+            # doc_file_name = path_to_execute_on.stem,
             doc_path = path_to_execute_on,
-            link = repo_link,
+            # link = repo_link,
             df = None,
             server_gdf = None # gdf from server with geometry
         )
@@ -368,66 +359,49 @@ async def main():
         # print(str(os.path.exists(input_path)))
         print("----------------------")
         print(city_name)
-        print(path_to_execute_on.stem)
+        print(df_container.doc_path.stem)
         # print("----------------------")
 
-        # if path_to_execute_on.stem in my_apn_datasets:
-        #     print("already exists. Skipping...")
-        #     continue
-
-        # def remove_special_chars(s):
-        #     return s.replace(' ', '').replace('-', '').replace('_', '')
-
-        df_container.df = find_tables_and_parcels(chosen_path)
+        # df_container.df = find_tables_and_parcels(df_container.chosen_path())
         dfs_bucket.append(df_container)
         # df["table_rows"] = df['table_rows'].apply(lambda x: [remove_special_chars(item['APN']) for item in x])
-        df_container.df.to_json('temp/output.json', orient='records') # For debugging
-
-        # accumulator["local"][city_name]["tables"] += len(df)
-        # count_of_apns = df['table_rows'].apply(lambda x: len(x)).sum()
-        # accumulator["local"][city_name]["apns"] += Df_Container.count_apns(df)
-        
-        # print(df)
-
-        # if len(df) > 0:
-        #     if path_to_execute_on.stem in my_apn_datasets and any(meta['doc_name'] == path_to_execute_on.stem):
-        #         target = PROJECT_ID + ":viewable_datasets." + path_to_execute_on.stem
-        #         bq_client_to_db(df, target, HOUSING_ELEMENT_SCHEMA_FILEPATH)
-        #         update_doc_metadata(input_path, city_name, county_name, "CA", "USA")
-        #         generate_thumbnail(input_path, PROJECT_ID)
     
   
-    paths_that_need_shapefiles = list(map(lambda x: {"path": Path(x), "output": Path(x) / "misc"}, all_docs))
-    paths_that_need_shapefiles = list(filter(lambda x: x["path"].stem in my_apn_datasets, paths_that_need_shapefiles))
-    
-    semaphore = asyncio.Semaphore(10)
+    semaphore_1 = asyncio.Semaphore(1)
 
-    async def _execute_task(df_container):
-        async with semaphore:
-            await generate_request(df_container)
+    results_1 = await asyncio.gather(*[
+        _execute_task(semaphore_1, find_tables_and_parcels, df_container.chosen_path(), i + 1, len(dfs_bucket)) 
+        for i, df_container in enumerate(dfs_bucket)
+        ])
     
-    print('Getting intersection...')
-    results = await asyncio.gather(*[_execute_task(df_container) for df_container in dfs_bucket])
-    if len(results) != len(dfs_bucket):
+    if len(results_1) != len(dfs_bucket):
         raise Exception("server results and bucket are not the same length")
 
     for i, df_container in enumerate(dfs_bucket):
-        server_intersection_gdf = results[i]
-        df_container.server_gdf = server_intersection_gdf
+        df_container.df = results_1[i]
+        df_container.df.to_json('temp/output.json', orient='records') # For debugging
 
-        print('done! now writing to output_server.json')
+
+    semaphore_2 = asyncio.Semaphore(5)
+
+    print('Getting intersection...')
+    results_2 = await asyncio.gather(*[
+        _execute_task(semaphore_2, generate_request, df_container, i + 1, len(dfs_bucket)) 
+        for i, df_container in enumerate(dfs_bucket)
+        ])
+
+    if len(results_2) != len(dfs_bucket):
+        raise Exception("server results and bucket are not the same length")
+
+    for i, df_container in enumerate(dfs_bucket):
+        df_container.server_gdf = results_2[i]
+
+        # print('done! now writing to output_server.json')
         # Write to a temp file for debugging
-        with open('temp/output_server.json', 'w') as f:
-            f.write(df_container.server_gdf.to_json())
+        # with open('temp/output_server.json', 'w') as f:
+        #     f.write(df_container.server_gdf.to_json())
 
-
-    # for i, (key, value) in enumerate(accumulator["server"].items()):
-    #     for doc in value["documents"]:
-    #         filtered_df = server_intersection_gdfs[server_intersection_gdfs['id'] == doc]
-    #         value["tables"] += filtered_df['table_name'].nunique()
-    #         value["apns"] += len(filtered_df)
-
-
+    # raise Exception("Great job!")
 
     data_for_markdown = Df_Container.generate_data_for_markdown(dfs_bucket)
     data_for_markdown.sort(key=lambda x: (x['agency'], x['city']))
@@ -459,5 +433,5 @@ async def main():
     return
 
 if __name__ == '__main__':
-    main()
+    asyncio.run(main())
 

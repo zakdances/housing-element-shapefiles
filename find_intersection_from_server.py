@@ -1,6 +1,8 @@
 import os
 import glob
 import shutil
+import asyncio
+import re
 from time import sleep
 import json
 import jsonlines
@@ -52,7 +54,7 @@ def perform_query_v2(job_config, incoming_apns, county, parcel_table_name = 'all
         JOIN 
             UNNEST(@incoming_apns) AS incoming_apn
         ON
-            RTRIM( REGEXP_REPLACE(LOWER(p.APN), '[-_]', ''), '0') = RTRIM( REGEXP_REPLACE(LOWER(incoming_apn), '[-_]', ''), '0')
+            RTRIM( REGEXP_REPLACE(LOWER(p.APN), '[^a-zA-Z0-9]', ''), '0') = RTRIM( REGEXP_REPLACE(LOWER(incoming_apn), '[^a-zA-Z0-9]', ''), '0')
             AND
             LOWER(p.county) = LOWER('{county}')
 
@@ -120,6 +122,7 @@ def perform_query(joined_table_list, job_config, parcel_table_name):
     return query_job
 
 async def generate_request(incoming_df_container):
+    # await asyncio.sleep(0.25)
     # table_list = list(map(lambda x: x.replace("(", "⁀").replace(")", "‿"), table_list))
     
     # dfs = []
@@ -128,7 +131,7 @@ async def generate_request(incoming_df_container):
     newGdf = gpd.GeoDataFrame(columns=['apn', 'geometry'], geometry='geometry')
     parcel_apns_debug = []
 
-    print("Starting server query for " + incoming_df_container.doc_file_name)
+    print("Starting server query for " + incoming_df_container.doc_file_name())
     # for table_list in list(chunked(table_list, 20)):
     for index, row in incoming_df.iterrows():
         # joined_table_list = table_name
@@ -149,16 +152,17 @@ async def generate_request(incoming_df_container):
             query_job = perform_query_v2(job_config2, apns_chunk, county, 'all_clustered_by_county')
 
             print("gettings result...")
-            results = await query_job.result()
-            total_rows = results.total_rows
-            print("done getting result!")
-            print("total rows: " + str(total_rows))
+            # results = query_job.result()
+            # total_rows = results.total_rows
+            
             # print(list(results))
 
             
             # if total_rows > 0:
             gdf = query_job.to_geodataframe(geography_column="geometry")
             gdf['table_order'] = table_order
+            print("done getting result!")
+            print("total rows: " + str(len(gdf)))
             # print(gdf)
             newGdf = pd.concat([newGdf, gdf], ignore_index=True)
             
@@ -189,9 +193,11 @@ async def generate_request(incoming_df_container):
     # newGdf = newGdf.set_geometry("geometry")
     # print(newGdf)
     print("done 1!")
-    print(incoming_df_container.doc_file_name)
+    print(incoming_df_container.doc_file_name())
     column_values_debug = newGdf['apn'].tolist()
-    print(find_non_shared_strings(parcel_apns_debug, column_values_debug))
+    non_intersecting = find_non_shared_strings(parcel_apns_debug, column_values_debug)
+    print(non_intersecting)
+    print(str(len(non_intersecting)) + " out of " + str(len(column_values_debug)))
 
     # merged_gdf = pd.concat(dfs, ignore_index=True)
     # print("done 2!")
@@ -200,11 +206,16 @@ async def generate_request(incoming_df_container):
     return newGdf
 
 def remove_hyphens_and_underscores(s):
+    s = s.lower()
     s = s.rstrip('0')
-    return s.replace('-', '').replace('_', '')
+    s = re.sub(r'[^a-zA-Z0-9]', '', s)
+    return s
 
 def find_non_shared_strings(list1, list2):
-    set1 = {remove_hyphens_and_underscores(s) for s in list1}
-    set2 = {remove_hyphens_and_underscores(s) for s in list2}
-    non_shared = set1.symmetric_difference(set2)
+    list2 = list( map(lambda x: remove_hyphens_and_underscores(x), list2) )
+    non_shared = list( filter(lambda x: remove_hyphens_and_underscores(x) in list2, list1) )
+    
+    # set1 = {remove_hyphens_and_underscores(s) for s in list1}
+    # set2 = {remove_hyphens_and_underscores(s) for s in list2}
+    # non_shared = set1.symmetric_difference(set2)
     return non_shared
