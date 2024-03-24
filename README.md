@@ -196,63 +196,104 @@
 | 31|Westminster        |        4|     7|5293 |   2969|SCAG  |Orange|[link](<counties/Orange/cities/Westminster>)        |
 | 32|Yorba Linda        |        3|     5|617  |    355|SCAG  |Orange|[link](<counties/Orange/cities/Yorba Linda>)        |
 
-# SCAG
-|   | city  |documents|tables|apns|parcels|agency|  county   |                    link                     |
-|--:|-------|--------:|-----:|----|------:|------|-----------|---------------------------------------------|
-|  1|Arcadia|        1|     2|479 |    465|SCAG  |Los Angeles|[link](<counties/Los Angeles/cities/Arcadia>)|
-
-# SCAG
-|   | city  |documents|tables|apns|parcels|agency|  county   |                    link                     |
-|--:|-------|--------:|-----:|----|------:|------|-----------|---------------------------------------------|
-|  1|Arcadia|        1|     2|479 |    465|SCAG  |Los Angeles|[link](<counties/Los Angeles/cities/Arcadia>)|
-
-# SCAG
-|   | city  |documents|tables|apns|parcels|agency|  county   |                    link                     |
-|--:|-------|--------:|-----:|----|------:|------|-----------|---------------------------------------------|
-|  1|Arcadia|        1|     2|479 |    465|SCAG  |Los Angeles|[link](<counties/Los Angeles/cities/Arcadia>)|
-
-# SCAG
-|   | city  |documents|tables|apns|parcels|agency|  county   |                    link                     |
-|--:|-------|--------:|-----:|----|------:|------|-----------|---------------------------------------------|
-|  1|Arcadia|        1|     2|479 |    465|SCAG  |Los Angeles|[link](<counties/Los Angeles/cities/Arcadia>)|
-
-# SCAG
-|   | city  |documents|tables|apns|parcels|agency|  county   |                    link                     |
-|--:|-------|--------:|-----:|----|------:|------|-----------|---------------------------------------------|
-|  1|Arcadia|        1|     3|479 |    479|SCAG  |Los Angeles|[link](<counties/Los Angeles/cities/Arcadia>)|
-
-# SCAG
-|   | city  |documents|tables|apns|parcels|agency|  county   |                    link                     |
-|--:|-------|--------:|-----:|----|------:|------|-----------|---------------------------------------------|
-|  1|Arcadia|        1|     3|479 |    479|SCAG  |Los Angeles|[link](<counties/Los Angeles/cities/Arcadia>)|
-
-# SCAG
-|   | city  |documents|tables|apns|parcels|agency|  county   |                    link                     |
-|--:|-------|--------:|-----:|----|------:|------|-----------|---------------------------------------------|
-|  1|Arcadia|        1|     3|479 |    479|SCAG  |Los Angeles|[link](<counties/Los Angeles/cities/Arcadia>)|
-
-# SCAG
-|   | city  |documents|tables|apns|parcels|agency|  county   |                    link                     |
-|--:|-------|--------:|-----:|----|------:|------|-----------|---------------------------------------------|
-|  1|Arcadia|        1|     3|479 |    479|SCAG  |Los Angeles|[link](<counties/Los Angeles/cities/Arcadia>)|
-
-# SCAG
-|   | city  |documents|tables|apns|parcels|agency|  county   |                    link                     |
-|--:|-------|--------:|-----:|----|------:|------|-----------|---------------------------------------------|
-|  1|Arcadia|        1|     2|479 |    465|SCAG  |Los Angeles|[link](<counties/Los Angeles/cities/Arcadia>)|
-
-# SCAG
-|   | city  |documents|tables|apns|parcels|agency|  county   |                    link                     |
-|--:|-------|--------:|-----:|----|------:|------|-----------|---------------------------------------------|
-|  1|Arcadia|        1|     2|479 |    465|SCAG  |Los Angeles|[link](<counties/Los Angeles/cities/Arcadia>)|
-
-# SCAG
-|   | city  |documents|tables|apns|parcels|agency|  county   |                    link                     |
-|--:|-------|--------:|-----:|----|------:|------|-----------|---------------------------------------------|
-|  1|Arcadia|        1|     2|479 |    465|SCAG  |Los Angeles|[link](<counties/Los Angeles/cities/Arcadia>)|
-
-# SCAG
-|   | city  |documents|tables|apns|parcels|agency|  county   |                    link                     |
-|--:|-------|--------:|-----:|----|------:|------|-----------|---------------------------------------------|
-|  1|Arcadia|        5|    10|3271|   3234|SCAG  |Los Angeles|[link](<counties/Los Angeles/cities/Arcadia>)|
+# ABAG
+|   |       city        |documents|tables|apns|parcels|agency|   county    |                         link                          |
+|--:|-------------------|--------:|-----:|----|------:|------|-------------|-------------------------------------------------------|
+|  1|Alameda            |        2|     7|50  |     41|ABAG  |Alameda      |[link](<counties/Alameda/cities/Alameda>)              |
+|  2|Albany             |        2|    27|1063|    914|ABAG  |Alameda      |[link](<counties/Alameda/cities/Albany>)               |
+|  3|American Canyon    |        2|     0|   0|      0|ABAG  |Napa         |[link](<counties/Napa/cities/American Canyon>)         |
+|  4|Antioch            |        2|    13|638 |    565|ABAG  |Contra Costa |[link](<counties/Contra Costa/cities/Antioch>)         |
+|  5|Atherton           |        2|     0|   0|      0|ABAG  |San Mateo    |[link](<counties/San Mateo/cities/Atherton>)           |
+|  6|Belmont            |        2|     2|16  |     10|ABAG  |San Mateo    |[link](<counties/San Mateo/cities/Belmont>)            |
+|  7|Belvedere          |        1|     3|83  |     39|ABAG  |Marin        |[link](<counties/Marin/cities/Belvedere>)              |
+|  8|Benicia            |        2|    42|877 |    851|ABAG  |Solano       |[link](<counties/Solano/cities/Benicia>)               |
+|  9|Berkeley           |        3|     2|576 |      7|ABAG  |Alameda      |[link](<counties/Alameda/cities/Berkeley>)             |
+| 10|Brentwood          |        2|    11|295 |    220|ABAG  |Contra Costa |[link](<counties/Contra Costa/cities/Brentwood>)       |
+| 11|Brisbane           |        4|    12|1240|   1160|ABAG  |San Mateo    |[link](<counties/San Mateo/cities/Brisbane>)           |
+| 12|Burlingame         |        1|     3|140 |     73|ABAG  |San Mateo    |[link](<counties/San Mateo/cities/Burlingame>)         |
+| 13|Calistoga          |        2|     5|52  |     44|ABAG  |Napa         |[link](<counties/Napa/cities/Calistoga>)               |
+| 14|Campbell           |        3|    11|997 |    941|ABAG  |Santa Clara  |[link](<counties/Santa Clara/cities/Campbell>)         |
+| 15|Clayton            |        2|     4|102 |     90|ABAG  |Contra Costa |[link](<counties/Contra Costa/cities/Clayton>)         |
+| 16|Cloverdale         |        2|     5|40  |     40|ABAG  |Sonoma       |[link](<counties/Sonoma/cities/Cloverdale>)            |
+| 17|Colma              |        2|     2|145 |     72|ABAG  |San Mateo    |[link](<counties/San Mateo/cities/Colma>)              |
+| 18|Concord            |        2|     6|1037|    500|ABAG  |Contra Costa |[link](<counties/Contra Costa/cities/Concord>)         |
+| 19|Corte Madera       |        3|     0|   0|      0|ABAG  |Marin        |[link](<counties/Marin/cities/Corte Madera>)           |
+| 20|Cotati             |        2|     5|69  |     50|ABAG  |Sonoma       |[link](<counties/Sonoma/cities/Cotati>)                |
+| 21|Cupertino          |        1|     0|   0|      0|ABAG  |Santa Clara  |[link](<counties/Santa Clara/cities/Cupertino>)        |
+| 22|Daly City          |        1|     2|171 |    162|ABAG  |San Mateo    |[link](<counties/San Mateo/cities/Daly City>)          |
+| 23|Danville           |        2|    59|435 |    401|ABAG  |Contra Costa |[link](<counties/Contra Costa/cities/Danville>)        |
+| 24|Dixon              |        2|     3|33  |     15|ABAG  |Solano       |[link](<counties/Solano/cities/Dixon>)                 |
+| 25|Dublin             |        2|     1|82  |      2|ABAG  |Alameda      |[link](<counties/Alameda/cities/Dublin>)               |
+| 26|East Palo Alto     |        2|    16|118 |    100|ABAG  |San Mateo    |[link](<counties/San Mateo/cities/East Palo Alto>)     |
+| 27|El Cerrito         |        2|     6|160 |    149|ABAG  |Contra Costa |[link](<counties/Contra Costa/cities/El Cerrito>)      |
+| 28|Emeryville         |        2|     4|230 |     14|ABAG  |Alameda      |[link](<counties/Alameda/cities/Emeryville>)           |
+| 29|Fairfax            |        1|    10|432 |    289|ABAG  |Marin        |[link](<counties/Marin/cities/Fairfax>)                |
+| 30|Fairfield          |        2|    11|215 |    115|ABAG  |Solano       |[link](<counties/Solano/cities/Fairfield>)             |
+| 31|Foster City        |        2|    11|95  |     89|ABAG  |San Mateo    |[link](<counties/San Mateo/cities/Foster City>)        |
+| 32|Fremont            |        2|     4|574 |    616|ABAG  |Alameda      |[link](<counties/Alameda/cities/Fremont>)              |
+| 33|Gilroy             |        2|    33|124 |    124|ABAG  |Santa Clara  |[link](<counties/Santa Clara/cities/Gilroy>)           |
+| 34|Hayward            |        3|     0|348 |      0|ABAG  |Alameda      |[link](<counties/Alameda/cities/Hayward>)              |
+| 35|Healdsburg         |        2|     3|21  |      9|ABAG  |Sonoma       |[link](<counties/Sonoma/cities/Healdsburg>)            |
+| 36|Hercules           |        3|     0|5   |      0|ABAG  |Contra Costa |[link](<counties/Contra Costa/cities/Hercules>)        |
+| 37|Hillsborough       |        2|     5|109 |     51|ABAG  |San Mateo    |[link](<counties/San Mateo/cities/Hillsborough>)       |
+| 38|Lafayette          |        2|    26|708 |    627|ABAG  |Contra Costa |[link](<counties/Contra Costa/cities/Lafayette>)       |
+| 39|Larkspur           |        1|     3|80  |     37|ABAG  |Marin        |[link](<counties/Marin/cities/Larkspur>)               |
+| 40|Livermore          |        3|     2|292 |      2|ABAG  |Alameda      |[link](<counties/Alameda/cities/Livermore>)            |
+| 41|Los Altos          |        2|     7|589 |    577|ABAG  |Santa Clara  |[link](<counties/Santa Clara/cities/Los Altos>)        |
+| 42|Los Altos Hills    |        3|    21|295 |    260|ABAG  |Santa Clara  |[link](<counties/Santa Clara/cities/Los Altos Hills>)  |
+| 43|Los Gatos          |        3|    11|551 |    530|ABAG  |Santa Clara  |[link](<counties/Santa Clara/cities/Los Gatos>)        |
+| 44|Menlo Park         |        2|   211|1088|    686|ABAG  |San Mateo    |[link](<counties/San Mateo/cities/Menlo Park>)         |
+| 45|Mill Valley        |        1|     3|257 |    244|ABAG  |Marin        |[link](<counties/Marin/cities/Mill Valley>)            |
+| 46|Millbrae           |        2|    14|318 |    297|ABAG  |San Mateo    |[link](<counties/San Mateo/cities/Millbrae>)           |
+| 47|Milpitas           |        2|     0|   0|      0|ABAG  |Santa Clara  |[link](<counties/Santa Clara/cities/Milpitas>)         |
+| 48|Monte Sereno       |        2|     2|280 |    116|ABAG  |Santa Clara  |[link](<counties/Santa Clara/cities/Monte Sereno>)     |
+| 49|Moraga             |        3|     6|169 |     82|ABAG  |Contra Costa |[link](<counties/Contra Costa/cities/Moraga>)          |
+| 50|Morgan Hill        |        2|     3|118 |     12|ABAG  |Santa Clara  |[link](<counties/Santa Clara/cities/Morgan Hill>)      |
+| 51|Mountain View      |        3|    10|688 |    631|ABAG  |Santa Clara  |[link](<counties/Santa Clara/cities/Mountain View>)    |
+| 52|Napa               |        1|     0|   0|      0|ABAG  |Napa         |[link](<counties/Napa/cities/Napa>)                    |
+| 53|Newark             |        1|     3|12  |     13|ABAG  |Alameda      |[link](<counties/Alameda/cities/Newark>)               |
+| 54|Novato             |        1|     4|44  |     37|ABAG  |Marin        |[link](<counties/Marin/cities/Novato>)                 |
+| 55|Oakland            |        2|     5|4185|     43|ABAG  |Alameda      |[link](<counties/Alameda/cities/Oakland>)              |
+| 56|Oakley             |        4|    29|596 |    559|ABAG  |Contra Costa |[link](<counties/Contra Costa/cities/Oakley>)          |
+| 57|Orinda             |        3|    20|1784|   1745|ABAG  |Contra Costa |[link](<counties/Contra Costa/cities/Orinda>)          |
+| 58|Pacifica           |        1|     2|49  |     45|ABAG  |San Mateo    |[link](<counties/San Mateo/cities/Pacifica>)           |
+| 59|Palo Alto          |        1|    13|447 |    429|ABAG  |Santa Clara  |[link](<counties/Santa Clara/cities/Palo Alto>)        |
+| 60|Petaluma           |        2|     6|130 |     84|ABAG  |Sonoma       |[link](<counties/Sonoma/cities/Petaluma>)              |
+| 61|Piedmont           |        2|     3|289 |     20|ABAG  |Alameda      |[link](<counties/Alameda/cities/Piedmont>)             |
+| 62|Pinole             |        2|    15|144 |    138|ABAG  |Contra Costa |[link](<counties/Contra Costa/cities/Pinole>)          |
+| 63|Pittsburg          |        1|     2|124 |    120|ABAG  |Contra Costa |[link](<counties/Contra Costa/cities/Pittsburg>)       |
+| 64|Pleasant Hill      |        1|     1|154 |     32|ABAG  |Contra Costa |[link](<counties/Contra Costa/cities/Pleasant Hill>)   |
+| 65|Pleasanton         |        2|     2|839 |      4|ABAG  |Alameda      |[link](<counties/Alameda/cities/Pleasanton>)           |
+| 66|Portola Valley     |        1|     2|27  |      2|ABAG  |San Mateo    |[link](<counties/San Mateo/cities/Portola Valley>)     |
+| 67|Redwood City       |        2|     3|176 |     87|ABAG  |San Mateo    |[link](<counties/San Mateo/cities/Redwood City>)       |
+| 68|Richmond           |        2|     5|383 |    328|ABAG  |Contra Costa |[link](<counties/Contra Costa/cities/Richmond>)        |
+| 69|Rio Vista          |        2|     9|160 |    157|ABAG  |Solano       |[link](<counties/Solano/cities/Rio Vista>)             |
+| 70|Rohnert Park       |        2|     5|93  |     71|ABAG  |Sonoma       |[link](<counties/Sonoma/cities/Rohnert Park>)          |
+| 71|Ross               |        1|     3|40  |     40|ABAG  |Marin        |[link](<counties/Marin/cities/Ross>)                   |
+| 81|San Anselmo        |        1|     1|418 |    217|ABAG  |Marin        |[link](<counties/Marin/cities/San Anselmo>)            |
+| 72|San Bruno          |        2|     4|116 |    108|ABAG  |San Mateo    |[link](<counties/San Mateo/cities/San Bruno>)          |
+| 73|San Carlos         |        2|     4|995 |    905|ABAG  |San Mateo    |[link](<counties/San Mateo/cities/San Carlos>)         |
+| 74|San Francisco      |        4|     1|174 |    143|ABAG  |San Francisco|[link](<counties/San Francisco/cities/San Francisco>)  |
+| 75|San Jose           |        1|     3|231 |    129|ABAG  |Santa Clara  |[link](<counties/Santa Clara/cities/San Jose>)         |
+| 76|San Leandro        |        2|     0|99  |      0|ABAG  |Alameda      |[link](<counties/Alameda/cities/San Leandro>)          |
+| 77|San Mateo          |        2|     8|577 |    571|ABAG  |San Mateo    |[link](<counties/San Mateo/cities/San Mateo>)          |
+| 78|San Pablo          |        1|     4|195 |    193|ABAG  |Contra Costa |[link](<counties/Contra Costa/cities/San Pablo>)       |
+| 79|San Rafael         |        2|     3|392 |    375|ABAG  |Marin        |[link](<counties/Marin/cities/San Rafael>)             |
+| 80|San Ramon          |        3|     7|195 |     27|ABAG  |Contra Costa |[link](<counties/Contra Costa/cities/San Ramon>)       |
+| 82|Santa Clara        |        2|     6|157 |    146|ABAG  |Santa Clara  |[link](<counties/Santa Clara/cities/Santa Clara>)      |
+| 83|Santa Rosa         |        2|    10|2748|   2714|ABAG  |Sonoma       |[link](<counties/Sonoma/cities/Santa Rosa>)            |
+| 84|Saratoga           |        2|    28|896 |    691|ABAG  |Santa Clara  |[link](<counties/Santa Clara/cities/Saratoga>)         |
+| 85|Sausalito          |        2|     9|2477|   2409|ABAG  |Marin        |[link](<counties/Marin/cities/Sausalito>)              |
+| 86|Sebastopol         |        2|     7|154 |    148|ABAG  |Sonoma       |[link](<counties/Sonoma/cities/Sebastopol>)            |
+| 87|Sonoma             |        2|     1|20  |     16|ABAG  |Sonoma       |[link](<counties/Sonoma/cities/Sonoma>)                |
+| 88|South San Francisco|        2|     9|363 |    334|ABAG  |San Mateo    |[link](<counties/San Mateo/cities/South San Francisco>)|
+| 89|Suisun City        |        2|     8|73  |     72|ABAG  |Solano       |[link](<counties/Solano/cities/Suisun City>)           |
+| 90|Sunnyvale          |        1|     6|232 |    198|ABAG  |Santa Clara  |[link](<counties/Santa Clara/cities/Sunnyvale>)        |
+| 91|Tiburon            |        2|     4|127 |    126|ABAG  |Marin        |[link](<counties/Marin/cities/Tiburon>)                |
+| 92|Union City         |        2|     7|166 |    207|ABAG  |Alameda      |[link](<counties/Alameda/cities/Union City>)           |
+| 93|Vacaville          |        2|     6|804 |    424|ABAG  |Solano       |[link](<counties/Solano/cities/Vacaville>)             |
+| 94|Walnut Creek       |        4|    14|2810|   2061|ABAG  |Contra Costa |[link](<counties/Contra Costa/cities/Walnut Creek>)    |
+| 95|Windsor            |        2|     8|159 |    138|ABAG  |Sonoma       |[link](<counties/Sonoma/cities/Windsor>)               |
+| 96|Woodside           |        2|     1|724 |      3|ABAG  |San Mateo    |[link](<counties/San Mateo/cities/Woodside>)           |
+| 97|Yountville         |        2|     3|21  |     18|ABAG  |Napa         |[link](<counties/Napa/cities/Yountville>)              |
 

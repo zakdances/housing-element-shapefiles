@@ -26,10 +26,18 @@ from send2trash import send2trash
 # REGEXP_REPLACE(nested_rows.APN, r'[-_\s]', '') = REGEXP_REPLACE(p.APN, r'[-_\s]', '')
 # REGEXP_REPLACE(p.APN, r'[-_\s]', '') LIKE CONCAT('%', REGEXP_REPLACE(nested_rows.APN, r'[-_\s]', ''), '%')
 # p.APN LIKE CONCAT('%', nested_rows.APN, '%')
+"""The purpose of these functions is to pair the APNs from the excel files to their respective geometry.
+
+This is the further elaboration of the docstring. Within this section,
+you can elaborate further on details as appropriate for the situation.
+Notice that the summary and the elaboration is separated by a blank new
+line.
+"""
 
 load_dotenv(dotenv_path=Path('.env.local'))
 PROJECT_ID = os.getenv('PROJECT_ID')
 VIEWABLE_DATASETS = os.getenv('VIEWABLE_DATASETS')
+CACHE_DIR = Path(os.getenv('CACHE_DIR'))
 
 client = bigquery.Client(project=PROJECT_ID)
 
@@ -128,8 +136,26 @@ async def generate_request(incoming_df_container):
     # dfs = []
     incoming_df = incoming_df_container.df
     county = incoming_df_container.county_name
+    cache_destination = CACHE_DIR / incoming_df_container.agency_name / "counties" / incoming_df_container.county_name / "cities" / incoming_df_container.city_name / (incoming_df_container.doc_file_name() + ".geojson")
     newGdf = gpd.GeoDataFrame(columns=['apn', 'geometry'], geometry='geometry')
     parcel_apns_debug = []
+    
+    for i, row in incoming_df.iterrows():
+        for minirow in list(row["table_rows"]):
+            print(minirow)
+
+    raise Exception("done!")
+
+    if cache_destination.exists():
+        print("getting intersection geodataframe from cache...")
+        newGdf = pd.concat([newGdf, gpd.read_file(cache_destination)], ignore_index=True)
+        
+        for index, row in incoming_df.iterrows():
+            parcels = list(row["table_rows"])
+            parcel_apns_debug.extend( list( map(lambda x: x['APN'], parcels) ) )
+
+        debug_print(newGdf, parcel_apns_debug)
+        return newGdf
 
     print("Starting server query for " + incoming_df_container.doc_file_name())
     # for table_list in list(chunked(table_list, 20)):
@@ -193,17 +219,33 @@ async def generate_request(incoming_df_container):
     # newGdf = newGdf.set_geometry("geometry")
     # print(newGdf)
     print("done 1!")
-    print(incoming_df_container.doc_file_name())
-    column_values_debug = newGdf['apn'].tolist()
-    non_intersecting = find_non_shared_strings(parcel_apns_debug, column_values_debug)
-    print(non_intersecting)
-    print(str(len(non_intersecting)) + " out of " + str(len(column_values_debug)))
+    
+    # column_values_debug = newGdf['apn'].tolist()
+    # non_intersecting = find_non_shared_strings(parcel_apns_debug, column_values_debug)
+    # print(non_intersecting)
+    # print(str(len(non_intersecting)) + " out of " + str(len(column_values_debug)))
 
     # merged_gdf = pd.concat(dfs, ignore_index=True)
     # print("done 2!")
     # merged_gdf['id'] = merged_gdf['id'].replace("⁀", "(").replace("‿", ")")
     # print("done 3!")
+    print('done! now writing json to cache')
+    # Write to a temp file for debugging
+
+    os.makedirs(cache_destination.parent, exist_ok=True)
+    with open(cache_destination, 'w') as f:
+        f.write(newGdf.to_json())
+
+    print(incoming_df_container.doc_file_name())
+    debug_print(newGdf, parcel_apns_debug)
+
     return newGdf
+
+def debug_print(newGdf, parcel_apns_debug):
+    column_values_debug = newGdf['apn'].tolist()
+    non_intersecting = find_non_shared_strings(parcel_apns_debug, column_values_debug)
+    print(non_intersecting)
+    print(str(len(non_intersecting)) + " out of " + str(len(parcel_apns_debug)) + " have no match.")
 
 def remove_hyphens_and_underscores(s):
     s = s.lower()
@@ -213,7 +255,7 @@ def remove_hyphens_and_underscores(s):
 
 def find_non_shared_strings(list1, list2):
     list2 = list( map(lambda x: remove_hyphens_and_underscores(x), list2) )
-    non_shared = list( filter(lambda x: remove_hyphens_and_underscores(x) in list2, list1) )
+    non_shared = list( filter(lambda x: remove_hyphens_and_underscores(x) not in list2, list1) )
     
     # set1 = {remove_hyphens_and_underscores(s) for s in list1}
     # set2 = {remove_hyphens_and_underscores(s) for s in list2}
