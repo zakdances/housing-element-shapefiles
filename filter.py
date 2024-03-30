@@ -25,6 +25,7 @@ from py_markdown_table.markdown_table import markdown_table
 from pytablewriter import MarkdownTableWriter
 
 from src.find.find import find_tables_and_parcels
+from src.find_v2.find import find_tables_and_parcels_v2
 from src.util.df_container import Df_Container
 from update_doc_metadata import update_doc_metadata
 from thumbnail import generate_thumbnail
@@ -48,7 +49,7 @@ TEST_OUTPUT_DIR_PATH_mill_valley_6th_draft082322 = os.getenv('TEST_OUTPUT_DIR_PA
 with open(MAIN_FILE_PATH, 'r') as file:
     main_data = json.load(file)
 
-async def _execute_task(semaphore, task_function, arg_1, current_task_number = None, max_task_number = None):
+async def _execute_task(semaphore, task_function, args, current_task_number = None, max_task_number = None):
     async with semaphore:
         
         if current_task_number != None and max_task_number != None:
@@ -56,7 +57,7 @@ async def _execute_task(semaphore, task_function, arg_1, current_task_number = N
         else:
             print("task started! ------------")
         
-        async_result = await task_function(arg_1)
+        async_result = await task_function(*args)
         # await asyncio.sleep(1)
         print("task done!")
         return async_result
@@ -294,13 +295,16 @@ async def main():
 
     all_docs = getPaths(orgs_to_process)
     # valid_range = string.ascii_lowercase[:8]
-    # all_docs = list(filter(lambda x: "counties/los angeles" in x.lower(), all_docs))
-    # all_docs = list(filter(lambda x: "counties/orange" in x.lower(), all_docs))
-    # all_docs = list(filter(lambda x: "cities/los angeles" not in x.lower(), all_docs))
-    # all_docs = list(filter(lambda x: "cities/davis" in x.lower(), all_docs))
+    all_docs = list(filter(lambda x: "counties/los angeles".lower() in x.lower(), all_docs))
+    # all_docs = list(filter(lambda x: "counties/orange".lower() in x.lower(), all_docs))
+    all_docs = list(filter(lambda x: "cities/los angeles".lower() not in x.lower(), all_docs))
+    # all_docs = list(filter(lambda x: "cities/Placerville".lower() in x.lower(), all_docs))
+    # all_docs = list(filter(lambda x: "cities/oakland" in x.lower(), all_docs))
+    # all_docs = list(filter(lambda x: "cities/livermore" in x.lower(), all_docs))
+    # all_docs = list(filter(lambda x: "oakland-6th-draft063022" in x.lower(), all_docs))
     # all_docs = list(filter(lambda x: "beverly-hills-6th-adopted092922" in x, all_docs))
     # all_docs = list(filter(lambda x: "burbank" in x, all_docs))
-    all_docs = list(filter(lambda x: "cities/arcadia" in x.lower(), all_docs))
+    # all_docs = list(filter(lambda x: "cities/arcadia" in x.lower(), all_docs))
     # all_docs = list(filter(lambda x: "arcadia-6th-draft083122" in x.lower(), all_docs))
     
     # all_docs = list(filter(lambda x: "cities/petaluma" in x.lower(), all_docs))
@@ -367,26 +371,29 @@ async def main():
         # df["table_rows"] = df['table_rows'].apply(lambda x: [remove_special_chars(item['APN']) for item in x])
     
   
-    semaphore_1 = asyncio.Semaphore(1)
+    # semaphore_1 = asyncio.Semaphore(1)
 
-    results_1 = await asyncio.gather(*[
-        _execute_task(semaphore_1, find_tables_and_parcels, df_container.chosen_path(), i + 1, len(dfs_bucket)) 
-        for i, df_container in enumerate(dfs_bucket)
-        ])
+    # results_1 = await asyncio.gather(*[
+    #     _execute_task(semaphore_1, find_tables_and_parcels_v2, [df_container.chosen_path()], i + 1, len(dfs_bucket)) 
+    #     for i, df_container in enumerate(dfs_bucket)
+    #     ])
     
-    if len(results_1) != len(dfs_bucket):
-        raise Exception("server results and bucket are not the same length")
+    # if len(results_1) != len(dfs_bucket):
+    #     raise Exception("server results and bucket are not the same length")
 
     for i, df_container in enumerate(dfs_bucket):
-        df_container.df = results_1[i]
-        df_container.df.to_json('temp/output.json', orient='records') # For debugging
+        print("task " + str(i + 1) + " of "  + str(len(dfs_bucket) + 1) + " started...")
+        extract_result = find_tables_and_parcels_v2(df_container.chosen_path())
+        df_container.df = extract_result
+        print("task " + str(i + 1) + " of " + str(len(dfs_bucket) + 1) + " completed.")
+        # df_container.df.to_json('temp/output.json', orient='records') # For debugging
 
 
     semaphore_2 = asyncio.Semaphore(5)
 
     print('Getting intersection...')
     results_2 = await asyncio.gather(*[
-        _execute_task(semaphore_2, generate_request, df_container, i + 1, len(dfs_bucket)) 
+        _execute_task(semaphore_2, generate_request, [df_container, True], i + 1, len(dfs_bucket)) 
         for i, df_container in enumerate(dfs_bucket)
         ])
 

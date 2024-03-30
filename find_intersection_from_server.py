@@ -48,10 +48,15 @@ def convert_to_geopandas_dataframe(query_job_obj):
     print("done!")
     return query_df
 
+def custom_filter(target):
+    return f"""
+    LTRIM( RTRIM( REGEXP_REPLACE(LOWER({target}), '[^a-zA-Z0-9 ]', ''), '0 ') ) = LTRIM( RTRIM( REGEXP_REPLACE(LOWER(incoming_apn), '[^a-zA-Z0-9 ]', ''), '0 ') )
+    """
 def perform_query_v2(job_config, incoming_apns, county, parcel_table_name = 'all'):
     # print(incoming_apns)
     query_3 = f"""
         SELECT
+            p.AIN as ain,
             p.APN as apn,
             p.county as county,
             -- p.state,
@@ -62,11 +67,33 @@ def perform_query_v2(job_config, incoming_apns, county, parcel_table_name = 'all
         JOIN 
             UNNEST(@incoming_apns) AS incoming_apn
         ON
-            RTRIM( REGEXP_REPLACE(LOWER(p.APN), '[^a-zA-Z0-9]', ''), '0') = RTRIM( REGEXP_REPLACE(LOWER(incoming_apn), '[^a-zA-Z0-9]', ''), '0')
-            AND
             LOWER(p.county) = LOWER('{county}')
-
+            AND
+            (
+            {custom_filter('p.AIN')}
+            OR
+            {custom_filter('p.APN')}
+            )
     """
+    # query_3 = f"""
+    #     SELECT
+    #         p.AIN as ain,
+    #         p.APN as apn,
+    #         p.county as county,
+    #         -- p.state,
+    #         -- p.country
+    #         p.geometry AS geometry
+    #     FROM
+    #         `upzone-324103.parcels.all_clustered_by_county` AS p
+    #     JOIN 
+    #         UNNEST(['41-4153-13-2']) AS incoming_apn
+    #     ON
+    #         LOWER(p.county) = LOWER('Alameda')
+    #         AND
+            
+    #     LTRIM( RTRIM( REGEXP_REPLACE(LOWER(p.APN), '[^a-zA-Z0-9 ]', ''), '0 ') ) = LTRIM( RTRIM( REGEXP_REPLACE(LOWER(incoming_apn), '[^a-zA-Z0-9 ]', ''), '0 ') )
+    # """
+    # print(query_3)
     print("starting intersection query for " + str(len(incoming_apns)))
     print("at " + f"""{PROJECT_ID}.parcels.{parcel_table_name}""")
 
@@ -129,7 +156,7 @@ def perform_query(joined_table_list, job_config, parcel_table_name):
     print("done executing query!")
     return query_job
 
-async def generate_request(incoming_df_container):
+async def generate_request(incoming_df_container, use_cache = True):
     # await asyncio.sleep(0.25)
     # table_list = list(map(lambda x: x.replace("(", "⁀").replace(")", "‿"), table_list))
     
@@ -140,13 +167,13 @@ async def generate_request(incoming_df_container):
     newGdf = gpd.GeoDataFrame(columns=['apn', 'geometry'], geometry='geometry')
     parcel_apns_debug = []
     
-    for i, row in incoming_df.iterrows():
-        for minirow in list(row["table_rows"]):
-            print(minirow)
+    # for i, row in incoming_df.iterrows():
+    #     for minirow in list(row["table_rows"]):
+    #         print(minirow)
 
-    raise Exception("done!")
+    # raise Exception("done!")
 
-    if cache_destination.exists():
+    if use_cache == True and cache_destination.exists():
         print("getting intersection geodataframe from cache...")
         newGdf = pd.concat([newGdf, gpd.read_file(cache_destination)], ignore_index=True)
         
@@ -154,7 +181,8 @@ async def generate_request(incoming_df_container):
             parcels = list(row["table_rows"])
             parcel_apns_debug.extend( list( map(lambda x: x['APN'], parcels) ) )
 
-        debug_print(newGdf, parcel_apns_debug)
+        print(incoming_df_container.doc_file_name())
+        debug_print(newGdf, incoming_df)
         return newGdf
 
     print("Starting server query for " + incoming_df_container.doc_file_name())
@@ -166,9 +194,10 @@ async def generate_request(incoming_df_container):
         parcel_apns_debug.extend( list( map(lambda x: x['APN'], parcels) ) )
         table_order = str(row["table_order"])
         
-        for parcels_chunk in list(chunked(parcels, 2000)):
+        for parcels_chunk in list(chunked(parcels, 1000)):
 
             apns_chunk = list(map(lambda x: x["APN"], parcels_chunk))
+            # apns_chunk = list(filter(lambda x: x == '041 415301302', apns_chunk))
             # print(parcels_chunk)
             # batch_size = 3000
             # offset = 0
@@ -188,7 +217,7 @@ async def generate_request(incoming_df_container):
             gdf = query_job.to_geodataframe(geography_column="geometry")
             gdf['table_order'] = table_order
             print("done getting result!")
-            print("total rows: " + str(len(gdf)))
+            print("total intersection rows found for this chunk: " + str(len(gdf)))
             # print(gdf)
             newGdf = pd.concat([newGdf, gdf], ignore_index=True)
             
@@ -217,7 +246,7 @@ async def generate_request(incoming_df_container):
 
     print("converting query data to geopandas dataframe...")
     # newGdf = newGdf.set_geometry("geometry")
-    # print(newGdf)
+    print(len(newGdf))
     print("done 1!")
     
     # column_values_debug = newGdf['apn'].tolist()
@@ -237,20 +266,59 @@ async def generate_request(incoming_df_container):
         f.write(newGdf.to_json())
 
     print(incoming_df_container.doc_file_name())
-    debug_print(newGdf, parcel_apns_debug)
+    debug_print(newGdf, incoming_df)
 
     return newGdf
 
-def debug_print(newGdf, parcel_apns_debug):
-    column_values_debug = newGdf['apn'].tolist()
-    non_intersecting = find_non_shared_strings(parcel_apns_debug, column_values_debug)
-    print(non_intersecting)
-    print(str(len(non_intersecting)) + " out of " + str(len(parcel_apns_debug)) + " have no match.")
+def debug_print(newGdf, incoming_df):
+    # column_values_debug = newGdf['apn'].tolist()
+    # column_values_debug_2 = newGdf['ain'].tolist()
+    # non_intersecting = find_non_shared_strings(parcel_apns_debug, column_values_debug)
+    # apn_values_debug = list( map(lambda x: remove_hyphens_and_underscores(x), column_values_debug) )
+
+    # transformed_newGdf = newGdf[['ain', 'apn']].apply(remove_hyphens_and_underscores)
+    column_dict_1 = {}
+    if 'ain' in newGdf:
+        column_dict_1 = dict(zip(newGdf['ain'].apply(remove_hyphens_and_underscores), newGdf.index))
+    else:
+        print('no ain')
+        print(newGdf)
+
+    column_dict_2 = dict(zip(newGdf['apn'].apply(remove_hyphens_and_underscores), newGdf.index))
+    
+    # print(non_intersecting)
+
+    nonintersecting_apns = 0
+    rows = 0
+    # matched = []
+    for i, row in incoming_df.iterrows():
+        for minirow in list(row["table_rows"]):
+            rows += 1
+            apn_formatted = remove_hyphens_and_underscores(minirow['APN'])
+
+            no_match = apn_formatted not in column_dict_1 and apn_formatted not in column_dict_2
+
+            if no_match:
+                nonintersecting_apns += 1
+                if nonintersecting_apns <= 200:
+                    print(minirow)
+            # else:
+            #     matched.append(minirow)
+
+                
+                
+
+    if nonintersecting_apns > 200:
+        print("...")
+    print(str(nonintersecting_apns) + " out of " + str(rows) + " have no match.")
+    # print(matched)
 
 def remove_hyphens_and_underscores(s):
-    s = s.lower()
-    s = s.rstrip('0')
-    s = re.sub(r'[^a-zA-Z0-9]', '', s)
+    if isinstance(s, str):
+        s = s.lower()
+        s = s.rstrip('0 ')
+        s = s.lstrip()
+        s = re.sub(r'[^a-zA-Z0-9 ]', '', s)
     return s
 
 def find_non_shared_strings(list1, list2):
