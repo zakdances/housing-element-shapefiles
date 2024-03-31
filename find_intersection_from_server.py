@@ -194,7 +194,7 @@ async def generate_request(incoming_df_container, use_cache = True):
         parcel_apns_debug.extend( list( map(lambda x: x['APN'], parcels) ) )
         table_order = str(row["table_order"])
         
-        for parcels_chunk in list(chunked(parcels, 1000)):
+        for parcels_chunk in list(chunked(parcels, 500)):
 
             apns_chunk = list(map(lambda x: x["APN"], parcels_chunk))
             # apns_chunk = list(filter(lambda x: x == '041 415301302', apns_chunk))

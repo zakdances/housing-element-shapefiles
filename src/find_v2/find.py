@@ -214,15 +214,15 @@ def find_tables_and_parcels_v2(city_output_directory, target_page = -1):
                 apns_in_cell = []
                 # new_apn = cell_value
                 cell_value = remove_garbage(cell_value)
-                if '415301302' in str(cell_value):
-                    print('great 3: ' + str(cell_value))
+                # if '415301302' in str(cell_value):
+                #     print('great 3: ' + str(cell_value))
                 for possible_apn in pull_possible_apns_from_cell_value(cell_value):
 
-                    if '415301302' in str(possible_apn):
-                        print('great 3.25: ' + str(possible_apn))
+                    # if '415301302' in str(possible_apn):
+                    #     print('great 3.25: ' + str(possible_apn))
                     possible_apn = remove_garbage(possible_apn)
-                    if '415301302' in str(possible_apn):
-                        print('great 3.5: ' + str(possible_apn))
+                    # if '415301302' in str(possible_apn):
+                    #     print('great 3.5: ' + str(possible_apn))
 
                     # print("sample: ")
                     # print(apn_sample)
@@ -256,8 +256,8 @@ def find_tables_and_parcels_v2(city_output_directory, target_page = -1):
         if len(apns_list) > 0:
             for apn in apns_list:
                 real_apn = str(apn["APN"])
-                if '415301302' in real_apn:
-                    print('great 4: ' + str(apn))
+                # if '415301302' in real_apn:
+                #     print('great 4: ' + str(apn))
                     
         
             if is_table_next_to_previous_apn_table == False:

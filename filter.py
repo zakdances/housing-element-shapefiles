@@ -297,7 +297,10 @@ async def main():
     # valid_range = string.ascii_lowercase[:8]
     all_docs = list(filter(lambda x: "counties/los angeles".lower() in x.lower(), all_docs))
     # all_docs = list(filter(lambda x: "counties/orange".lower() in x.lower(), all_docs))
-    all_docs = list(filter(lambda x: "cities/los angeles".lower() not in x.lower(), all_docs))
+    # all_docs = list(filter(lambda x: "cities/los angeles".lower() not in x.lower(), all_docs))
+    all_docs = list(filter(lambda x: "cities/los angeles".lower() in x.lower(), all_docs))
+    # all_docs = [file_path for file_path in all_docs if file_path.split("/cities/")[1].split("/")[0].startswith(('A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J'))]
+    # all_docs = [file_path for file_path in all_docs if file_path.split("/cities/")[1].split("/")[0].startswith(('K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z'))]
     # all_docs = list(filter(lambda x: "cities/Placerville".lower() in x.lower(), all_docs))
     # all_docs = list(filter(lambda x: "cities/oakland" in x.lower(), all_docs))
     # all_docs = list(filter(lambda x: "cities/livermore" in x.lower(), all_docs))
@@ -383,13 +386,14 @@ async def main():
 
     for i, df_container in enumerate(dfs_bucket):
         print("task " + str(i + 1) + " of "  + str(len(dfs_bucket) + 1) + " started...")
+        print(df_container.chosen_path())
         extract_result = find_tables_and_parcels_v2(df_container.chosen_path())
         df_container.df = extract_result
         print("task " + str(i + 1) + " of " + str(len(dfs_bucket) + 1) + " completed.")
         # df_container.df.to_json('temp/output.json', orient='records') # For debugging
 
 
-    semaphore_2 = asyncio.Semaphore(5)
+    semaphore_2 = asyncio.Semaphore(1)
 
     print('Getting intersection...')
     results_2 = await asyncio.gather(*[

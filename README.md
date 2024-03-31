@@ -187,3 +187,91 @@
 | 31|Westminster        |        4|     5|5182 |   2661|SCAG  |Orange|[link](<counties/Orange/cities/Westminster>)        |
 | 32|Yorba Linda        |        3|     5|725  |    342|SCAG  |Orange|[link](<counties/Orange/cities/Yorba Linda>)        |
 
+# SCAG (LA County - A through J)
+|   |      city      |documents|tables|apns|parcels|agency|  county   |                         link                         |
+|--:|----------------|--------:|-----:|----|------:|------|-----------|------------------------------------------------------|
+|  1|Agoura Hills    |        3|     1|92  |     89|SCAG  |Los Angeles|[link](<counties/Los Angeles/cities/Agoura Hills>)    |
+|  2|Alhambra        |        4|     2|96  |     60|SCAG  |Los Angeles|[link](<counties/Los Angeles/cities/Alhambra>)        |
+|  3|Arcadia         |        5|    10|3254|   3211|SCAG  |Los Angeles|[link](<counties/Los Angeles/cities/Arcadia>)         |
+|  4|Artesia         |        2|     2|336 |    334|SCAG  |Los Angeles|[link](<counties/Los Angeles/cities/Artesia>)         |
+|  5|Avalon          |        4|     0|6   |      0|SCAG  |Los Angeles|[link](<counties/Los Angeles/cities/Avalon>)          |
+|  6|Azusa           |        5|    10|689 |    541|SCAG  |Los Angeles|[link](<counties/Los Angeles/cities/Azusa>)           |
+|  7|Bell            |        4|     2|32  |      5|SCAG  |Los Angeles|[link](<counties/Los Angeles/cities/Bell>)            |
+|  8|Bell Gardens    |        3|     3|141 |    135|SCAG  |Los Angeles|[link](<counties/Los Angeles/cities/Bell Gardens>)    |
+|  9|Bellflower      |        4|     0|   0|      0|SCAG  |Los Angeles|[link](<counties/Los Angeles/cities/Bellflower>)      |
+| 10|Beverly Hills   |        4|     8|3288|   2984|SCAG  |Los Angeles|[link](<counties/Los Angeles/cities/Beverly Hills>)   |
+| 11|Bradbury        |        2|     3|51  |     51|SCAG  |Los Angeles|[link](<counties/Los Angeles/cities/Bradbury>)        |
+| 12|Burbank         |        5|    12|3145|   3098|SCAG  |Los Angeles|[link](<counties/Los Angeles/cities/Burbank>)         |
+| 13|Calabasas       |        3|     4|38  |     14|SCAG  |Los Angeles|[link](<counties/Los Angeles/cities/Calabasas>)       |
+| 14|Carson          |        3|    10|922 |    751|SCAG  |Los Angeles|[link](<counties/Los Angeles/cities/Carson>)          |
+| 15|Cerritos        |        3|     4|72  |     52|SCAG  |Los Angeles|[link](<counties/Los Angeles/cities/Cerritos>)        |
+| 16|Claremont       |        3|     3|265 |    264|SCAG  |Los Angeles|[link](<counties/Los Angeles/cities/Claremont>)       |
+| 17|Covina          |        2|     1|143 |    121|SCAG  |Los Angeles|[link](<counties/Los Angeles/cities/Covina>)          |
+| 18|Cudahy          |        4|     4|83  |     79|SCAG  |Los Angeles|[link](<counties/Los Angeles/cities/Cudahy>)          |
+| 19|Culver City     |        3|     1|1666|   1652|SCAG  |Los Angeles|[link](<counties/Los Angeles/cities/Culver City>)     |
+| 20|Diamond Bar     |        3|     3|642 |    623|SCAG  |Los Angeles|[link](<counties/Los Angeles/cities/Diamond Bar>)     |
+| 21|Downey          |        3|     4|2352|   2271|SCAG  |Los Angeles|[link](<counties/Los Angeles/cities/Downey>)          |
+| 22|Duarte          |        3|     7|166 |    162|SCAG  |Los Angeles|[link](<counties/Los Angeles/cities/Duarte>)          |
+| 23|El Monte        |        3|     5|4722|   4282|SCAG  |Los Angeles|[link](<counties/Los Angeles/cities/El Monte>)        |
+| 24|El Segundo      |        3|     5|92  |     62|SCAG  |Los Angeles|[link](<counties/Los Angeles/cities/El Segundo>)      |
+| 25|Gardena         |        6|    16|5683|   4523|SCAG  |Los Angeles|[link](<counties/Los Angeles/cities/Gardena>)         |
+| 26|Glendale        |        4|     3|4126|   3613|SCAG  |Los Angeles|[link](<counties/Los Angeles/cities/Glendale>)        |
+| 27|Glendora        |        3|     2|339 |    301|SCAG  |Los Angeles|[link](<counties/Los Angeles/cities/Glendora>)        |
+| 28|Hawaiian Gardens|        3|    13|189 |    130|SCAG  |Los Angeles|[link](<counties/Los Angeles/cities/Hawaiian Gardens>)|
+| 29|Hermosa Beach   |        2|     3|162 |     44|SCAG  |Los Angeles|[link](<counties/Los Angeles/cities/Hermosa Beach>)   |
+| 30|Hidden Hills    |        3|     0|18  |      0|SCAG  |Los Angeles|[link](<counties/Los Angeles/cities/Hidden Hills>)    |
+| 31|Huntington Park |        4|     3|248 |    192|SCAG  |Los Angeles|[link](<counties/Los Angeles/cities/Huntington Park>) |
+| 32|Industry        |        3|     0|   0|      0|SCAG  |Los Angeles|[link](<counties/Los Angeles/cities/Industry>)        |
+| 33|Inglewood       |        2|     0|   0|      0|SCAG  |Los Angeles|[link](<counties/Los Angeles/cities/Inglewood>)       |
+| 34|Irwindale       |        1|     1|21  |     21|SCAG  |Los Angeles|[link](<counties/Los Angeles/cities/Irwindale>)       |
+
+# SCAG (LA County - K through Z)
+|   |        city         |documents|tables|apns|parcels|agency|  county   |                           link                            |
+|--:|---------------------|--------:|-----:|----|------:|------|-----------|-----------------------------------------------------------|
+|  1|La Habra Heights     |        2|     4|386 |    320|SCAG  |Los Angeles|[link](<counties/Los Angeles/cities/La Habra Heights>)     |
+|  2|La Mirada            |        2|     0|   0|      0|SCAG  |Los Angeles|[link](<counties/Los Angeles/cities/La Mirada>)            |
+|  3|La Puente            |        3|     2|536 |    536|SCAG  |Los Angeles|[link](<counties/Los Angeles/cities/La Puente>)            |
+|  4|La Verne             |        3|     5|368 |    331|SCAG  |Los Angeles|[link](<counties/Los Angeles/cities/La Verne>)             |
+|  5|Lakewood             |        4|     2|586 |    584|SCAG  |Los Angeles|[link](<counties/Los Angeles/cities/Lakewood>)             |
+|  6|Lancaster            |        4|    13|3091|   2783|SCAG  |Los Angeles|[link](<counties/Los Angeles/cities/Lancaster>)            |
+|  7|Lawndale             |        2|     3|252 |    252|SCAG  |Los Angeles|[link](<counties/Los Angeles/cities/Lawndale>)             |
+|  8|Lomita               |        3|     7|848 |    500|SCAG  |Los Angeles|[link](<counties/Los Angeles/cities/Lomita>)               |
+|  9|Long Beach           |        3|     1|948 |    899|SCAG  |Los Angeles|[link](<counties/Los Angeles/cities/Long Beach>)           |
+| 10|Lynwood              |        3|     0|8   |      0|SCAG  |Los Angeles|[link](<counties/Los Angeles/cities/Lynwood>)              |
+| 11|Malibu               |        2|     2|64  |     56|SCAG  |Los Angeles|[link](<counties/Los Angeles/cities/Malibu>)               |
+| 12|Maywood              |        3|     3|210 |    202|SCAG  |Los Angeles|[link](<counties/Los Angeles/cities/Maywood>)              |
+| 13|Monrovia             |        4|     3|378 |    287|SCAG  |Los Angeles|[link](<counties/Los Angeles/cities/Monrovia>)             |
+| 14|Montebello           |        3|     5|34  |     22|SCAG  |Los Angeles|[link](<counties/Los Angeles/cities/Montebello>)           |
+| 15|Monterey Park        |        4|     5|3276|    771|SCAG  |Los Angeles|[link](<counties/Los Angeles/cities/Monterey Park>)        |
+| 16|Norwalk              |        2|     1|262 |    253|SCAG  |Los Angeles|[link](<counties/Los Angeles/cities/Norwalk>)              |
+| 17|Palmdale             |        5|     6|592 |    570|SCAG  |Los Angeles|[link](<counties/Los Angeles/cities/Palmdale>)             |
+| 18|Paramount            |        3|     7|62  |     58|SCAG  |Los Angeles|[link](<counties/Los Angeles/cities/Paramount>)            |
+| 19|Pasadena             |        4|     4|1641|   1061|SCAG  |Los Angeles|[link](<counties/Los Angeles/cities/Pasadena>)             |
+| 20|Pico Rivera          |        3|     7|80  |     77|SCAG  |Los Angeles|[link](<counties/Los Angeles/cities/Pico Rivera>)          |
+| 21|Pomona               |        3|     4|161 |     56|SCAG  |Los Angeles|[link](<counties/Los Angeles/cities/Pomona>)               |
+| 22|Rancho Palos Verdes  |        2|     1|31  |     28|SCAG  |Los Angeles|[link](<counties/Los Angeles/cities/Rancho Palos Verdes>)  |
+| 23|Redondo Beach        |        4|     4|4007|   3757|SCAG  |Los Angeles|[link](<counties/Los Angeles/cities/Redondo Beach>)        |
+| 24|Rolling Hills        |        4|    10|169 |    123|SCAG  |Los Angeles|[link](<counties/Los Angeles/cities/Rolling Hills>)        |
+| 25|Rolling Hills Estates|        6|     6|96  |     90|SCAG  |Los Angeles|[link](<counties/Los Angeles/cities/Rolling Hills Estates>)|
+| 26|Rosemead             |        3|     5|1199|    862|SCAG  |Los Angeles|[link](<counties/Los Angeles/cities/Rosemead>)             |
+| 27|San Dimas            |        3|     2|73  |     66|SCAG  |Los Angeles|[link](<counties/Los Angeles/cities/San Dimas>)            |
+| 28|San Fernando         |        2|     2|213 |    213|SCAG  |Los Angeles|[link](<counties/Los Angeles/cities/San Fernando>)         |
+| 29|San Gabriel          |        3|     0|   0|      0|SCAG  |Los Angeles|[link](<counties/Los Angeles/cities/San Gabriel>)          |
+| 30|San Marino           |        2|     4|24  |     23|SCAG  |Los Angeles|[link](<counties/Los Angeles/cities/San Marino>)           |
+| 31|Santa Clarita        |        3|     3|289 |    289|SCAG  |Los Angeles|[link](<counties/Los Angeles/cities/Santa Clarita>)        |
+| 32|Santa Fe Springs     |        3|    10|175 |    132|SCAG  |Los Angeles|[link](<counties/Los Angeles/cities/Santa Fe Springs>)     |
+| 33|Santa Monica         |        4|     6|3082|   2088|SCAG  |Los Angeles|[link](<counties/Los Angeles/cities/Santa Monica>)         |
+| 34|Sierra Madre         |        5|     5|369 |    272|SCAG  |Los Angeles|[link](<counties/Los Angeles/cities/Sierra Madre>)         |
+| 35|Signal Hill          |        4|     4|100 |     61|SCAG  |Los Angeles|[link](<counties/Los Angeles/cities/Signal Hill>)          |
+| 36|South El Monte       |        3|    10|144 |    110|SCAG  |Los Angeles|[link](<counties/Los Angeles/cities/South El Monte>)       |
+| 37|South Gate           |        2|     0|   0|      0|SCAG  |Los Angeles|[link](<counties/Los Angeles/cities/South Gate>)           |
+| 38|South Pasadena       |        5|    78|1713|   1507|SCAG  |Los Angeles|[link](<counties/Los Angeles/cities/South Pasadena>)       |
+| 39|Temple City          |        4|     3|137 |    131|SCAG  |Los Angeles|[link](<counties/Los Angeles/cities/Temple City>)          |
+| 40|Torrance             |        3|     5|2247|   1213|SCAG  |Los Angeles|[link](<counties/Los Angeles/cities/Torrance>)             |
+| 41|Vernon               |        2|     0|   0|      0|SCAG  |Los Angeles|[link](<counties/Los Angeles/cities/Vernon>)               |
+| 42|Walnut               |        5|     5|196 |    171|SCAG  |Los Angeles|[link](<counties/Los Angeles/cities/Walnut>)               |
+| 43|West Covina          |        2|     2|1080|   1043|SCAG  |Los Angeles|[link](<counties/Los Angeles/cities/West Covina>)          |
+| 44|West Hollywood       |        3|     5|376 |    218|SCAG  |Los Angeles|[link](<counties/Los Angeles/cities/West Hollywood>)       |
+| 45|Westlake Village     |        3|     6|57  |     53|SCAG  |Los Angeles|[link](<counties/Los Angeles/cities/Westlake Village>)     |
+| 46|Whittier             |        3|     3|442 |    420|SCAG  |Los Angeles|[link](<counties/Los Angeles/cities/Whittier>)             |
+

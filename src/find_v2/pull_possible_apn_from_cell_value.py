@@ -16,12 +16,14 @@ def combine_last_n_elements(lst, n, splitter=" "):
 
 def pull_possible_apns_from_cell_value(cell_value):
     cell_value = remove_garbage(cell_value)
+    cell_value_split = cell_value.split(" ")
+    cell_value_split = [s for s in cell_value_split if len(s) != 1 and len(s) != 2] # Remove one and two character strings
     new_strings = []
 
-    if ('415301302' in cell_value):
-        print('great: ' + str(cell_value))
+    # if ('415301302' in cell_value):
+    #     print('great: ' + str(cell_value))
 
-    for index, val in enumerate(cell_value.split(" ")):
+    for index, val in enumerate(cell_value_split):
         val = val.strip()
         new_strings.append(val)
         last_items_2 = get_last_n_items_safe(new_strings, 2)
@@ -41,9 +43,9 @@ def pull_possible_apns_from_cell_value(cell_value):
                 new_strings = combine_last_n_elements(new_strings, 2, "")
                 # print(new_strings[-1])
 
-    if ('415301302' in cell_value):
-        print('great 2: ' + str(cell_value))
-        print(new_strings)
+    # if ('415301302' in cell_value):
+    #     print('great 2: ' + str(cell_value))
+    #     print(new_strings)
     
     if len(new_strings) == 2:
         new_strings = [" ".join(new_strings)]
