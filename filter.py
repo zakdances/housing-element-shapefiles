@@ -291,14 +291,15 @@ async def main():
         
     # print(SACOG)
     # orgs_to_process = (ABAG + SACOG + SCAG)
-    orgs_to_process = SCAG
+    orgs_to_process = ABAG
 
     all_docs = getPaths(orgs_to_process)
     # valid_range = string.ascii_lowercase[:8]
-    all_docs = list(filter(lambda x: "counties/los angeles".lower() in x.lower(), all_docs))
+    # all_docs = list(filter(lambda x: "counties/los angeles".lower() in x.lower(), all_docs))
     # all_docs = list(filter(lambda x: "counties/orange".lower() in x.lower(), all_docs))
     # all_docs = list(filter(lambda x: "cities/los angeles".lower() not in x.lower(), all_docs))
-    all_docs = list(filter(lambda x: "cities/los angeles".lower() in x.lower(), all_docs))
+    # all_docs = list(filter(lambda x: "cities/los angeles".lower() in x.lower(), all_docs))
+    all_docs = list(filter(lambda x: "cities/berkeley".lower() in x.lower(), all_docs))
     # all_docs = [file_path for file_path in all_docs if file_path.split("/cities/")[1].split("/")[0].startswith(('A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J'))]
     # all_docs = [file_path for file_path in all_docs if file_path.split("/cities/")[1].split("/")[0].startswith(('K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z'))]
     # all_docs = list(filter(lambda x: "cities/Placerville".lower() in x.lower(), all_docs))
@@ -397,7 +398,7 @@ async def main():
 
     print('Getting intersection...')
     results_2 = await asyncio.gather(*[
-        _execute_task(semaphore_2, generate_request, [df_container, True], i + 1, len(dfs_bucket)) 
+        _execute_task(semaphore_2, generate_request, [df_container, False], i + 1, len(dfs_bucket)) 
         for i, df_container in enumerate(dfs_bucket)
         ])
 

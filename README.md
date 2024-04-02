@@ -275,3 +275,13 @@
 | 45|Westlake Village     |        3|     6|57  |     53|SCAG  |Los Angeles|[link](<counties/Los Angeles/cities/Westlake Village>)     |
 | 46|Whittier             |        3|     3|442 |    420|SCAG  |Los Angeles|[link](<counties/Los Angeles/cities/Whittier>)             |
 
+# ABAG
+|   |  city  |documents|tables|apns|parcels|agency|county |                   link                   |
+|--:|--------|--------:|-----:|----|------:|------|-------|------------------------------------------|
+|  1|Berkeley|        3|     0|624 |      0|ABAG  |Alameda|[link](<counties/Alameda/cities/Berkeley>)|
+
+# ABAG
+|   |  city  |documents|tables|apns|parcels|agency|county |                   link                   |
+|--:|--------|--------:|-----:|----|------:|------|-------|------------------------------------------|
+|  1|Berkeley|        3|     0|624 |      0|ABAG  |Alameda|[link](<counties/Alameda/cities/Berkeley>)|
+

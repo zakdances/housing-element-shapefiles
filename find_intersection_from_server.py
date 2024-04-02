@@ -56,24 +56,22 @@ def perform_query_v2(job_config, incoming_apns, county, parcel_table_name = 'all
     # print(incoming_apns)
     query_3 = f"""
         SELECT
-            p.AIN as ain,
+            -- p.AIN as ain,
             p.APN as apn,
+            p.APNs as apns,
             p.county as county,
             -- p.state,
             -- p.country
             p.geometry AS geometry
         FROM
             `{PROJECT_ID}.parcels.{parcel_table_name}` AS p
-        JOIN 
-            UNNEST(@incoming_apns) AS incoming_apn
-        ON
+        CROSS JOIN 
+            UNNEST(@incoming_apns) AS incoming_apn,
+            UNNEST(p.APNs) AS server_apn
+        WHERE
             LOWER(p.county) = LOWER('{county}')
             AND
-            (
-            {custom_filter('p.AIN')}
-            OR
-            {custom_filter('p.APN')}
-            )
+            LTRIM( RTRIM( REGEXP_REPLACE(LOWER(server_apn), '[^a-zA-Z0-9 ]', ''), '0 ') ) = LTRIM( RTRIM( REGEXP_REPLACE(LOWER(incoming_apn), '[^a-zA-Z0-9 ]', ''), '0 ') )
     """
     # query_3 = f"""
     #     SELECT
@@ -156,7 +154,7 @@ def perform_query(joined_table_list, job_config, parcel_table_name):
     print("done executing query!")
     return query_job
 
-async def generate_request(incoming_df_container, use_cache = True):
+async def generate_request(incoming_df_container, use_cache = True, local_geojson_gdf = None):
     # await asyncio.sleep(0.25)
     # table_list = list(map(lambda x: x.replace("(", "⁀").replace(")", "‿"), table_list))
     
@@ -184,6 +182,9 @@ async def generate_request(incoming_df_container, use_cache = True):
         print(incoming_df_container.doc_file_name())
         debug_print(newGdf, incoming_df)
         return newGdf
+    # if use_cache == False and local_geojson_gdf != None:
+
+        
 
     print("Starting server query for " + incoming_df_container.doc_file_name())
     # for table_list in list(chunked(table_list, 20)):
@@ -193,8 +194,9 @@ async def generate_request(incoming_df_container, use_cache = True):
         parcels = list(row["table_rows"])
         parcel_apns_debug.extend( list( map(lambda x: x['APN'], parcels) ) )
         table_order = str(row["table_order"])
+        max_chunk = 500
         
-        for parcels_chunk in list(chunked(parcels, 500)):
+        for parcels_chunk in list(chunked(parcels, max_chunk)):
 
             apns_chunk = list(map(lambda x: x["APN"], parcels_chunk))
             # apns_chunk = list(filter(lambda x: x == '041 415301302', apns_chunk))
@@ -218,6 +220,14 @@ async def generate_request(incoming_df_container, use_cache = True):
             gdf['table_order'] = table_order
             print("done getting result!")
             print("total intersection rows found for this chunk: " + str(len(gdf)))
+            # if len(gdf) == 0:
+            #     print(apns_chunk)
+            if len(gdf) > max_chunk:
+                # duplicates_mask = gdf.duplicated(subset=['apns'], keep=False)
+                # duplicate_rows = gdf[duplicates_mask]
+                # print(duplicate_rows)
+                raise Exception("Too many intersections")
+
             # print(gdf)
             newGdf = pd.concat([newGdf, gdf], ignore_index=True)
             
