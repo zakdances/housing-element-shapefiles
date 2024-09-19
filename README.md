@@ -1,5 +1,5 @@
 # Bounty Project for CA Yimby bounty
-### A project to create shapefiles for all cities belonging to ABAG, SACOG and SCAG.
+### A project to create shapefiles for all cities belonging to ABAG, SACOG and SCAG. (2 total bounties)
 
 #### (shapefile path: counties/{county name}/cities/{city name}/output/{document name}/misc)
 
