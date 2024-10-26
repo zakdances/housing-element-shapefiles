@@ -283,8 +283,9 @@ async def main():
     args = parser.parse_args()
 
     if (args.agency and args.city) or (args.agency and args.county):
-        raise Exception("Incorrect usage. Select an agency OR a city/county, not both.")
-    
+        raise Exception("Incorrect usage. Select either an agency OR a city/county, not both.")
+    if args.agency and args.agency not in ["SCAG", "ABAG", "SACOG"]:
+        raise Exception("Not a valid agency name. Choose SCAG, ABAG, or SACOG.")
 
 
     SCAG = []
@@ -305,7 +306,7 @@ async def main():
         
     # print(SACOG)
     # orgs_to_process = (ABAG + SACOG + SCAG)
-    orgs_to_process = ABAG
+    orgs_to_process = args.agency
 
     all_docs = getPaths(orgs_to_process)
     # valid_range = string.ascii_lowercase[:8]
@@ -429,7 +430,7 @@ async def main():
 
     # raise Exception("Great job!")
 
-    
+
 
     data_for_markdown = Df_Container.generate_data_for_markdown(dfs_bucket)
     data_for_markdown.sort(key=lambda x: (x['agency'], x['city']))
