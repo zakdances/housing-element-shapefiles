@@ -2,6 +2,8 @@
 
 import os
 import glob
+import sys
+import argparse
 from time import sleep
 from collections import OrderedDict
 import json
@@ -272,6 +274,18 @@ def getPaths(orgs_to_process):
     return all_docs
 
 async def main():
+
+    parser = argparse.ArgumentParser()
+    parser.add_argument('--agency', type=str, help='which planning agency to process')
+    parser.add_argument('--city', type=str, help='which city to process')
+    parser.add_argument('--county', type=str, help='which county to process')
+    parser.add_argument('--save', type=bool, help='save shape file and append meta data to readme')
+    args = parser.parse_args()
+
+    if (args.agency and args.city) or (args.agency and args.county):
+        raise Exception("Incorrect usage. Select an agency OR a city/county, not both.")
+    
+
 
     SCAG = []
     ABAG = []
