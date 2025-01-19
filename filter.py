@@ -282,8 +282,12 @@ async def main():
     parser.add_argument('--save', type=bool, help='save shape file and append meta data to readme')
     args = parser.parse_args()
 
+    if not args.items:
+        raise Exception("Please provide an agency, city, or county to process.")
+    # If agency is provied, city and county should not be provided
     if (args.agency and args.city) or (args.agency and args.county):
         raise Exception("Incorrect usage. Select either an agency OR a city/county, not both.")
+    # If agency is provided, it should be one of the following
     if args.agency and args.agency not in ["SCAG", "ABAG", "SACOG"]:
         raise Exception("Not a valid agency name. Choose SCAG, ABAG, or SACOG.")
 
@@ -291,7 +295,7 @@ async def main():
     SCAG = []
     ABAG = []
     SACOG = []
-    SANDAG = []
+    # SANDAG = []
 
     for city in main_data:
         city_name = city['city']
@@ -430,31 +434,33 @@ async def main():
 
     # raise Exception("Great job!")
 
+    if args.save == True:
+        print("generating shapefiles...")
+        for df_container in dfs_bucket:
+            generate_shapefile(df_container.server_gdf, df_container.shapefile_output_dir())
 
 
-    data_for_markdown = Df_Container.generate_data_for_markdown(dfs_bucket)
-    data_for_markdown.sort(key=lambda x: (x['agency'], x['city']))
+        data_for_markdown = Df_Container.generate_data_for_markdown(dfs_bucket)
+        data_for_markdown.sort(key=lambda x: (x['agency'], x['city']))
 
-    city_groups = bucket(data_for_markdown, key=lambda x: x["agency"])
+        city_groups = bucket(data_for_markdown, key=lambda x: x["agency"])
 
-    for key in list( city_groups ):
-        city_group = list( city_groups[key] )
-        column_headers = list( city_group[0].keys() )
-        values = list(map(lambda x: list(x.values()), city_group) )
+        for key in list( city_groups ):
+            city_group = list( city_groups[key] )
+            column_headers = list( city_group[0].keys() )
+            values = list(map(lambda x: list(x.values()), city_group) )
 
-        writer = MarkdownTableWriter(
-                headers=column_headers,
-                value_matrix=values,
-            )
-        
-        markdown_table_string = "# " + city_group[0]["agency"] + '\n' + writer.dumps() + '\n'
-        with open("./README.md", 'a') as file:
-            file.write(markdown_table_string)
+            writer = MarkdownTableWriter(
+                    headers=column_headers,
+                    value_matrix=values,
+                )
+            
+            markdown_table_string = "# " + city_group[0]["agency"] + '\n' + writer.dumps() + '\n'
+            with open("./README.md", 'a') as file:
+                file.write(markdown_table_string)
 
 
-    print("generating shapefiles...")
-    for df_container in dfs_bucket:
-        generate_shapefile(df_container.server_gdf, df_container.shapefile_output_dir())
+   
 
 
     print("completely done!")

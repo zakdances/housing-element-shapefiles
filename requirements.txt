@@ -1,10 +1,7 @@
 scrapy
 pandas
+geopandas
 openpyxl
-boto3[crt]
-amazon-textract-textractor[pdf]
-amazon-textract-textractor[pandas]
-amazon-textract-textractor[torch]
 jsonlines
 apache-beam[gcp]
 google-cloud-bigquery
@@ -20,3 +17,4 @@ pdfplumber
 python-dotenv
 pyshp
 py-markdown-table
+dotenv
