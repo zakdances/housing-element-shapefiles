@@ -434,6 +434,7 @@ async def main():
 
     # raise Exception("Great job!")
 
+    # If args.save is True, then generate save fies and save them to the output directory
     if args.save == True:
         print("generating shapefiles...")
         for df_container in dfs_bucket:
