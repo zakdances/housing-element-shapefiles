@@ -415,6 +415,7 @@ async def main():
 
     semaphore_2 = asyncio.Semaphore(1)
 
+    # Get intersection from server
     print('Getting intersection...')
     results_2 = await asyncio.gather(*[
         _execute_task(semaphore_2, generate_request, [df_container, False], i + 1, len(dfs_bucket)) 
