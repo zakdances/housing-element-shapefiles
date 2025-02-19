@@ -36,9 +36,9 @@ from find_intersection_from_server import generate_request
 
 load_dotenv(dotenv_path=Path('.env.local'))
 
+# Load environment variables
 HOUSING_ELEMENT_SCHEMA_FILEPATH = os.getenv('HOUSING_ELEMENT_SCHEMA_FILEPATH')
 COUNTIES_DIR_PATH = os.getenv('COUNTIES_DIR_PATH')
-
 PROJECT_ID = os.getenv('PROJECT_ID')
 VIEWABLE_DATASETS = os.getenv('VIEWABLE_DATASETS')
 MAIN_FILE_PATH = os.getenv('MAIN_FILE_PATH')
