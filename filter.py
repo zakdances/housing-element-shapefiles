@@ -282,8 +282,8 @@ async def main():
     parser.add_argument('--save', type=bool, help='save shape file and append meta data to readme')
     args = parser.parse_args()
 
-    if not args.items:
-        raise Exception("Please provide an agency, city, or county to process.")
+    if not any(vars(args).values()):
+        raise Exception("Please provide an agency, city, or county to proceed.")
     # If agency is provied, city and county should not be provided
     if (args.agency and args.city) or (args.agency and args.county):
         raise Exception("Incorrect usage. Select either an agency OR a city/county, not both.")
