@@ -7,7 +7,7 @@ wheel
 # apache-beam[gcp]
 google-cloud-bigquery
 google-cloud-storage
-pypdf
+pypdf # TODO: remove this
 pymupdf
 Pillow
 send2trash
