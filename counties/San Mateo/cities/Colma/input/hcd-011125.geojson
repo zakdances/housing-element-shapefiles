@@ -1,0 +1,8 @@
+{
+"type": "FeatureCollection",
+"name": "hcd-011125",
+"crs": { "type": "name", "properties": { "name": "urn:ogc:def:crs:OGC:1.3:CRS84" } },
+"features": [
+{ "type": "Feature", "properties": { "OBJECTID_1": 26464, "County_Name": "SAN MATEO", "fips_apn": "06081_008125180", "jurisdiction_name": "COLMA", "Site_Address_Intersection": "Between 461 and 469 B Street", "AssessorParcelNumber": "008-125-180", "Consolidated_Sites": null, "General_Plan_Designation_Curren": "C/R", "Zoning_Designation_Current": "R", "Minimum_Density_Allowed_units_p": 1.0, "Max_Density_Allowed_units_per_a": "1", "Parcel_Size_Acres": 0.11, "Existing_Use_Vacancy": "Vacant", "Infrastructure": "YES - Current", "Publicly_Owned": "NO - Privately-Owned", "Site_Status": "Available", "Identified_in_Last_Two_Planning": "Used in Two Consecutive Prior Housing Elements - Vacant", "Lower_Income_Capacity": 0.0, "Moderate_Income_Capacity": 0.0, "Above_Moderate_Income_Capacity": 1.0, "Total_Capacity": 1.0, "Latitude": 37.68559613, "Longitude": -122.4617981, "Zoning_Designation_Current_Desc": "Single Family Dwellings, Home Office. With use permit: multi-family dwelling, residential planned development, other home occupation", "Zip_Code": "94014" }, "geometry": { "type": "Point", "coordinates": [ -13632385.0057, 4535105.8059 ] } }
+]
+}

@@ -1,0 +1,8 @@
+{
+"type": "FeatureCollection",
+"name": "hcd-011125",
+"crs": { "type": "name", "properties": { "name": "urn:ogc:def:crs:OGC:1.3:CRS84" } },
+"features": [
+{ "type": "Feature", "properties": { "OBJECTID_1": 52460, "County_Name": "RIVERSIDE", "fips_apn": "06065_633410039", "jurisdiction_name": "INDIAN WELLS", "Site_Address_Intersection": "78000 BETTY BARKER WAY", "AssessorParcelNumber": "633-410-039", "Consolidated_Sites": null, "General_Plan_Designation_Curren": "Medium Density Residential", "Zoning_Designation_Current": "Medium Density Residential", "Minimum_Density_Allowed_units_p": 4.6, "Max_Density_Allowed_units_per_a": "7", "Parcel_Size_Acres": 6.0, "Existing_Use_Vacancy": "Vacant", "Infrastructure": "YES - Planned", "Publicly_Owned": "YES - City-Owned", "Site_Status": "Pending Project", "Identified_in_Last_Two_Planning": "Not Used in Prior Housing Element", "Lower_Income_Capacity": 86.0, "Moderate_Income_Capacity": 13.0, "Above_Moderate_Income_Capacity": 1.0, "Total_Capacity": 100.0, "Latitude": 33.71896535, "Longitude": -116.30829729, "Zoning_Designation_Current_Desc": "Single-family detached homes, cluster developments, and attached units\n21.12.020 Land use categories", "Zip_Code": "92210" }, "geometry": { "type": "Point", "coordinates": [ -12947380.4296, 3991128.075000000186265 ] } }
+]
+}

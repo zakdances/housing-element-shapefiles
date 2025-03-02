@@ -10,11 +10,11 @@ PyPDF2
 pymupdf
 Pillow
 send2trash
-camelot-py[base]
-camelot-py[cv] 
+camelot-py
 tabula-py
 pdfplumber
 python-dotenv
 pyshp
 py-markdown-table
 dotenv
+pyogrio

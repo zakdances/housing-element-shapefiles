@@ -1,0 +1,8 @@
+{
+"type": "FeatureCollection",
+"name": "hcd-011125",
+"crs": { "type": "name", "properties": { "name": "urn:ogc:def:crs:OGC:1.3:CRS84" } },
+"features": [
+{ "type": "Feature", "properties": { "OBJECTID_1": 108329, "County_Name": "LOS ANGELES", "fips_apn": "06037_7480002072", "jurisdiction_name": "AVALON", "Site_Address_Intersection": "Tremont Street/Country Club Canyon Dr", "AssessorParcelNumber": "7480002072", "Consolidated_Sites": null, "General_Plan_Designation_Curren": "High Density Residential Community Housing", "Zoning_Designation_Current": "HD-R-CH", "Minimum_Density_Allowed_units_p": 0.0, "Max_Density_Allowed_units_per_a": "40", "Parcel_Size_Acres": 1.52, "Existing_Use_Vacancy": "Partially developed; 50% vacant, 50% developed with residential uses (70 units)", "Infrastructure": "YES - Planned", "Publicly_Owned": "NO - Privately-Owned", "Site_Status": "Available", "Identified_in_Last_Two_Planning": "Used in Prior Housing Element - Non-Vacant", "Lower_Income_Capacity": 24.0, "Moderate_Income_Capacity": 0.0, "Above_Moderate_Income_Capacity": 0.0, "Total_Capacity": 24.0, "Latitude": 33.34189059, "Longitude": -118.3304511, "Zoning_Designation_Current_Desc": "Multifamily residential uses", "Zip_Code": "90704" }, "geometry": { "type": "Point", "coordinates": [ -13172485.5616, 3940772.645200000144541 ] } }
+]
+}

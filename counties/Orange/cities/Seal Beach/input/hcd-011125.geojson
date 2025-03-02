@@ -1,0 +1,8 @@
+{
+"type": "FeatureCollection",
+"name": "hcd-011125",
+"crs": { "type": "name", "properties": { "name": "urn:ogc:def:crs:OGC:1.3:CRS84" } },
+"features": [
+{ "type": "Feature", "properties": { "OBJECTID_1": 102981, "County_Name": "ORANGE", "fips_apn": "06059_09579118", "jurisdiction_name": "SEAL BEACH", "Site_Address_Intersection": "1011 Seal Beach Blvd", "AssessorParcelNumber": "095-791-18", "Consolidated_Sites": null, "General_Plan_Designation_Curren": "High Density Residential", "Zoning_Designation_Current": "RHD-20", "Minimum_Density_Allowed_units_p": 0.0, "Max_Density_Allowed_units_per_a": "20", "Parcel_Size_Acres": 4.0, "Existing_Use_Vacancy": "Industrial", "Infrastructure": "YES - Current", "Publicly_Owned": "NO - Privately-Owned", "Site_Status": "Available", "Identified_in_Last_Two_Planning": "Used in Prior Housing Element - Non-Vacant", "Lower_Income_Capacity": 80.0, "Moderate_Income_Capacity": 0.0, "Above_Moderate_Income_Capacity": 0.0, "Total_Capacity": 80, "Latitude": 33.75381789, "Longitude": -118.08747372000001, "Zoning_Designation_Current_Desc": "high density residential (20 units per acre)", "Zip_Code": "90740" }, "geometry": { "type": "Point", "coordinates": [ -13145437.4431, 3995793.490499999839813 ] } }
+]
+}

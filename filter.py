@@ -36,9 +36,9 @@ from find_intersection_from_server import generate_request
 
 load_dotenv(dotenv_path=Path('.env.local'))
 
+# Load environment variables
 HOUSING_ELEMENT_SCHEMA_FILEPATH = os.getenv('HOUSING_ELEMENT_SCHEMA_FILEPATH')
 COUNTIES_DIR_PATH = os.getenv('COUNTIES_DIR_PATH')
-
 PROJECT_ID = os.getenv('PROJECT_ID')
 VIEWABLE_DATASETS = os.getenv('VIEWABLE_DATASETS')
 MAIN_FILE_PATH = os.getenv('MAIN_FILE_PATH')
@@ -282,8 +282,8 @@ async def main():
     parser.add_argument('--save', type=bool, help='save shape file and append meta data to readme')
     args = parser.parse_args()
 
-    if not args.items:
-        raise Exception("Please provide an agency, city, or county to process.")
+    if not any(vars(args).values()):
+        raise Exception("Please provide an agency, city, or county to proceed.")
     # If agency is provied, city and county should not be provided
     if (args.agency and args.city) or (args.agency and args.county):
         raise Exception("Incorrect usage. Select either an agency OR a city/county, not both.")
@@ -415,6 +415,7 @@ async def main():
 
     semaphore_2 = asyncio.Semaphore(1)
 
+    # Get intersection from server
     print('Getting intersection...')
     results_2 = await asyncio.gather(*[
         _execute_task(semaphore_2, generate_request, [df_container, False], i + 1, len(dfs_bucket)) 

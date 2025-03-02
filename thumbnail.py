@@ -17,7 +17,7 @@ from google.cloud import bigquery
 from google.cloud.exceptions import NotFound
 from google.cloud import storage
 from PyPDF2 import PdfReader
-import fitz
+import pymupdf as fitz
 from send2trash import send2trash
 
 dataset_id = "doc_metadata"

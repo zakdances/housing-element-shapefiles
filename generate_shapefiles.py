@@ -33,7 +33,7 @@ def chunk_list(lst, chunk_size):
     return chunked_list
 
 # def generate_shapefile(table_list, query_df):
-def generate_shapefile(gdf, output_dir):
+def generate_shapefilee(gdf, output_dir):
     dfs = []
     processed_docs = []
     none_found = []
