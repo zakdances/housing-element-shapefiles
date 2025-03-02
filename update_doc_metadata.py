@@ -9,13 +9,13 @@ from pathlib import Path
 import geopandas as gpd
 import pandas as pd
 import numpy as np
-import apache_beam as beam
-from apache_beam.io.gcp.internal.clients import bigquery
-from apache_beam.options.pipeline_options import PipelineOptions
-from apache_beam.io.gcp.bigquery_tools import parse_table_schema_from_json
+# import apache_beam as beam
+# from apache_beam.io.gcp.internal.clients import bigquery
+# from apache_beam.options.pipeline_options import PipelineOptions
+# from apache_beam.io.gcp.bigquery_tools import parse_table_schema_from_json
 from google.cloud import bigquery
 from google.cloud.exceptions import NotFound
-from PyPDF2 import PdfReader
+from pypdf import PdfReader
 from pathlib import Path
 from dotenv import load_dotenv
 

@@ -3,10 +3,11 @@ pandas
 geopandas
 openpyxl
 jsonlines
-apache-beam[gcp]
+wheel
+# apache-beam[gcp]
 google-cloud-bigquery
 google-cloud-storage
-PyPDF2
+pypdf
 pymupdf
 Pillow
 send2trash
@@ -15,6 +16,6 @@ tabula-py
 pdfplumber
 python-dotenv
 pyshp
-py-markdown-table
+pytablewriter
 dotenv
 pyogrio

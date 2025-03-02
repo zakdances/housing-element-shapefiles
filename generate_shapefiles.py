@@ -12,10 +12,10 @@ import shapefile
 from shapely.geometry import shape
 from pathlib import Path
 from dotenv import load_dotenv
-import apache_beam as beam
-from apache_beam.io.gcp.internal.clients import bigquery
-from apache_beam.options.pipeline_options import PipelineOptions
-from apache_beam.io.gcp.bigquery_tools import parse_table_schema_from_json
+# import apache_beam as beam
+# from apache_beam.io.gcp.internal.clients import bigquery
+# from apache_beam.options.pipeline_options import PipelineOptions
+# from apache_beam.io.gcp.bigquery_tools import parse_table_schema_from_json
 from google.cloud import bigquery
 from google.cloud.exceptions import NotFound
 from send2trash import send2trash
@@ -33,7 +33,7 @@ def chunk_list(lst, chunk_size):
     return chunked_list
 
 # def generate_shapefile(table_list, query_df):
-def generate_shapefilee(gdf, output_dir):
+def generate_shapefile(gdf, output_dir):
     dfs = []
     processed_docs = []
     none_found = []

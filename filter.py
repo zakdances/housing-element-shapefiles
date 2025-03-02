@@ -17,13 +17,13 @@ import pandas as pd
 import numpy as np
 from pathlib import Path
 from dotenv import load_dotenv
-import apache_beam as beam
-from apache_beam.io.gcp.internal.clients import bigquery
-from apache_beam.options.pipeline_options import PipelineOptions
-from apache_beam.io.gcp.bigquery_tools import parse_table_schema_from_json
+# import apache_beam as beam
+# from apache_beam.io.gcp.internal.clients import bigquery
+# from apache_beam.options.pipeline_options import PipelineOptions
+# from apache_beam.io.gcp.bigquery_tools import parse_table_schema_from_json
 from google.cloud import bigquery
 from google.cloud.exceptions import NotFound
-from py_markdown_table.markdown_table import markdown_table
+# from py_markdown_table.markdown_table import markdown_table
 from pytablewriter import MarkdownTableWriter
 
 from src.find.find import find_tables_and_parcels
