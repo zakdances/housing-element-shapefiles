@@ -7,6 +7,9 @@ wheel
 # apache-beam[gcp]
 google-cloud-bigquery
 google-cloud-storage
+google-api-python-client
+google-auth-httplib2 
+google-auth-oauthlib
 pypdf # TODO: remove this
 pymupdf
 Pillow
