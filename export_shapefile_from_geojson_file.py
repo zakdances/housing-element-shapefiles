@@ -83,51 +83,51 @@ def find_hcd_docs():
 
     # print(list(dupes))
 
-def find_features():
-    cities_dirs = glob.glob('counties/**/cities/**', recursive=False)
-    cities = list(map(lambda x: Path(x), cities_dirs))
-    # dupes = set()
-    missing_parcels = []
+# def find_features():
+#     cities_dirs = glob.glob('counties/**/cities/**', recursive=False)
+#     cities = list(map(lambda x: Path(x), cities_dirs))
+#     # dupes = set()
+#     missing_parcels = []
 
-    for city in cities:
-        city_count = 0
-        # shp = city / "output" / "misc" / "shapefile.zip"
-        # if city.name != "American Canyon":
-        #     continue
-        # print("ok")
-        output_dir = city / "output"
-        output_dir_contents = glob.glob(str(output_dir) + "/**/misc", recursive=False)
+#     for city in cities:
+#         city_count = 0
+#         # shp = city / "output" / "misc" / "shapefile.zip"
+#         # if city.name != "American Canyon":
+#         #     continue
+#         # print("ok")
+#         output_dir = city / "output"
+#         output_dir_contents = glob.glob(str(output_dir) + "/**/misc", recursive=False)
 
-        if not output_dir.exists or len(output_dir_contents) == 0:
-            missing_parcels.append(city.name)
-            continue
+#         if not output_dir.exists or len(output_dir_contents) == 0:
+#             missing_parcels.append(city.name)
+#             continue
 
-        for dir in output_dir_contents:
-            dir = Path(dir)
-            shp = dir / "shapefile.zip"
+#         for dir in output_dir_contents:
+#             dir = Path(dir)
+#             shp = dir / "shapefile.zip"
             
-            if not shp.exists():
-                # missing_parcels.append(city.name)
-                continue
+#             if not shp.exists():
+#                 # missing_parcels.append(city.name)
+#                 continue
             
-            # Open the shapefile
-            dataset = pyogrio.read_dataframe(str(shp))
+#             # Open the shapefile
+#             dataset = pyogrio.read_dataframe(str(shp))
 
-            # Count the number of features (rows)
-            num_features = len(dataset)
-            # print(shp.parent.parent.name + " " + str(num_features))
-            city_count += num_features
+#             # Count the number of features (rows)
+#             num_features = len(dataset)
+#             # print(shp.parent.parent.name + " " + str(num_features))
+#             city_count += num_features
 
-            if num_features == 0:
-                missing_parcels.append(city.name)
-                # print("no features found in " + str(shp))
-                # continue
-            # print("num_features: " + str(num_features))
-        print(city.name + " " + str(city_count))
+#             if num_features == 0:
+#                 missing_parcels.append(city.name)
+#                 # print("no features found in " + str(shp))
+#                 # continue
+#             # print("num_features: " + str(num_features))
+#         print(city.name + " " + str(city_count))
         
 
-    print(missing_parcels)
-    print(len(missing_parcels))
+#     print(missing_parcels)
+#     print(len(missing_parcels))
 
 def split_geojson(geojson_file_to_be_split):
     gdf = gpd.read_file(geojson_file_to_be_split)
@@ -185,4 +185,5 @@ if __name__ == "__main__":
     # split_geojson("SB6A__pts_Join_3616231054980920121.geojson")
     # loop()
     # find_dupes()
-    find_features()
+    # find_features()
+    pass

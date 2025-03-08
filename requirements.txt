@@ -10,6 +10,7 @@ google-cloud-storage
 google-api-python-client
 google-auth-httplib2 
 google-auth-oauthlib
+gspread
 pypdf # TODO: remove this
 pymupdf
 Pillow
