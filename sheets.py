@@ -55,11 +55,11 @@ def up2():
     # return
 
     # Concatenate the DataFrames side by side
-    df_side_by_side = pd.concat([dataframe, features], axis=1, keys=['df1', 'df2'])
+    # df_side_by_side = pd.concat([dataframe, features], axis=1, keys=['df1', 'df2'])
 
     # Display the result
-    print(df_side_by_side)
-    return
+    # print(df_side_by_side)
+    # return
 
     # Display the mismatched rows
     # Merge with indicator to show where the rows come from
@@ -69,15 +69,17 @@ def up2():
     mismatched_in_dataframe = merged[merged['_merge'] == 'left_only'].drop(columns='_merge')
     mismatched_in_features = merged[merged['_merge'] == 'right_only'].drop(columns='_merge')
 
-    # Display the mismatched rows
-    print("Mismatched rows in dataframe:")
-    print(mismatched_in_dataframe)
+    if len(mismatched_in_dataframe) > 0 or len(mismatched_in_features) > 0:
+        # Display the mismatched rows
+        print("Mismatched rows in dataframe:")
+        print(mismatched_in_dataframe)
 
-    print("\nMismatched rows in features:")
-    print(mismatched_in_features)
+        print("\nMismatched rows in features:")
+        print(mismatched_in_features)
+        raise Exception("Mismatch found!")
 
-    county_match = set(dataframe['County']) == set(features['County'])
-    municipality_match = set(dataframe['Municipality']) == set(features['Municipality'])
+    # county_match = set(dataframe['County']) == set(features['County'])
+    # municipality_match = set(dataframe['Municipality']) == set(features['Municipality'])
 
     # if not county_match or not municipality_match:
     #     # To find mismatched rows (rows in dataframe but not in features and vice versa)
