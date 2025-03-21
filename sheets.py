@@ -1,5 +1,6 @@
 # import gspread
 import os.path
+import glob
 
 from google.auth.transport.requests import Request
 from google.oauth2.credentials import Credentials
@@ -9,7 +10,7 @@ from googleapiclient.errors import HttpError
 import pandas as pd
 
 import gspread
-from util.find_features import find_features
+from src.util.find_features import find_features
 # from oauth2client.service_account import ServiceAccountCredentials
 
 # Set pandas options to display the full DataFrame
@@ -27,6 +28,10 @@ SCOPES = ["https://www.googleapis.com/auth/spreadsheets.readonly", 'https://spre
 SAMPLE_SPREADSHEET_ID = "1X691RBS_-0LlXX-bfAE9GXXu0P1OJnbERTqipn-C1jQ"
 SAMPLE_RANGE_NAME = "Class Data!A1:E"
 
+def data_path(county, municipality):
+    return f"counties/{county}/cities/{municipality}"
+
+
 def upload_summary_to_sheets():
 
     # credentials = Credentials.from_service_account_file(token_path, SCOPES)
@@ -36,7 +41,7 @@ def upload_summary_to_sheets():
 
     sh = gc.open_by_key(SAMPLE_SPREADSHEET_ID)  
 
-    worksheet = sh.worksheet('SACOG')
+    worksheet = sh.worksheet('ABAG')
 
     # cell_value = worksheet.cell("A1").value 
 
@@ -107,13 +112,28 @@ def upload_summary_to_sheets():
     
 
     # df_merged = pd.merge(dataframe, features, on=['County', 'Municipality'], how='outer')
+    repoUrl = "https://github.com/zakdances/housing-element-shapefiles/tree/main"
+    
     dataframe['APNs'] = features['APNs']
+    # print(dataframe.columns.tolist())
+    # tables_quantity = len(glob.glob(data_path(row['County'], row['Municipality']) + "/output/camelot/*.xlsx"))
+    dataframe['Sources'] = dataframe.apply(lambda row: f'{len(glob.glob(data_path(row['County'], row['Municipality']) + '/output/*'))}', axis=1)
 
-    # print(len(features))
-    # print(len(dataframe))
-    # print(dataframe)
+    # First, check the camelot directory. Then, if there are no tables in the camelot directory, check the aws directory.
+    # TODO: Only count the tables that have APNs
+    dataframe['Tables'] = dataframe.apply(lambda row: f'{len(glob.glob(data_path(row['County'], row['Municipality']) + '/output/*/camelot/*.xlsx'))}', axis=1)
+    dataframe.loc[dataframe['Tables'] == "0", 'Tables'] = dataframe.loc[dataframe['Tables'] == "0"].apply(
+    lambda row: f'{len(glob.glob(data_path(row['County'], row['Municipality']) + '/output/*/aws/*.xlsx'))}', 
+    axis=1)
 
-    worksheet.update([dataframe.columns.values.tolist()] + dataframe.values.tolist())
+    dataframe['Link'] = dataframe.apply(lambda row: f'=HYPERLINK("{repoUrl}/{data_path(row['County'], row['Municipality'])}/output", "link")', axis=1)
+    
+
+
+    # link = "[link](<counties/" + self.county_name + "/cities/" + self.city_name + ">)"
+
+
+    worksheet.update([dataframe.columns.values.tolist()] + dataframe.values.tolist(), value_input_option='USER_ENTERED')
 
     # print(dataframe.values.tolist())
     # print(features)
