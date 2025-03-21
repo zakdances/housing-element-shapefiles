@@ -1,4 +1,4 @@
-counties/Los Angeles/cities/Los Angeles/input/hcd-011125.geojson
+# counties/Los Angeles/cities/Los Angeles/input/hcd-011125.geojson
 client_secret_.apps.googleusercontent.com.json
 token.json
 
@@ -8,7 +8,6 @@ extract_error_log.json
 .env.local
 temp/
 strange/
-camelot/
 
 *.pdf
 **/*.pdf
@@ -18,6 +17,8 @@ camelot/
 **/*.xlsm
 *.csv
 **/*.csv
+*.geojson
+**/*.geojson
 
 .DS_Store
 **/.DS_Store
