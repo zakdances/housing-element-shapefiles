@@ -23,6 +23,7 @@ def filter_cities(city_path, counties_to_search, city_names_to_search):
         return True
 
     return False
+
 def find_features(cities_to_search=None):
   
     cities_dirs = glob.glob('counties/*/cities/*', recursive=False) #TODO: should be relative to repo root
@@ -53,7 +54,7 @@ def find_features(cities_to_search=None):
         feature_count = 0
         city_name = city.name
         county_name = city.parts[-3]
-        # print(city_name)
+        print(city_name)
         # shp = city / "output" / "misc" / "shapefile.zip"
         # if city.name != "American Canyon":
         #     continue
@@ -64,7 +65,7 @@ def find_features(cities_to_search=None):
         # If city doesn't have an output directory or an empty output directory, add it to the missing_parcels list
         if not output_dir.exists or len(output_dir_contents) == 0:
             missing_parcels.append(city.name)
-
+            municipalities.append({"County": county_name, "Municipality": city_name, "Features_Count": num_features})
             # continue
 
         for dir in output_dir_contents:
@@ -98,6 +99,8 @@ def find_features(cities_to_search=None):
         
         
             municipalities.append({"County": county_name, "Municipality": city_name, "Features_Count": num_features})
+        
+
             # print(city.name + " " + str(city_count))
             # if city_name == "American Canyon":
             #         print({"County": county_name, "Municipality": city_name, "Features_Count": num_features})

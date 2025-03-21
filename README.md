@@ -10,7 +10,7 @@
 4. Created endpoints to query database from the UI.
 5. Extra: Created web UI viewer using nextjs and react.
 
-## Results
+## Summary explained
 
 ```
 👇 Columns explained 
@@ -23,6 +23,9 @@
 * county - county the city resides in
 * link - link to relevant folder in this repo. There you can find shapefiles and other output.
 ```
+
+## Results
+
 # ABAG
 |   |       city        |documents|tables|apns|parcels|agency|   county    |                         link                          |
 |--:|-------------------|--------:|-----:|----|------:|------|-------------|-------------------------------------------------------|
@@ -275,3 +278,4 @@
 | 45|Westlake Village     |        3|     6|57  |     53|SCAG  |Los Angeles|[link](<counties/Los Angeles/cities/Westlake Village>)     |
 | 46|Whittier             |        3|     3|442 |    420|SCAG  |Los Angeles|[link](<counties/Los Angeles/cities/Whittier>)             |
 
+## END Results
