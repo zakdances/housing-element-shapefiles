@@ -22,7 +22,7 @@ SAMPLE_SPREADSHEET_ID = "1X691RBS_-0LlXX-bfAE9GXXu0P1OJnbERTqipn-C1jQ"
 SAMPLE_RANGE_NAME = "Class Data!A1:F"
 repoUrl = "https://github.com/zakdances/housing-element-shapefiles/tree/main"
 
-def data_path(county, municipality, as_url=False, parse_url=False):
+def data_path(county, municipality, as_url=False, parse_url=True):
     path = f"counties/{county}/cities/{municipality}"
     if as_url:
         path = f"{repoUrl}/{path}"
