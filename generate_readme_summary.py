@@ -28,6 +28,7 @@ def data_path(county, municipality, as_url=False, parse_url=False):
         path = f"{repoUrl}/{path}"
         if parse_url:
             path = furl(path).url
+            print(path)
     return path
 
 
@@ -86,9 +87,9 @@ def gen():
     abag_dataframe = pd.DataFrame(abag_worksheet.get_all_records())
     scag_dataframe = pd.DataFrame(scag_worksheet.get_all_records())
 
-    sacog_dataframe['Link'] = abag_dataframe.apply(lambda row: f'[link]("{data_path(row['County'], row['Municipality'], True, True)}/output")', axis=1)
-    abag_dataframe['Link'] = abag_dataframe.apply(lambda row: f'[link]("{data_path(row['County'], row['Municipality'], True, True)}/output")', axis=1)
-    scag_dataframe['Link'] = abag_dataframe.apply(lambda row: f'[link]("{data_path(row['County'], row['Municipality'], True, True)}/output")', axis=1)
+    sacog_dataframe['Link'] = abag_dataframe.apply(lambda row: f'[link]("{data_path(row['County'], row['Municipality'], True)}/output")', axis=1)
+    abag_dataframe['Link'] = abag_dataframe.apply(lambda row: f'[link]("{data_path(row['County'], row['Municipality'], True)}/output")', axis=1)
+    scag_dataframe['Link'] = abag_dataframe.apply(lambda row: f'[link]("{data_path(row['County'], row['Municipality'], True)}/output")', axis=1)
 
     # Create Markdown table writers
     sacog_writer = MarkdownTableWriter()
