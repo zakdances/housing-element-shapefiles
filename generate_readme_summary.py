@@ -1,5 +1,6 @@
 import pandas as pd
 from pytablewriter import MarkdownTableWriter
+from furl import furl
 import glob
 from urllib.parse import urlparse, urlunparse, quote, urlencode
 
@@ -26,8 +27,7 @@ def data_path(county, municipality, as_url=False, parse_url=False):
     if as_url:
         path = f"{repoUrl}/{path}"
         if parse_url:
-            path = quote(path)
-            print(path)
+            path = furl(path).url
     return path
 
 
