@@ -24,7 +24,7 @@
 * link - link to relevant folder in this repo. There you can find shapefiles and other output.
 ```
 
-## START Summary ([Google Sheets version here](https://docs.google.com/spreadsheets/d/1X691RBS_-0LlXX-bfAE9GXXu0P1OJnbERTqipn-C1jQ/edit?usp=sharing))
+## ⬇️ START Summary ([Google Sheets version here](https://docs.google.com/spreadsheets/d/1X691RBS_-0LlXX-bfAE9GXXu0P1OJnbERTqipn-C1jQ/edit?usp=sharing))
 
 # ABAG
 |   County    |    Municipality    |Sources|Tables|APNs|                                                                  Link                                                                   |

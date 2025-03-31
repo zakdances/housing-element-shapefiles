@@ -28,7 +28,7 @@ def data_path(county, municipality, as_url=False, parse_url=True):
         path = f"{repoUrl}/{path}"
         if parse_url:
             path = furl(path).url
-            print(path)
+            # print(path)
     return path
 
 
@@ -64,7 +64,7 @@ def get_summary_line_range(file_path):
 
     with open(file_path, "r", encoding="utf-8") as file:
         for line_number, line in enumerate(file, start=1):
-            if line.strip().startswith("## START Summary"):
+            if line.strip().startswith("## ⬇️ START Summary"):
                 start_line = line_number
             elif line.strip().startswith("## END Summary"):
                 end_line = line_number
