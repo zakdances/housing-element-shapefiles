@@ -26,7 +26,7 @@ SCOPES = ["https://www.googleapis.com/auth/spreadsheets.readonly", 'https://spre
 
 # The ID and range of a sample spreadsheet.
 SAMPLE_SPREADSHEET_ID = "1X691RBS_-0LlXX-bfAE9GXXu0P1OJnbERTqipn-C1jQ"
-SAMPLE_RANGE_NAME = "Class Data!A1:E"
+SAMPLE_RANGE_NAME = "Class Data!A1:F"
 
 def data_path(county, municipality):
     return f"counties/{county}/cities/{municipality}"
@@ -85,31 +85,6 @@ def upload_summary_to_sheets():
         print(df_side_by_side)
         raise Exception("Mismatch found!")
 
-    # county_match = set(dataframe['County']) == set(features['County'])
-    # municipality_match = set(dataframe['Municipality']) == set(features['Municipality'])
-
-    # if not county_match or not municipality_match:
-    #     # To find mismatched rows (rows in dataframe but not in features and vice versa)
-    #     county_mismatched_in_dataframe = dataframe[~dataframe['County'].isin(features['County'])]
-    #     county_mismatched_in_features = features[~features['County'].isin(dataframe['County'])]
-
-    #     municipality_mismatched_in_dataframe = dataframe[~dataframe['Municipality'].isin(features['Municipality'])]
-    #     municipality_mismatched_in_features = features[~features['Municipality'].isin(dataframe['Municipality'])]
-
-    #     # Output the mismatched rows
-    #     print("Mismatched counties in dataframe:")
-    #     print(county_mismatched_in_dataframe)
-
-    #     print("\nMismatched counties in features:")
-    #     print(county_mismatched_in_features)
-
-    #     print("\nMismatched municipalities in dataframe:")
-    #     print(municipality_mismatched_in_dataframe)
-
-    #     print("\nMismatched municipalities in features:")
-    #     print(municipality_mismatched_in_features)
-    #     raise Exception("Mismatch found!")
-    
 
     # df_merged = pd.merge(dataframe, features, on=['County', 'Municipality'], how='outer')
     repoUrl = "https://github.com/zakdances/housing-element-shapefiles/tree/main"
