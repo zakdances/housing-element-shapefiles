@@ -22,7 +22,7 @@ SAMPLE_SPREADSHEET_ID = "1X691RBS_-0LlXX-bfAE9GXXu0P1OJnbERTqipn-C1jQ"
 SAMPLE_RANGE_NAME = "Class Data!A1:F"
 repoUrl = "https://github.com/zakdances/housing-element-shapefiles/tree/main"
 
-def data_path(county, municipality, as_url=False, parse_url=True):
+def data_path(county, municipality, as_url=False, parse_url=False):
     path = f"counties/{county}/cities/{municipality}"
     if as_url:
         path = f"{repoUrl}/{path}"
@@ -87,9 +87,9 @@ def gen():
     abag_dataframe = pd.DataFrame(abag_worksheet.get_all_records())
     scag_dataframe = pd.DataFrame(scag_worksheet.get_all_records())
 
-    sacog_dataframe['Link'] = abag_dataframe.apply(lambda row: f'[link]({data_path(row['County'], row['Municipality'], True)}/output)', axis=1)
-    abag_dataframe['Link'] = abag_dataframe.apply(lambda row: f'[link]({data_path(row['County'], row['Municipality'], True)}/output)', axis=1)
-    scag_dataframe['Link'] = abag_dataframe.apply(lambda row: f'[link]({data_path(row['County'], row['Municipality'], True)}/output)', axis=1)
+    sacog_dataframe['Link'] = abag_dataframe.apply(lambda row: f'[link]({data_path(row['County'], row['Municipality'], True, True)}/output)', axis=1)
+    abag_dataframe['Link'] = abag_dataframe.apply(lambda row: f'[link]({data_path(row['County'], row['Municipality'], True, True)}/output)', axis=1)
+    scag_dataframe['Link'] = abag_dataframe.apply(lambda row: f'[link]({data_path(row['County'], row['Municipality'], True, True)}/output)', axis=1)
 
     # Create Markdown table writers
     sacog_writer = MarkdownTableWriter()
