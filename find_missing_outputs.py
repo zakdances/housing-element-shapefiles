@@ -1,6 +1,7 @@
 import os
 import glob
-from data_path import data_path
+import json
+from src.util.data_path import data_path
 from pathlib import Path
 
 def check_folders(base_path="counties"):
@@ -13,6 +14,7 @@ def check_folders(base_path="counties"):
 
         input_path = municipality / "input"
         output_path = municipality / "output"
+        meta_path = municipality / "meta.json"
 
         # Check if the input path exists and the output path does not exist
 
@@ -22,8 +24,21 @@ def check_folders(base_path="counties"):
         for item in input_path.iterdir():
             huh = output_path / item.stem / "misc" / "shapefile.zip"
 
-            if huh.exists() or item.stem == ".DS_Store":
+            # If shapefile.zip exists or invalid file type, skip
+            if huh.exists() or item.name == ".DS_Store":
                 continue
+
+            # Check if the meta file confirms that there is no apns in this source
+            if meta_path.exists():
+                with open(meta_path, "r") as f:
+                    meta = json.load(f)
+
+                obj = meta.get(item.name) or meta.get(item.stem)
+
+                if obj and (obj.get("no_apns") or obj.get("no_apns") or obj.get("skip")):
+                    if obj.get("skip"):
+                        print(f"Skipping {item.name} in {municipality.name} because of meta.json")
+                    continue
 
             sources_with_missing_output.append(huh)
 

@@ -69,17 +69,17 @@ def loop(overwrite=False):
     for new_shapefile in new_shapefiles_created:
         print(f"{new_shapefile.stat().st_size / 1024:<20}{str(new_shapefile)}")
 
-def find_hcd_docs():
-    cities_dirs = glob.glob('counties/**/cities/**', recursive=False)
-    cities = list(map(lambda x: Path(x), cities_dirs))
-    # dupes = set()
-    missing_hcd = []
+# def find_hcd_docs():
+#     cities_dirs = glob.glob('counties/**/cities/**', recursive=False)
+#     cities = list(map(lambda x: Path(x), cities_dirs))
+#     # dupes = set()
+#     missing_hcd = []
 
-    for city in cities:
-        if not (city / "output" / "hcd-011125").exists():
-            missing_hcd.append(city.name)
+#     for city in cities:
+#         if not (city / "output" / "hcd-011125").exists():
+#             missing_hcd.append(city.name)
 
-    print(missing_hcd)
+#     print(missing_hcd)
 
     # print(list(dupes))
 
