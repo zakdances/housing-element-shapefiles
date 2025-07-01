@@ -367,7 +367,9 @@ async def main():
             all_docs.append(source_output_aws_path)
         else:
             raise Exception("Path does not exist: " + str(source_output_path))
-          
+        
+        
+
         # output_docs_dir = glob.glob(data_path(county_name, city_name) + "/output/**", recursive=False)
 
         # if tables_dir
@@ -465,6 +467,7 @@ async def main():
         print("task " + str(i + 1) + " of "  + str(len(dfs_bucket) + 1) + " started...")
         print(source_output_path)
         extract_result = find_tables_and_parcels_v2(source_output_path)
+        
         # df_container.df = extract_result
         print(extract_result)
         dfs_bucket.append(extract_result)

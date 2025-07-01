@@ -3,9 +3,15 @@ from more_itertools import bucket, unique_everseen
 from pathlib import Path
 
 class Df_Container:
-    def __init__(self, city_name, county_name, agency_name, doc_path, df, server_gdf):
+    def __init__(self, city_name, county_name, source_name, doc_path=None, df=None, server_gdf=None, agency_name=None):
         self.city_name = city_name
         self.county_name = county_name
+        self.source_name = source_name
+
+        municipality_path = Path(data_path(county_name, city_name))
+        source_output_path = municipality_path / "output" / Path(source_name).stem
+        
+
         self.agency_name = agency_name
         # self.doc_file_name = doc_file_name
         self.doc_path = doc_path
@@ -17,17 +23,17 @@ class Df_Container:
         return self.doc_path / "misc"
     
     def chosen_path(self):
-        aws_path = self.doc_path / "aws"
-        camelot_path = self.doc_path / "camelot"
-        chosen_path = None
-        if aws_path.exists():
-            chosen_path = aws_path
-        elif camelot_path.exists():
-            chosen_path = camelot_path
+        source_output_camelot_path = source_output_path / "camelot"
+        source_output_aws_path = source_output_path / "aws"
+
+        if hasXlsxFiles(source_output_camelot_path):
+            return source_output_camelot_path
+        elif hasXlsxFiles(source_output_aws_path):
+            return source_output_aws_path
         else:
-            raise Exception("No output found for " + self.doc_path.parents[2])
+            raise Exception("Path does not exist: " + str(source_output_path))
         
-        return chosen_path
+
     
     def doc_file_name(self):
         return self.doc_path.stem
