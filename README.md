@@ -29,118 +29,118 @@
 # ABAG
 |   County    |    Municipality    |Sources|Tables|APNs|                                                                  Link                                                                   |
 |-------------|--------------------|------:|-----:|---:|-----------------------------------------------------------------------------------------------------------------------------------------|
-|Alameda      |Berkeley            |      3|   793|   0|[link](https://github.com/zakdances/housing-element-shapefiles/tree/main/counties/Alameda/cities/Berkeley/output)                        |
-|Contra Costa |Hercules            |      3|   945|   0|[link](https://github.com/zakdances/housing-element-shapefiles/tree/main/counties/Contra%20Costa/cities/Hercules/output)                 |
-|Napa         |American Canyon     |      2|   410|   0|[link](https://github.com/zakdances/housing-element-shapefiles/tree/main/counties/Napa/cities/American%20Canyon/output)                  |
-|San Mateo    |Broadmoor           |      0|     0|   0|[link](https://github.com/zakdances/housing-element-shapefiles/tree/main/counties/San%20Mateo/cities/Broadmoor/output)                   |
-|San Mateo    |Half Moon Bay       |      0|     0|   0|[link](https://github.com/zakdances/housing-element-shapefiles/tree/main/counties/San%20Mateo/cities/Half%20Moon%20Bay/output)           |
-|Napa         |Napa County         |      1|     0|   1|[link](https://github.com/zakdances/housing-element-shapefiles/tree/main/counties/Napa/cities/Napa%20County/output)                      |
-|San Mateo    |Portola Valley      |      1|   459|   2|[link](https://github.com/zakdances/housing-element-shapefiles/tree/main/counties/San%20Mateo/cities/Portola%20Valley/output)            |
-|Napa         |St. Helena          |      1|     0|   5|[link](https://github.com/zakdances/housing-element-shapefiles/tree/main/counties/Napa/cities/St.%20Helena/output)                       |
-|Sonoma       |Healdsburg          |      2|   690|   9|[link](https://github.com/zakdances/housing-element-shapefiles/tree/main/counties/Sonoma/cities/Healdsburg/output)                       |
+|Alameda      |Berkeley            |      3|   793|   837|[link](https://github.com/zakdances/housing-element-shapefiles/tree/main/counties/Alameda/cities/Berkeley/output)                        |
 |Alameda      |San Leandro         |      3|   820|  19|[link](https://github.com/zakdances/housing-element-shapefiles/tree/main/counties/Alameda/cities/San%20Leandro/output)                   |
-|Solano       |Dixon               |      3|   574|  19|[link](https://github.com/zakdances/housing-element-shapefiles/tree/main/counties/Solano/cities/Dixon/output)                            |
 |Alameda      |Dublin              |      3|   821|  21|[link](https://github.com/zakdances/housing-element-shapefiles/tree/main/counties/Alameda/cities/Dublin/output)                          |
-|Santa Clara  |Santa Clara County  |      1|     0|  22|[link](https://github.com/zakdances/housing-element-shapefiles/tree/main/counties/Santa%20Clara/cities/Santa%20Clara%20County/output)    |
-|Napa         |Yountville          |      3|   396|  24|[link](https://github.com/zakdances/housing-element-shapefiles/tree/main/counties/Napa/cities/Yountville/output)                         |
-|Santa Clara  |Morgan Hill         |      3|  1108|  25|[link](https://github.com/zakdances/housing-element-shapefiles/tree/main/counties/Santa%20Clara/cities/Morgan%20Hill/output)             |
-|Contra Costa |San Ramon           |      3|   957|  27|[link](https://github.com/zakdances/housing-element-shapefiles/tree/main/counties/Contra%20Costa/cities/San%20Ramon/output)              |
-|Marin        |Corte Madera        |      4|  1427|  37|[link](https://github.com/zakdances/housing-element-shapefiles/tree/main/counties/Marin/cities/Corte%20Madera/output)                    |
-|Santa Clara  |Milpitas            |      3|   129|  39|[link](https://github.com/zakdances/housing-element-shapefiles/tree/main/counties/Santa%20Clara/cities/Milpitas/output)                  |
-|Marin        |Novato              |      2|   235|  40|[link](https://github.com/zakdances/housing-element-shapefiles/tree/main/counties/Marin/cities/Novato/output)                            |
 |Alameda      |Hayward             |      4|  2604|  44|[link](https://github.com/zakdances/housing-element-shapefiles/tree/main/counties/Alameda/cities/Hayward/output)                         |
-|Marin        |Belvedere           |      2|   361|  49|[link](https://github.com/zakdances/housing-element-shapefiles/tree/main/counties/Marin/cities/Belvedere/output)                         |
-|Sonoma       |Cloverdale          |      3|   425|  49|[link](https://github.com/zakdances/housing-element-shapefiles/tree/main/counties/Sonoma/cities/Cloverdale/output)                       |
-|Sonoma       |Sonoma County       |      1|     0|  49|[link](https://github.com/zakdances/housing-element-shapefiles/tree/main/counties/Sonoma/cities/Sonoma%20County/output)                  |
-|Napa         |Napa                |      2|   501|  51|[link](https://github.com/zakdances/housing-element-shapefiles/tree/main/counties/Napa/cities/Napa/output)                               |
-|Solano       |California Forever  |      0|     0|  51|[link](https://github.com/zakdances/housing-element-shapefiles/tree/main/counties/Solano/cities/California%20Forever/output)             |
-|San Mateo    |Belmont             |      3|   666|  53|[link](https://github.com/zakdances/housing-element-shapefiles/tree/main/counties/San%20Mateo/cities/Belmont/output)                     |
-|Marin        |Ross                |      2|   152|  54|[link](https://github.com/zakdances/housing-element-shapefiles/tree/main/counties/Marin/cities/Ross/output)                              |
 |Alameda      |Emeryville          |      3|  1818|  56|[link](https://github.com/zakdances/housing-element-shapefiles/tree/main/counties/Alameda/cities/Emeryville/output)                      |
-|San Francisco|San Francisco County|      0|     0|  56|[link](https://github.com/zakdances/housing-element-shapefiles/tree/main/counties/San%20Francisco/cities/San%20Francisco%20County/output)|
 |Alameda      |Alameda             |      3|   385|  57|[link](https://github.com/zakdances/housing-element-shapefiles/tree/main/counties/Alameda/cities/Alameda/output)                         |
-|Napa         |Calistoga           |      3|   264|  57|[link](https://github.com/zakdances/housing-element-shapefiles/tree/main/counties/Napa/cities/Calistoga/output)                          |
-|Santa Clara  |Cupertino           |      2|   342|  57|[link](https://github.com/zakdances/housing-element-shapefiles/tree/main/counties/Santa%20Clara/cities/Cupertino/output)                 |
-|San Mateo    |Pacifica            |      2|    42|  60|[link](https://github.com/zakdances/housing-element-shapefiles/tree/main/counties/San%20Mateo/cities/Pacifica/output)                    |
-|Sonoma       |Cotati              |      3|   781|  67|[link](https://github.com/zakdances/housing-element-shapefiles/tree/main/counties/Sonoma/cities/Cotati/output)                           |
 |Alameda      |Newark              |      2|   243|  69|[link](https://github.com/zakdances/housing-element-shapefiles/tree/main/counties/Alameda/cities/Newark/output)                          |
-|Contra Costa |Pleasant Hill       |      2|   327|  71|[link](https://github.com/zakdances/housing-element-shapefiles/tree/main/counties/Contra%20Costa/cities/Pleasant%20Hill/output)          |
-|San Mateo    |Colma               |      3|   805|  73|[link](https://github.com/zakdances/housing-element-shapefiles/tree/main/counties/San%20Mateo/cities/Colma/output)                       |
-|Marin        |Larkspur            |      2|   351|  75|[link](https://github.com/zakdances/housing-element-shapefiles/tree/main/counties/Marin/cities/Larkspur/output)                          |
 |Alameda      |Piedmont            |      3|  1276|  77|[link](https://github.com/zakdances/housing-element-shapefiles/tree/main/counties/Alameda/cities/Piedmont/output)                        |
-|San Mateo    |Hillsborough        |      3|  4394|  82|[link](https://github.com/zakdances/housing-element-shapefiles/tree/main/counties/San%20Mateo/cities/Hillsborough/output)                |
-|Solano       |Suisun City         |      3|   568|  84|[link](https://github.com/zakdances/housing-element-shapefiles/tree/main/counties/Solano/cities/Suisun%20City/output)                    |
-|Sonoma       |Rohnert Park        |      3|   573|  85|[link](https://github.com/zakdances/housing-element-shapefiles/tree/main/counties/Sonoma/cities/Rohnert%20Park/output)                   |
-|San Mateo    |Burlingame          |      2|   304|  99|[link](https://github.com/zakdances/housing-element-shapefiles/tree/main/counties/San%20Mateo/cities/Burlingame/output)                  |
-|Solano       |Solano County       |      1|     0| 102|[link](https://github.com/zakdances/housing-element-shapefiles/tree/main/counties/Solano/cities/Solano%20County/output)                  |
-|Solano       |Vallejo             |      0|     0| 102|[link](https://github.com/zakdances/housing-element-shapefiles/tree/main/counties/Solano/cities/Vallejo/output)                          |
-|Contra Costa |Clayton             |      3|   336| 106|[link](https://github.com/zakdances/housing-element-shapefiles/tree/main/counties/Contra%20Costa/cities/Clayton/output)                  |
-|Contra Costa |Martinez            |      1|     0| 110|[link](https://github.com/zakdances/housing-element-shapefiles/tree/main/counties/Contra%20Costa/cities/Martinez/output)                 |
-|San Mateo    |Foster City         |      3|  1372| 111|[link](https://github.com/zakdances/housing-element-shapefiles/tree/main/counties/San%20Mateo/cities/Foster%20City/output)               |
-|Sonoma       |Petaluma            |      3|   754| 118|[link](https://github.com/zakdances/housing-element-shapefiles/tree/main/counties/Sonoma/cities/Petaluma/output)                         |
-|Sonoma       |Sonoma              |      3|   598| 119|[link](https://github.com/zakdances/housing-element-shapefiles/tree/main/counties/Sonoma/cities/Sonoma/output)                           |
-|Contra Costa |Pittsburg           |      1|   278| 120|[link](https://github.com/zakdances/housing-element-shapefiles/tree/main/counties/Contra%20Costa/cities/Pittsburg/output)                |
-|San Mateo    |Atherton            |      3|  1660| 129|[link](https://github.com/zakdances/housing-element-shapefiles/tree/main/counties/San%20Mateo/cities/Atherton/output)                    |
-|Contra Costa |Contra Costa County |      1|     0| 131|[link](https://github.com/zakdances/housing-element-shapefiles/tree/main/counties/Contra%20Costa/cities/Contra%20Costa%20County/output)  |
-|San Mateo    |Woodside            |      3|  1104| 131|[link](https://github.com/zakdances/housing-element-shapefiles/tree/main/counties/San%20Mateo/cities/Woodside/output)                    |
-|Contra Costa |Pinole              |      2|  1242| 138|[link](https://github.com/zakdances/housing-element-shapefiles/tree/main/counties/Contra%20Costa/cities/Pinole/output)                   |
-|San Mateo    |San Bruno           |      3|  1560| 146|[link](https://github.com/zakdances/housing-element-shapefiles/tree/main/counties/San%20Mateo/cities/San%20Bruno/output)                 |
-|Contra Costa |Moraga              |      4|  1138| 148|[link](https://github.com/zakdances/housing-element-shapefiles/tree/main/counties/Contra%20Costa/cities/Moraga/output)                   |
-|Marin        |Marin County        |      1|     0| 149|[link](https://github.com/zakdances/housing-element-shapefiles/tree/main/counties/Marin/cities/Marin%20County/output)                    |
-|San Mateo    |East Palo Alto      |      3|   729| 152|[link](https://github.com/zakdances/housing-element-shapefiles/tree/main/counties/San%20Mateo/cities/East%20Palo%20Alto/output)          |
-|San Mateo    |Redwood City        |      3|   707| 153|[link](https://github.com/zakdances/housing-element-shapefiles/tree/main/counties/San%20Mateo/cities/Redwood%20City/output)              |
-|Santa Clara  |Gilroy              |      3|  1802| 164|[link](https://github.com/zakdances/housing-element-shapefiles/tree/main/counties/Santa%20Clara/cities/Gilroy/output)                    |
-|Solano       |Fairfield           |      3|   555| 166|[link](https://github.com/zakdances/housing-element-shapefiles/tree/main/counties/Solano/cities/Fairfield/output)                        |
-|Sonoma       |Windsor             |      3|   283| 166|[link](https://github.com/zakdances/housing-element-shapefiles/tree/main/counties/Sonoma/cities/Windsor/output)                          |
-|San Mateo    |Daly City           |      2|   266| 182|[link](https://github.com/zakdances/housing-element-shapefiles/tree/main/counties/San%20Mateo/cities/Daly%20City/output)                 |
-|Sonoma       |Sebastopol          |      3|   412| 184|[link](https://github.com/zakdances/housing-element-shapefiles/tree/main/counties/Sonoma/cities/Sebastopol/output)                       |
-|Marin        |Tiburon             |      3|   507| 187|[link](https://github.com/zakdances/housing-element-shapefiles/tree/main/counties/Marin/cities/Tiburon/output)                           |
-|Santa Clara  |Santa Clara         |      3|   407| 209|[link](https://github.com/zakdances/housing-element-shapefiles/tree/main/counties/Santa%20Clara/cities/Santa%20Clara/output)             |
-|Solano       |Rio Vista           |      3|   549| 224|[link](https://github.com/zakdances/housing-element-shapefiles/tree/main/counties/Solano/cities/Rio%20Vista/output)                      |
-|Contra Costa |El Cerrito          |      3|   448| 225|[link](https://github.com/zakdances/housing-element-shapefiles/tree/main/counties/Contra%20Costa/cities/El%20Cerrito/output)             |
-|Contra Costa |Brentwood           |      3|  1662| 232|[link](https://github.com/zakdances/housing-element-shapefiles/tree/main/counties/Contra%20Costa/cities/Brentwood/output)                |
-|Marin        |Mill Valley         |      1|   519| 244|[link](https://github.com/zakdances/housing-element-shapefiles/tree/main/counties/Marin/cities/Mill%20Valley/output)                     |
 |Alameda      |Union City          |      3|   606| 264|[link](https://github.com/zakdances/housing-element-shapefiles/tree/main/counties/Alameda/cities/Union%20City/output)                    |
 |Alameda      |Livermore           |      4|  2198| 273|[link](https://github.com/zakdances/housing-element-shapefiles/tree/main/counties/Alameda/cities/Livermore/output)                       |
-|Contra Costa |San Pablo           |      2|   192| 279|[link](https://github.com/zakdances/housing-element-shapefiles/tree/main/counties/Contra%20Costa/cities/San%20Pablo/output)              |
-|Santa Clara  |Los Altos Hills     |      4|   884| 308|[link](https://github.com/zakdances/housing-element-shapefiles/tree/main/counties/Santa%20Clara/cities/Los%20Altos%20Hills/output)       |
-|Marin        |Fairfax             |      2|   614| 319|[link](https://github.com/zakdances/housing-element-shapefiles/tree/main/counties/Marin/cities/Fairfax/output)                           |
-|San Mateo    |Millbrae            |      3|  3068| 319|[link](https://github.com/zakdances/housing-element-shapefiles/tree/main/counties/San%20Mateo/cities/Millbrae/output)                    |
-|Santa Clara  |Monte Sereno        |      3|   394| 336|[link](https://github.com/zakdances/housing-element-shapefiles/tree/main/counties/Santa%20Clara/cities/Monte%20Sereno/output)            |
 |Alameda      |Alameda County      |      1|     0| 349|[link](https://github.com/zakdances/housing-element-shapefiles/tree/main/counties/Alameda/cities/Alameda%20County/output)                |
-|Marin        |San Anselmo         |      2|   585| 367|[link](https://github.com/zakdances/housing-element-shapefiles/tree/main/counties/Marin/cities/San%20Anselmo/output)                     |
-|Santa Clara  |Sunnyvale           |      2|   309| 378|[link](https://github.com/zakdances/housing-element-shapefiles/tree/main/counties/Santa%20Clara/cities/Sunnyvale/output)                 |
-|San Mateo    |San Mateo County    |      1|     0| 465|[link](https://github.com/zakdances/housing-element-shapefiles/tree/main/counties/San%20Mateo/cities/San%20Mateo%20County/output)        |
-|Santa Clara  |Palo Alto           |      2|   341| 480|[link](https://github.com/zakdances/housing-element-shapefiles/tree/main/counties/Santa%20Clara/cities/Palo%20Alto/output)               |
-|San Mateo    |South San Francisco |      3|   224| 483|[link](https://github.com/zakdances/housing-element-shapefiles/tree/main/counties/San%20Mateo/cities/South%20San%20Francisco/output)     |
-|Solano       |Vacaville           |      3|  4287| 491|[link](https://github.com/zakdances/housing-element-shapefiles/tree/main/counties/Solano/cities/Vacaville/output)                        |
+|Alameda      |Pleasanton          |      3|   470| 890|[link](https://github.com/zakdances/housing-element-shapefiles/tree/main/counties/Alameda/cities/Pleasanton/output)                      |
+|Alameda      |Albany              |      3|  1103| 987|[link](https://github.com/zakdances/housing-element-shapefiles/tree/main/counties/Alameda/cities/Albany/output)                          |
+|Alameda      |Fremont             |      3|   744|1085|[link](https://github.com/zakdances/housing-element-shapefiles/tree/main/counties/Alameda/cities/Fremont/output)                         |
+|Alameda      |Oakland             |      3|   961|3173|[link](https://github.com/zakdances/housing-element-shapefiles/tree/main/counties/Alameda/cities/Oakland/output)                         |
+|Contra Costa |Hercules            |      3|   945|   0|[link](https://github.com/zakdances/housing-element-shapefiles/tree/main/counties/Contra%20Costa/cities/Hercules/output)                 |
+|Contra Costa |San Ramon           |      3|   957|  27|[link](https://github.com/zakdances/housing-element-shapefiles/tree/main/counties/Contra%20Costa/cities/San%20Ramon/output)              |
+|Contra Costa |Pleasant Hill       |      2|   327|  71|[link](https://github.com/zakdances/housing-element-shapefiles/tree/main/counties/Contra%20Costa/cities/Pleasant%20Hill/output)          |
+|Contra Costa |Clayton             |      3|   336| 106|[link](https://github.com/zakdances/housing-element-shapefiles/tree/main/counties/Contra%20Costa/cities/Clayton/output)                  |
+|Contra Costa |Martinez            |      1|     0| 110|[link](https://github.com/zakdances/housing-element-shapefiles/tree/main/counties/Contra%20Costa/cities/Martinez/output)                 |
+|Contra Costa |Pittsburg           |      1|   278| 120|[link](https://github.com/zakdances/housing-element-shapefiles/tree/main/counties/Contra%20Costa/cities/Pittsburg/output)                |
+|Contra Costa |Contra Costa County |      1|     0| 131|[link](https://github.com/zakdances/housing-element-shapefiles/tree/main/counties/Contra%20Costa/cities/Contra%20Costa%20County/output)  |
+|Contra Costa |Pinole              |      2|  1242| 138|[link](https://github.com/zakdances/housing-element-shapefiles/tree/main/counties/Contra%20Costa/cities/Pinole/output)                   |
+|Contra Costa |Moraga              |      4|  1138| 148|[link](https://github.com/zakdances/housing-element-shapefiles/tree/main/counties/Contra%20Costa/cities/Moraga/output)                   |
+|Contra Costa |El Cerrito          |      3|   448| 225|[link](https://github.com/zakdances/housing-element-shapefiles/tree/main/counties/Contra%20Costa/cities/El%20Cerrito/output)             |
+|Contra Costa |Brentwood           |      3|  1662| 232|[link](https://github.com/zakdances/housing-element-shapefiles/tree/main/counties/Contra%20Costa/cities/Brentwood/output)                |
+|Contra Costa |San Pablo           |      2|   192| 279|[link](https://github.com/zakdances/housing-element-shapefiles/tree/main/counties/Contra%20Costa/cities/San%20Pablo/output)              |
 |Contra Costa |Richmond            |      3|   234| 501|[link](https://github.com/zakdances/housing-element-shapefiles/tree/main/counties/Contra%20Costa/cities/Richmond/output)                 |
 |Contra Costa |Danville            |      3|   900| 514|[link](https://github.com/zakdances/housing-element-shapefiles/tree/main/counties/Contra%20Costa/cities/Danville/output)                 |
-|Marin        |San Rafael          |      3|  1789| 564|[link](https://github.com/zakdances/housing-element-shapefiles/tree/main/counties/Marin/cities/San%20Rafael/output)                      |
-|Santa Clara  |Los Gatos           |      4|  2056| 576|[link](https://github.com/zakdances/housing-element-shapefiles/tree/main/counties/Santa%20Clara/cities/Los%20Gatos/output)               |
-|Santa Clara  |San Jose            |      2|   383| 610|[link](https://github.com/zakdances/housing-element-shapefiles/tree/main/counties/Santa%20Clara/cities/San%20Jose/output)                |
 |Contra Costa |Lafayette           |      2|   847| 627|[link](https://github.com/zakdances/housing-element-shapefiles/tree/main/counties/Contra%20Costa/cities/Lafayette/output)                |
 |Contra Costa |Oakley              |      5|  1830| 655|[link](https://github.com/zakdances/housing-element-shapefiles/tree/main/counties/Contra%20Costa/cities/Oakley/output)                   |
-|San Mateo    |Menlo Park          |      3|  2748| 696|[link](https://github.com/zakdances/housing-element-shapefiles/tree/main/counties/San%20Mateo/cities/Menlo%20Park/output)                |
-|Santa Clara  |Los Altos           |      3|   322| 706|[link](https://github.com/zakdances/housing-element-shapefiles/tree/main/counties/Santa%20Clara/cities/Los%20Altos/output)               |
 |Contra Costa |Antioch             |      3|  2790| 747|[link](https://github.com/zakdances/housing-element-shapefiles/tree/main/counties/Contra%20Costa/cities/Antioch/output)                  |
 |Contra Costa |Concord             |      3|  3161| 750|[link](https://github.com/zakdances/housing-element-shapefiles/tree/main/counties/Contra%20Costa/cities/Concord/output)                  |
-|Santa Clara  |Saratoga            |      3|   866| 752|[link](https://github.com/zakdances/housing-element-shapefiles/tree/main/counties/Santa%20Clara/cities/Saratoga/output)                  |
-|Santa Clara  |Mountain View       |      4|   637| 754|[link](https://github.com/zakdances/housing-element-shapefiles/tree/main/counties/Santa%20Clara/cities/Mountain%20View/output)           |
-|San Mateo    |San Mateo           |      3|  2599| 777|[link](https://github.com/zakdances/housing-element-shapefiles/tree/main/counties/San%20Mateo/cities/San%20Mateo/output)                 |
-|Alameda      |Pleasanton          |      3|   470| 890|[link](https://github.com/zakdances/housing-element-shapefiles/tree/main/counties/Alameda/cities/Pleasanton/output)                      |
-|Santa Clara  |Campbell            |      3|     1| 941|[link](https://github.com/zakdances/housing-element-shapefiles/tree/main/counties/Santa%20Clara/cities/Campbell/output)                  |
-|Alameda      |Albany              |      3|  1103| 987|[link](https://github.com/zakdances/housing-element-shapefiles/tree/main/counties/Alameda/cities/Albany/output)                          |
-|Solano       |Benicia             |      3|  1391| 993|[link](https://github.com/zakdances/housing-element-shapefiles/tree/main/counties/Solano/cities/Benicia/output)                          |
-|San Mateo    |San Carlos          |      3|   748|1073|[link](https://github.com/zakdances/housing-element-shapefiles/tree/main/counties/San%20Mateo/cities/San%20Carlos/output)                |
-|Alameda      |Fremont             |      3|   744|1085|[link](https://github.com/zakdances/housing-element-shapefiles/tree/main/counties/Alameda/cities/Fremont/output)                         |
-|San Mateo    |Brisbane            |      5|  2801|1262|[link](https://github.com/zakdances/housing-element-shapefiles/tree/main/counties/San%20Mateo/cities/Brisbane/output)                    |
 |Contra Costa |Orinda              |      4|  1271|2007|[link](https://github.com/zakdances/housing-element-shapefiles/tree/main/counties/Contra%20Costa/cities/Orinda/output)                   |
 |Contra Costa |Walnut Creek        |      5|  2288|2322|[link](https://github.com/zakdances/housing-element-shapefiles/tree/main/counties/Contra%20Costa/cities/Walnut%20Creek/output)           |
+|Marin        |Corte Madera        |      4|  1427|  37|[link](https://github.com/zakdances/housing-element-shapefiles/tree/main/counties/Marin/cities/Corte%20Madera/output)                    |
+|Marin        |Novato              |      2|   235|  40|[link](https://github.com/zakdances/housing-element-shapefiles/tree/main/counties/Marin/cities/Novato/output)                            |
+|Marin        |Belvedere           |      2|   361|  49|[link](https://github.com/zakdances/housing-element-shapefiles/tree/main/counties/Marin/cities/Belvedere/output)                         |
+|Marin        |Ross                |      2|   152|  54|[link](https://github.com/zakdances/housing-element-shapefiles/tree/main/counties/Marin/cities/Ross/output)                              |
+|Marin        |Larkspur            |      2|   351|  75|[link](https://github.com/zakdances/housing-element-shapefiles/tree/main/counties/Marin/cities/Larkspur/output)                          |
+|Marin        |Marin County        |      1|     0| 149|[link](https://github.com/zakdances/housing-element-shapefiles/tree/main/counties/Marin/cities/Marin%20County/output)                    |
+|Marin        |Tiburon             |      3|   507| 187|[link](https://github.com/zakdances/housing-element-shapefiles/tree/main/counties/Marin/cities/Tiburon/output)                           |
+|Marin        |Mill Valley         |      1|   519| 244|[link](https://github.com/zakdances/housing-element-shapefiles/tree/main/counties/Marin/cities/Mill%20Valley/output)                     |
+|Marin        |Fairfax             |      2|   614| 319|[link](https://github.com/zakdances/housing-element-shapefiles/tree/main/counties/Marin/cities/Fairfax/output)                           |
+|Marin        |San Anselmo         |      2|   585| 367|[link](https://github.com/zakdances/housing-element-shapefiles/tree/main/counties/Marin/cities/San%20Anselmo/output)                     |
+|Marin        |San Rafael          |      3|  1789| 564|[link](https://github.com/zakdances/housing-element-shapefiles/tree/main/counties/Marin/cities/San%20Rafael/output)                      |
 |Marin        |Sausalito           |      3|   773|2451|[link](https://github.com/zakdances/housing-element-shapefiles/tree/main/counties/Marin/cities/Sausalito/output)                         |
-|Alameda      |Oakland             |      3|   961|3173|[link](https://github.com/zakdances/housing-element-shapefiles/tree/main/counties/Alameda/cities/Oakland/output)                         |
-|Sonoma       |Santa Rosa          |      3|   899|3379|[link](https://github.com/zakdances/housing-element-shapefiles/tree/main/counties/Sonoma/cities/Santa%20Rosa/output)                     |
+|Napa         |American Canyon     |      2|   410|   0|[link](https://github.com/zakdances/housing-element-shapefiles/tree/main/counties/Napa/cities/American%20Canyon/output)                  |
+|Napa         |Napa County         |      1|     0|   1|[link](https://github.com/zakdances/housing-element-shapefiles/tree/main/counties/Napa/cities/Napa%20County/output)                      |
+|Napa         |St. Helena          |      1|     0|   5|[link](https://github.com/zakdances/housing-element-shapefiles/tree/main/counties/Napa/cities/St.%20Helena/output)                       |
+|Napa         |Yountville          |      3|   396|  24|[link](https://github.com/zakdances/housing-element-shapefiles/tree/main/counties/Napa/cities/Yountville/output)                         |
+|Napa         |Napa                |      2|   501|  51|[link](https://github.com/zakdances/housing-element-shapefiles/tree/main/counties/Napa/cities/Napa/output)                               |
+|Napa         |Calistoga           |      3|   264|  57|[link](https://github.com/zakdances/housing-element-shapefiles/tree/main/counties/Napa/cities/Calistoga/output)                          |
+|San Francisco|San Francisco County|      0|     0|  56|[link](https://github.com/zakdances/housing-element-shapefiles/tree/main/counties/San%20Francisco/cities/San%20Francisco%20County/output)|
 |San Francisco|San Francisco       |      5|  1845|9770|[link](https://github.com/zakdances/housing-element-shapefiles/tree/main/counties/San%20Francisco/cities/San%20Francisco/output)         |
+|San Mateo    |Broadmoor           |      0|     0|   0|[link](https://github.com/zakdances/housing-element-shapefiles/tree/main/counties/San%20Mateo/cities/Broadmoor/output)                   |
+|San Mateo    |Half Moon Bay       |      0|     0|   0|[link](https://github.com/zakdances/housing-element-shapefiles/tree/main/counties/San%20Mateo/cities/Half%20Moon%20Bay/output)           |
+|San Mateo    |Portola Valley      |      1|   459|   2|[link](https://github.com/zakdances/housing-element-shapefiles/tree/main/counties/San%20Mateo/cities/Portola%20Valley/output)            |
+|San Mateo    |Belmont             |      3|   666|  53|[link](https://github.com/zakdances/housing-element-shapefiles/tree/main/counties/San%20Mateo/cities/Belmont/output)                     |
+|San Mateo    |Pacifica            |      2|    42|  60|[link](https://github.com/zakdances/housing-element-shapefiles/tree/main/counties/San%20Mateo/cities/Pacifica/output)                    |
+|San Mateo    |Colma               |      3|   805|  73|[link](https://github.com/zakdances/housing-element-shapefiles/tree/main/counties/San%20Mateo/cities/Colma/output)                       |
+|San Mateo    |Hillsborough        |      3|  4394|  82|[link](https://github.com/zakdances/housing-element-shapefiles/tree/main/counties/San%20Mateo/cities/Hillsborough/output)                |
+|San Mateo    |Burlingame          |      2|   304|  99|[link](https://github.com/zakdances/housing-element-shapefiles/tree/main/counties/San%20Mateo/cities/Burlingame/output)                  |
+|San Mateo    |Foster City         |      3|  1372| 111|[link](https://github.com/zakdances/housing-element-shapefiles/tree/main/counties/San%20Mateo/cities/Foster%20City/output)               |
+|San Mateo    |Atherton            |      3|  1660| 129|[link](https://github.com/zakdances/housing-element-shapefiles/tree/main/counties/San%20Mateo/cities/Atherton/output)                    |
+|San Mateo    |Woodside            |      3|  1104| 131|[link](https://github.com/zakdances/housing-element-shapefiles/tree/main/counties/San%20Mateo/cities/Woodside/output)                    |
+|San Mateo    |San Bruno           |      3|  1560| 146|[link](https://github.com/zakdances/housing-element-shapefiles/tree/main/counties/San%20Mateo/cities/San%20Bruno/output)                 |
+|San Mateo    |East Palo Alto      |      3|   729| 152|[link](https://github.com/zakdances/housing-element-shapefiles/tree/main/counties/San%20Mateo/cities/East%20Palo%20Alto/output)          |
+|San Mateo    |Redwood City        |      3|   707| 153|[link](https://github.com/zakdances/housing-element-shapefiles/tree/main/counties/San%20Mateo/cities/Redwood%20City/output)              |
+|San Mateo    |Daly City           |      2|   266| 182|[link](https://github.com/zakdances/housing-element-shapefiles/tree/main/counties/San%20Mateo/cities/Daly%20City/output)                 |
+|San Mateo    |Millbrae            |      3|  3068| 319|[link](https://github.com/zakdances/housing-element-shapefiles/tree/main/counties/San%20Mateo/cities/Millbrae/output)                    |
+|San Mateo    |San Mateo County    |      1|     0| 465|[link](https://github.com/zakdances/housing-element-shapefiles/tree/main/counties/San%20Mateo/cities/San%20Mateo%20County/output)        |
+|San Mateo    |South San Francisco |      3|   224| 483|[link](https://github.com/zakdances/housing-element-shapefiles/tree/main/counties/San%20Mateo/cities/South%20San%20Francisco/output)     |
+|San Mateo    |Menlo Park          |      3|  2748| 696|[link](https://github.com/zakdances/housing-element-shapefiles/tree/main/counties/San%20Mateo/cities/Menlo%20Park/output)                |
+|San Mateo    |San Mateo           |      3|  2599| 777|[link](https://github.com/zakdances/housing-element-shapefiles/tree/main/counties/San%20Mateo/cities/San%20Mateo/output)                 |
+|San Mateo    |San Carlos          |      3|   748|1073|[link](https://github.com/zakdances/housing-element-shapefiles/tree/main/counties/San%20Mateo/cities/San%20Carlos/output)                |
+|San Mateo    |Brisbane            |      5|  2801|1262|[link](https://github.com/zakdances/housing-element-shapefiles/tree/main/counties/San%20Mateo/cities/Brisbane/output)                    |
+|Santa Clara  |Santa Clara County  |      1|     0|  22|[link](https://github.com/zakdances/housing-element-shapefiles/tree/main/counties/Santa%20Clara/cities/Santa%20Clara%20County/output)    |
+|Santa Clara  |Morgan Hill         |      3|  1108|  25|[link](https://github.com/zakdances/housing-element-shapefiles/tree/main/counties/Santa%20Clara/cities/Morgan%20Hill/output)             |
+|Santa Clara  |Milpitas            |      3|   129|  39|[link](https://github.com/zakdances/housing-element-shapefiles/tree/main/counties/Santa%20Clara/cities/Milpitas/output)                  |
+|Santa Clara  |Cupertino           |      2|   342|  57|[link](https://github.com/zakdances/housing-element-shapefiles/tree/main/counties/Santa%20Clara/cities/Cupertino/output)                 |
+|Santa Clara  |Gilroy              |      3|  1802| 164|[link](https://github.com/zakdances/housing-element-shapefiles/tree/main/counties/Santa%20Clara/cities/Gilroy/output)                    |
+|Santa Clara  |Santa Clara         |      3|   407| 209|[link](https://github.com/zakdances/housing-element-shapefiles/tree/main/counties/Santa%20Clara/cities/Santa%20Clara/output)             |
+|Santa Clara  |Los Altos Hills     |      4|   884| 308|[link](https://github.com/zakdances/housing-element-shapefiles/tree/main/counties/Santa%20Clara/cities/Los%20Altos%20Hills/output)       |
+|Santa Clara  |Monte Sereno        |      3|   394| 336|[link](https://github.com/zakdances/housing-element-shapefiles/tree/main/counties/Santa%20Clara/cities/Monte%20Sereno/output)            |
+|Santa Clara  |Sunnyvale           |      2|   309| 378|[link](https://github.com/zakdances/housing-element-shapefiles/tree/main/counties/Santa%20Clara/cities/Sunnyvale/output)                 |
+|Santa Clara  |Palo Alto           |      2|   341| 480|[link](https://github.com/zakdances/housing-element-shapefiles/tree/main/counties/Santa%20Clara/cities/Palo%20Alto/output)               |
+|Santa Clara  |Los Gatos           |      4|  2056| 576|[link](https://github.com/zakdances/housing-element-shapefiles/tree/main/counties/Santa%20Clara/cities/Los%20Gatos/output)               |
+|Santa Clara  |San Jose            |      2|   383| 610|[link](https://github.com/zakdances/housing-element-shapefiles/tree/main/counties/Santa%20Clara/cities/San%20Jose/output)                |
+|Santa Clara  |Los Altos           |      3|   322| 706|[link](https://github.com/zakdances/housing-element-shapefiles/tree/main/counties/Santa%20Clara/cities/Los%20Altos/output)               |
+|Santa Clara  |Saratoga            |      3|   866| 752|[link](https://github.com/zakdances/housing-element-shapefiles/tree/main/counties/Santa%20Clara/cities/Saratoga/output)                  |
+|Santa Clara  |Mountain View       |      4|   637| 754|[link](https://github.com/zakdances/housing-element-shapefiles/tree/main/counties/Santa%20Clara/cities/Mountain%20View/output)           |
+|Santa Clara  |Campbell            |      3|     1| 941|[link](https://github.com/zakdances/housing-element-shapefiles/tree/main/counties/Santa%20Clara/cities/Campbell/output)                  |
+|Solano       |Dixon               |      3|   574|  19|[link](https://github.com/zakdances/housing-element-shapefiles/tree/main/counties/Solano/cities/Dixon/output)                            |
+|Solano       |California Forever  |      0|     0|  51|[link](https://github.com/zakdances/housing-element-shapefiles/tree/main/counties/Solano/cities/California%20Forever/output)             |
+|Solano       |Suisun City         |      3|   568|  84|[link](https://github.com/zakdances/housing-element-shapefiles/tree/main/counties/Solano/cities/Suisun%20City/output)                    |
+|Solano       |Solano County       |      1|     0| 102|[link](https://github.com/zakdances/housing-element-shapefiles/tree/main/counties/Solano/cities/Solano%20County/output)                  |
+|Solano       |Vallejo             |      0|     0| 102|[link](https://github.com/zakdances/housing-element-shapefiles/tree/main/counties/Solano/cities/Vallejo/output)                          |
+|Solano       |Fairfield           |      3|   555| 166|[link](https://github.com/zakdances/housing-element-shapefiles/tree/main/counties/Solano/cities/Fairfield/output)                        |
+|Solano       |Rio Vista           |      3|   549| 224|[link](https://github.com/zakdances/housing-element-shapefiles/tree/main/counties/Solano/cities/Rio%20Vista/output)                      |
+|Solano       |Vacaville           |      3|  4287| 491|[link](https://github.com/zakdances/housing-element-shapefiles/tree/main/counties/Solano/cities/Vacaville/output)                        |
+|Solano       |Benicia             |      3|  1391| 993|[link](https://github.com/zakdances/housing-element-shapefiles/tree/main/counties/Solano/cities/Benicia/output)                          |
+|Sonoma       |Healdsburg          |      2|   690|   9|[link](https://github.com/zakdances/housing-element-shapefiles/tree/main/counties/Sonoma/cities/Healdsburg/output)                       |
+|Sonoma       |Cloverdale          |      3|   425|  49|[link](https://github.com/zakdances/housing-element-shapefiles/tree/main/counties/Sonoma/cities/Cloverdale/output)                       |
+|Sonoma       |Sonoma County       |      1|     0|  49|[link](https://github.com/zakdances/housing-element-shapefiles/tree/main/counties/Sonoma/cities/Sonoma%20County/output)                  |
+|Sonoma       |Cotati              |      3|   781|  67|[link](https://github.com/zakdances/housing-element-shapefiles/tree/main/counties/Sonoma/cities/Cotati/output)                           |
+|Sonoma       |Rohnert Park        |      3|   573|  85|[link](https://github.com/zakdances/housing-element-shapefiles/tree/main/counties/Sonoma/cities/Rohnert%20Park/output)                   |
+|Sonoma       |Petaluma            |      3|   754| 118|[link](https://github.com/zakdances/housing-element-shapefiles/tree/main/counties/Sonoma/cities/Petaluma/output)                         |
+|Sonoma       |Sonoma              |      3|   598| 119|[link](https://github.com/zakdances/housing-element-shapefiles/tree/main/counties/Sonoma/cities/Sonoma/output)                           |
+|Sonoma       |Windsor             |      3|   283| 166|[link](https://github.com/zakdances/housing-element-shapefiles/tree/main/counties/Sonoma/cities/Windsor/output)                          |
+|Sonoma       |Sebastopol          |      3|   412| 184|[link](https://github.com/zakdances/housing-element-shapefiles/tree/main/counties/Sonoma/cities/Sebastopol/output)                       |
+|Sonoma       |Santa Rosa          |      3|   899|3379|[link](https://github.com/zakdances/housing-element-shapefiles/tree/main/counties/Sonoma/cities/Santa%20Rosa/output)                     |
 
 # SACOG
 |  County  |  Municipality   |Sources|Tables|APNs|                                                             Link                                                              |
@@ -156,7 +156,7 @@
 |Sutter    |Live Oak         |      2|   292| 339|[link](https://github.com/zakdances/housing-element-shapefiles/tree/main/counties/Sutter/cities/Live%20Oak/output)             |
 |Sutter    |Sutter County    |      1|     0|  41|[link](https://github.com/zakdances/housing-element-shapefiles/tree/main/counties/Sutter/cities/Sutter%20County/output)        |
 |Sutter    |Yuba City        |      3|  1188| 450|[link](https://github.com/zakdances/housing-element-shapefiles/tree/main/counties/Sutter/cities/Yuba%20City/output)            |
-|Yolo      |Davis            |      4|  2015| 259|[link](https://github.com/zakdances/housing-element-shapefiles/tree/main/counties/Yolo/cities/Davis/output)                    |
+|Yolo      |Davis            |      4|     0| 259|[link](https://github.com/zakdances/housing-element-shapefiles/tree/main/counties/Yolo/cities/Davis/output)                    |
 |Yolo      |West Sacramento  |      4|   499| 576|[link](https://github.com/zakdances/housing-element-shapefiles/tree/main/counties/Yolo/cities/West%20Sacramento/output)        |
 |Yolo      |Winters          |      3|  1282| 347|[link](https://github.com/zakdances/housing-element-shapefiles/tree/main/counties/Yolo/cities/Winters/output)                  |
 |Yolo      |Woodland         |      6|  1389| 801|[link](https://github.com/zakdances/housing-element-shapefiles/tree/main/counties/Yolo/cities/Woodland/output)                 |
@@ -225,7 +225,7 @@
 |Los Angeles   |Lomita                |      4|  1117|   593|[link](https://github.com/zakdances/housing-element-shapefiles/tree/main/counties/Los%20Angeles/cities/Lomita/output)                      |
 |Los Angeles   |Long Beach            |      4|   786|  2123|[link](https://github.com/zakdances/housing-element-shapefiles/tree/main/counties/Los%20Angeles/cities/Long%20Beach/output)                |
 |Los Angeles   |Los Angeles           |      6|  3831|304163|[link](https://github.com/zakdances/housing-element-shapefiles/tree/main/counties/Los%20Angeles/cities/Los%20Angeles/output)               |
-|Los Angeles   |Los Angeles County    |      0|     0|     0|[link](https://github.com/zakdances/housing-element-shapefiles/tree/main/counties/Los%20Angeles/cities/Los%20Angeles%20County/output)      |
+|Los Angeles   |Los Angeles County    |      0|     0|     187|[link](https://github.com/zakdances/housing-element-shapefiles/tree/main/counties/Los%20Angeles/cities/Los%20Angeles%20County/output)      |
 |Los Angeles   |Lynwood               |      4|  1138|   351|[link](https://github.com/zakdances/housing-element-shapefiles/tree/main/counties/Los%20Angeles/cities/Lynwood/output)                     |
 |Los Angeles   |Malibu                |      3|   251|    59|[link](https://github.com/zakdances/housing-element-shapefiles/tree/main/counties/Los%20Angeles/cities/Malibu/output)                      |
 |Los Angeles   |Manhattan Beach       |      5|  1960|    50|[link](https://github.com/zakdances/housing-element-shapefiles/tree/main/counties/Los%20Angeles/cities/Manhattan%20Beach/output)           |

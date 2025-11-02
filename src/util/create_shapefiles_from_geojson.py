@@ -10,10 +10,32 @@ import geopandas as gpd
 def create_shapefiles_from_geojson():
 
     paths = glob.glob(data_path("*", "*"))
-    geojson_path = Path("/../../temp/HCD/oct")
+    
+    print("opening geodatabase...")
+    dfp = gpd.read_file('/Users/zacdean/projects/Upzone/Parcels GIS shapefiles/USA/states/California/counties/Los Angeles/LACounty_Parcels.gdb')
+    print("done")
+    print(dfp.head(200))
+
+    for col in dfp.columns:
+        print(col)
+
+    return
+
+    geojson_path = Path("./temp/HCD/oct")
+
     if not geojson_path.exists():
         raise Exception("GeoJSON path does not exist: " + str(geojson_path))
+    
     geojson_file_paths = list(geojson_path.iterdir())
+
+    
+    # for item in geojson_file_paths:
+        # print(item)
+        # df_from_dir = gpd.read_file(item)
+
+
+
+    # return
 
     for path in paths:
         p = Path(path)
@@ -21,8 +43,14 @@ def create_shapefiles_from_geojson():
         county = p.parts[-3]
         output_dir = p / "output" / "hcd-102725" / "misc"
 
-        # if city != "Marysville" or county != "Yuba":
+        if city != "Los Angeles" or county != "Los Angeles":
+            continue
+
+        # if output_dir.exists():
+        #     print("output dir already exists, skipping: " + str(output_dir))
         #     continue
+
+        
 
         print("----- " + city + ", " + county)
 
@@ -33,6 +61,20 @@ def create_shapefiles_from_geojson():
         for item in geojson_file_paths:
             # print(item)
             df_from_dir = gpd.read_file(item)
+
+            # for col in df_from_dir.columns:
+            #     print(col) AssessorParcelNumber APN
+                
+            df_from_dir.loc[
+                (df_from_dir["jurisdiction_name"].str.upper() == "CATHEDRAL") &
+                (df_from_dir["County_Name"].str.upper() == "RIVERSIDE"),
+                "jurisdiction_name"
+            ] = "CATHEDRAL CITY"
+            df_from_dir.loc[
+                (df_from_dir["jurisdiction_name"].str.upper() == "SAINT HELENA") &
+                (df_from_dir["County_Name"].str.upper() == "NAPA"),
+                "jurisdiction_name"
+            ] = "ST. HELENA"
             # print(df_from_dir["jurisdiction_name"].unique())
             # print(df_from_dir["County_Name"].unique())
             
@@ -62,6 +104,8 @@ def create_shapefiles_from_geojson():
         shutil.make_archive(shapefile_dir_path, 'zip', shapefile_dir_path)
         send2trash(shapefile_dir_path)
         print("shapefile created at " + str(output_dir.parent.stem))
+
+
 
         # hcd_shapefile_paths = glob.glob(path + "/output/hcd*/misc/shapefile.zip")
         # if len(hcd_shapefile_paths) == 0:

@@ -41,77 +41,85 @@ def upload_summary_to_sheets():
 
     sh = gc.open_by_key(SAMPLE_SPREADSHEET_ID)  
 
-    worksheet = sh.worksheet('ABAG')
+    worksheet_title_1 = 'SACOG'
+    worksheet_title_2 = 'ABAG'
+    worksheet_title_3 = 'SCAG'
 
-    # cell_value = worksheet.cell("A1").value 
+    for worksheet_title in [worksheet_title_1, worksheet_title_2, worksheet_title_3]:
 
-    dataframe = pd.DataFrame(worksheet.get_all_records())
-    dataframe = dataframe.sort_values(by=['County', 'Municipality']).reset_index(drop=True)
+        worksheet = sh.worksheet(worksheet_title)
 
-    munis = dataframe[['County', 'Municipality']].values.tolist()
-    
-    features = find_features(munis)
-    features = features.rename(columns={'Features_Count': 'APNs'})
-    features = features.sort_values(by=['County', 'Municipality']).reset_index(drop=True)
+        # cell_value = worksheet.cell("A1").value 
 
-    # print(features.values.tolist())
-    # print(len(features))
-    # print(len(dataframe))
-    # return
+        dataframe = pd.DataFrame(worksheet.get_all_records())
+        dataframe = dataframe.sort_values(by=['County', 'Municipality']).reset_index(drop=True)
 
-    
-    # return
+        munis = dataframe[['County', 'Municipality']].values.tolist()
+        
+        features = find_features(munis)
+        features = features.rename(columns={'Features_Count': 'APNs'})
+        features = features.sort_values(by=['County', 'Municipality']).reset_index(drop=True)
 
-    # Display the mismatched rows
-    # Merge with indicator to show where the rows come from
-    merged = pd.merge(dataframe, features, on=['County', 'Municipality'], how='outer', indicator=True)
+        # print(features.values.tolist())
+        # print(len(features))
+        # print(len(dataframe))
+        # return
 
-    # Mismatched rows (not in both DataFrames)
-    mismatched_in_dataframe = merged[merged['_merge'] == 'left_only'].drop(columns='_merge')
-    mismatched_in_features = merged[merged['_merge'] == 'right_only'].drop(columns='_merge')
+        
+        # return
 
-    if len(mismatched_in_dataframe) > 0 or len(mismatched_in_features) > 0:
         # Display the mismatched rows
-        print("Mismatched rows in dataframe:")
-        print(mismatched_in_dataframe)
+        # Merge with indicator to show where the rows come from
+        merged = pd.merge(dataframe, features, on=['County', 'Municipality'], how='outer', indicator=True)
 
-        print("\nMismatched rows in features:")
-        print(mismatched_in_features)
+        # Mismatched rows (not in both DataFrames)
+        mismatched_in_dataframe = merged[merged['_merge'] == 'left_only'].drop(columns='_merge')
+        mismatched_in_features = merged[merged['_merge'] == 'right_only'].drop(columns='_merge')
 
-        # Concatenate the DataFrames side by side
-        df_side_by_side = pd.concat([dataframe, features], axis=1, keys=['df1', 'df2'])
+        if len(mismatched_in_dataframe) > 0 or len(mismatched_in_features) > 0:
+            # Display the mismatched rows
+            print("Mismatched rows in dataframe:")
+            print(mismatched_in_dataframe)
 
-        # Display the result
-        print(df_side_by_side)
-        raise Exception("Mismatch found!")
+            print("\nMismatched rows in features:")
+            print(mismatched_in_features)
 
+            # Concatenate the DataFrames side by side
+            df_side_by_side = pd.concat([dataframe, features], axis=1, keys=['df1', 'df2'])
 
-    # df_merged = pd.merge(dataframe, features, on=['County', 'Municipality'], how='outer')
-    repoUrl = "https://github.com/zakdances/housing-element-shapefiles/tree/main"
-    
-    dataframe['APNs'] = features['APNs']
-    # print(dataframe.columns.tolist())
-    # tables_quantity = len(glob.glob(data_path(row['County'], row['Municipality']) + "/output/camelot/*.xlsx"))
-    dataframe['Sources'] = dataframe.apply(lambda row: f'{len(glob.glob(data_path(row['County'], row['Municipality']) + '/output/*'))}', axis=1)
-
-    # First, check the camelot directory. Then, if there are no tables in the camelot directory, check the aws directory.
-    # TODO: Only count the tables that have APNs
-    dataframe['Tables'] = dataframe.apply(lambda row: f'{len(glob.glob(data_path(row['County'], row['Municipality']) + '/output/*/camelot/*.xlsx'))}', axis=1)
-    dataframe.loc[dataframe['Tables'] == "0", 'Tables'] = dataframe.loc[dataframe['Tables'] == "0"].apply(
-    lambda row: f'{len(glob.glob(data_path(row['County'], row['Municipality']) + '/output/*/aws/*.xlsx'))}', 
-    axis=1)
-
-    dataframe['Link'] = dataframe.apply(lambda row: f'=HYPERLINK("{repoUrl}/{data_path(row['County'], row['Municipality'])}/output", "link")', axis=1)
-    
+            # Display the result
+            print(df_side_by_side)
+            raise Exception("Mismatch found!")
 
 
-    # link = "[link](<counties/" + self.county_name + "/cities/" + self.city_name + ">)"
+        # df_merged = pd.merge(dataframe, features, on=['County', 'Municipality'], how='outer')
+        repoUrl = "https://github.com/zakdances/housing-element-shapefiles/tree/main"
+        
+        dataframe['APNs'] = features['APNs']
+        # print(dataframe.columns.tolist())
+        # tables_quantity = len(glob.glob(data_path(row['County'], row['Municipality']) + "/output/camelot/*.xlsx"))
+        dataframe['Sources'] = dataframe.apply(lambda row: f'{len(glob.glob(data_path(row['County'], row['Municipality']) + '/output/*'))}', axis=1)
+
+        # First, check the camelot directory. Then, if there are no tables in the camelot directory, check the aws directory.
+        # TODO: Only count the tables that have APNs
+        dataframe['Tables'] = dataframe.apply(lambda row: f'{len(glob.glob(data_path(row['County'], row['Municipality']) + '/output/*/camelot/*.xlsx'))}', axis=1)
+        dataframe.loc[dataframe['Tables'] == "0", 'Tables'] = dataframe.loc[dataframe['Tables'] == "0"].apply(
+        lambda row: f'{len(glob.glob(data_path(row['County'], row['Municipality']) + '/output/*/aws/*.xlsx'))}', 
+        axis=1)
+
+        dataframe['Link'] = dataframe.apply(lambda row: f'=HYPERLINK("{repoUrl}/{data_path(row['County'], row['Municipality'])}/output", "link")', axis=1)
+        
 
 
-    worksheet.update([dataframe.columns.values.tolist()] + dataframe.values.tolist(), value_input_option='USER_ENTERED')
+        # link = "[link](<counties/" + self.county_name + "/cities/" + self.city_name + ">)"
 
-    # print(dataframe.values.tolist())
-    # print(features)
+
+        worksheet.update([dataframe.columns.values.tolist()] + dataframe.values.tolist(), value_input_option='USER_ENTERED')
+
+
+
+        # print(dataframe.values.tolist())
+        # print(features)
 
 if __name__ == "__main__":
     # split_geojson("SB6A__pts_Join_3616231054980920121.geojson")

@@ -514,19 +514,19 @@ async def main():
 
         city_groups = bucket(data_for_markdown, key=lambda x: x["agency"])
 
-        for key in list( city_groups ):
-            city_group = list( city_groups[key] )
-            column_headers = list( city_group[0].keys() )
-            values = list(map(lambda x: list(x.values()), city_group) )
+        # for key in list( city_groups ):
+        #     city_group = list( city_groups[key] )
+        #     column_headers = list( city_group[0].keys() )
+        #     values = list(map(lambda x: list(x.values()), city_group) )
 
-            writer = MarkdownTableWriter(
-                    headers=column_headers,
-                    value_matrix=values,
-                )
+        #     writer = MarkdownTableWriter(
+        #             headers=column_headers,
+        #             value_matrix=values,
+        #         )
             
-            markdown_table_string = "# " + city_group[0]["agency"] + '\n' + writer.dumps() + '\n'
-            with open("./README.md", 'a') as file:
-                file.write(markdown_table_string)
+        #     markdown_table_string = "# " + city_group[0]["agency"] + '\n' + writer.dumps() + '\n'
+        #     with open("./README.md", 'a') as file:
+        #         file.write(markdown_table_string)
 
 
    
